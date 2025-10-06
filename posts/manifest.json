@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "first-post",
+    "title": "첫 포스트",
+    "date": "2025-01-02",
+    "category": "핸드메이드 일지",
+    "description": "블로그를 다시 시작하며 핸드메이드 감성을 담은 첫 인사를 전합니다.",
+    "file": "posts/first-post.md"
+  },
+  {
+    "slug": "settlement-batch-optimization",
+    "title": "정산팀이 Spring Batch 성능 최적화를 하는 방법",
+    "date": "2025-02-10",
+    "category": "백엔드 엔지니어링",
+    "description": "Offset 병목부터 파티셔닝, 쿼리 튜닝까지 정산 배치 성능 개선 경험을 공유합니다.",
+    "file": "posts/settlement-batch-optimization.md"
+  }
+]

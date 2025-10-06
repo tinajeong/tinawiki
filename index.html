@@ -43,17 +43,33 @@
       </section>
 
       <section class="post" id="posts">
-        <div class="container">
-          <article>
+        <div class="container post-layout">
+          <aside class="post-archive" aria-labelledby="archive-title">
+            <div class="archive-header">
+              <h2 id="archive-title">글 아카이브</h2>
+              <p class="archive-description">
+                카테고리별로 정리된 최신 글을 만나보세요.
+              </p>
+            </div>
+            <div id="post-list" class="post-list" role="list">
+              <p class="loading">글 정보를 불러오는 중입니다…</p>
+            </div>
+          </aside>
+          <article class="post-viewer">
             <header class="post-header">
-              <p class="post-date">2025년 1월 2일</p>
-              <h2>첫 포스트</h2>
+              <p class="post-meta">
+                <span id="post-category" class="post-category">핸드메이드 일지</span>
+                <span class="separator" aria-hidden="true">·</span>
+                <time id="post-date" datetime="2025-01-02">2025년 1월 2일</time>
+              </p>
+              <h2 id="post-title">첫 포스트</h2>
             </header>
             <div
               class="post-body"
               id="post-content"
               aria-live="polite"
-              data-src="posts/first-post.md"
+              data-manifest="posts/manifest.json"
+              data-default-slug="first-post"
             >
               <p class="loading">포스트를 불러오는 중입니다…</p>
             </div>
