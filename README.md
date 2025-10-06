@@ -54,4 +54,15 @@ If you also want the apex domain (`tinawiki.com`) to redirect, add **four** `A` 
    - **category**: posts are grouped by this value in the archive sidebar.
    - **description**: shown under the title to help readers scan.
 
-3. Commit both the Markdown and manifest updates. The homepage will automatically list the new post under the matching category and load it when selected.
+3. In Gabia DNS settings, create a CNAME record:
+   - **Host**: `www`
+   - **Type**: `CNAME`
+   - **Value**: `USERNAME.github.io.` (replace `USERNAME` with your GitHub username)
+   - **TTL**: keep the default value (e.g. 600 seconds)
+4. Wait for DNS propagation (can take up to 24 hours). You can check progress with `dig www.tinawiki.com`.
+
+If you also want the apex domain (`tinawiki.com`) to redirect, add an `A` record pointing to GitHub Pages IPs or configure forwarding within Gabia.
+
+## Writing new posts
+
+Add new Markdown files under `posts/` and update the `data-src` attribute in `index.html` or extend the loader in `scripts/app.js` to support multiple entries.
