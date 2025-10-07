@@ -14,5 +14,13 @@
     "category": "백엔드 엔지니어링",
     "description": "Offset 병목부터 파티셔닝, 쿼리 튜닝까지 정산 배치 성능 개선 경험을 공유합니다.",
     "file": "posts/settlement-batch-optimization.md"
+  },
+  {
+    "slug": "oracle-migration-checklist",
+    "title": "오라클 전환 시 개발자가 놓치기 쉬운 체크리스트",
+    "date": "2025-02-15",
+    "category": "백엔드 엔지니어링",
+    "description": "PostgreSQL에서 Oracle로 넘어갈 때 마주친 스키마, 락, 성능 튜닝 이슈를 체크리스트로 정리했습니다.",
+    "file": "posts/oracle-migration-checklist.md"
   }
 ]
