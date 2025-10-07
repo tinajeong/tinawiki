@@ -1,23 +1,28 @@
-## 오라클 전환 시 개발자가 놓치기 쉬운 체크리스트
+## 오라클 마이그레이션 체크리스트
 
-MSSQL이나 PostgreSQL처럼 ANSI SQL 호환성이 좋은 데이터베이스에서 오라클로 넘어가면 "쿼리만 조금 손보면 되겠지"라는 생각이 금세 무너집니다. 스키마 정의부터 락 전략, 성능 튜닝까지 손봐야 할 부분이 쌓여갑니다. 아래 내용은 Spring Batch 기반 애플리케이션을 오라클 19c 환경으로 마이그레이션하면서 부딪힌 이슈와 학습한 팁을 정리한 것입니다.
+최근 1년간 회사에서 MSSQL-> PostgreSQL -> Oracle로 전환하는 과정을 거쳤습니다.
+오라클 전환할 때는 포스트그레 전환할 때 처럼 "쿼리만 조금 손보면 되겠지" 싶었는데 그렇지 않았네요. 스키마 정의부터 락 전략, 성능 튜닝까지 손봐야 할 부분이 생각보다 많습니다!
+
+이번에는 Spring Batch 어플리케이션을 오라클 19c 환경으로 마이그레이션하면서 경험한 팁을 정리해보았습니다.
 
 ---
 
 ## 1. 시퀀스 / IDENTITY 마이그레이션 전략
 
-- PostgreSQL의 `SERIAL`, `BIGSERIAL`은 오라클에서 동작하지 않습니다. `SEQUENCE` 객체를 만들고 `NEXTVAL`을 사용하는 것이 정석입니다.
+- `SEQUENCE` 객체를 만들고 `NEXTVAL`을 사용하는 것이 정석입니다.
+- PostgreSQL의 `SERIAL`, `BIGSERIAL`은 오라클에서 동작하지 않습니다.
 - Hibernate를 사용한다면 `@GeneratedValue(strategy = GenerationType.SEQUENCE)`와 `@SequenceGenerator`를 명시하고, `allocationSize`를 실제 시퀀스 `INCREMENT BY` 값과 맞추어 **헛도는 ID 요청**을 방지합니다.
-- 배치 환경에서는 시퀀스를 대량으로 호출할 때 LIO(논리 I/O)가 급증하므로, 필요한 경우 `CACHE` 값을 키워 round-trip을 줄입니다.
+- 배치 환경에서는 시퀀스를 대량으로 호출할 때 Logical I/O (논리 I/O)가 급증하므로, 필요한 경우 `CACHE` 값을 키워 DB서버호출을 줄입니다.
 
 ```sql
 CREATE SEQUENCE TB_SAMPLE_SEQ
     START WITH 1
     INCREMENT BY 1
-    CACHE 100;
+    CACHE 10000;
 ```
 
-> 캐시 사이즈를 늘리면 인스턴스 장애 시 캐시된 번호가 사라질 수 있습니다. 번호가 건너뛰어도 되는지 미리 비즈니스와 조율하세요.
+> 캐시 사이즈를 늘리면 인스턴스 장애 시 캐시된 번호가 사라질 수 있습니다.  
+> DBA 입장에선 번호를 건너뛰어도 되는지 개발파트와 조율이 필요합니다. 
 
 ---
 
@@ -26,13 +31,12 @@ CREATE SEQUENCE TB_SAMPLE_SEQ
 ### OFFSET / LIMIT → OFFSET … FETCH
 
 - 오라클은 `LIMIT`를 지원하지 않으므로 `OFFSET … ROWS FETCH NEXT … ROWS ONLY`로 바꿉니다.
-- 12c 이전 버전에서는 `ROWNUM`을 이용한 이중 서브쿼리 패턴이 필요하므로, 최소 버전 정책을 정리해둡니다.
 
 ### UPDATE JOIN → MERGE 또는 서브쿼리
 
-- PostgreSQL의 `UPDATE … FROM`은 오라클에서 `ORA-00933` 오류를 일으킵니다.
-- 해결책은 `MERGE` 구문으로 치환하거나, 스칼라 서브쿼리로 각 행의 값을 조회하는 방식입니다.
-- `MERGE` 사용 시 `ON` 절이 기본키로 유일 매칭되는지 검증하지 않으면 `ORA-30926` 오류(불안정한 결과 집합)가 발생합니다. 배치 전 테스트 데이터로 **중복 키 상황**을 미리 검증하세요.
+- PostgreSQL의 `UPDATE … FROM`은 오라클에서 [ORA-00933](https://docs.oracle.com/en/error-help/db/ora-00933/?r=19c) 오류를 일으킵니다.
+- 해결책은 `MERGE` 구문으로 치환하거나, 서브쿼리로 각 행의 값을 조회하는 방식입니다.
+- `MERGE` 사용 시 `ON` 절이 단일 매칭되는지 검증하지 않으면 [ORA-30926](https://docs.oracle.com/en/error-help/db/ora-30926/?r=19c) 오류(불안정한 결과 집합)가 발생합니다. PostgreSQL에서는 Source 테이블에서 랜덤하게 선택되어 업데이트됩니다. 배치 전 테스트 데이터로 Source 테이블에서 하나의 결과값만 나오는지 꼭 확인하시고, 데이터 구조에 따라 서브쿼리나 ROWNUM을 사용해야합니다. 
 
 ### 함수 / 연산자 호환성
 
@@ -60,9 +64,13 @@ CREATE SEQUENCE TB_SAMPLE_SEQ
 
 - PostgreSQL과 달리 오라클은 `SELECT FOR UPDATE`가 인덱스 조건을 충족하는 **모든 행을 잠글 수** 있습니다. 조건절이 잘못되면 테이블 전체가 락 걸립니다.
 - 오라클의 기본 격리 수준은 `READ COMMITTED`입니다. UNDO 영역 덕분에 항상 일관된 읽기(Consistent Read)를 보장합니다.
-- `SERIALIZABLE` 격리 수준은 갭 락(Gap Lock)을 사용하지 않고, 대신 `ORA-08177` 오류로 충돌을 알립니다. 따라서 재시도 로직을 반드시 준비해야 합니다.
+
+### Spring Batch Meta DB
 - Spring Batch의 JobRepository는 기본적으로 `SERIALIZABLE` 격리 수준으로 설정됩니다.
-- 오라클에서는 대량 실행 시 경합이 잦으므로 `READ_COMMITTED`로 낮추는 실험을 권장합니다. 충돌 감지는 애플리케이션 레이어에서 재시도 정책으로 보완하세요.
+- `SERIALIZABLE`은 갭 락(Gap Lock)을 사용하지 않고, 대신 `ORA-08177` 오류로 충돌 여부를 뱉어버립니다. 
+- Batch 대량 실행 시 충돌이 잦을 수 밖에 없습니다. 
+- 다른 DB에서는 이슈가 없겠지만, 오라클에서는 이슈가 발생할경우 배치메타DB 격리레벨을 `READ_COMMITTED`로 낮추는 세팅을 해보라고 [Spring Batch 공식문서에서 권장](https://docs.spring.io/spring-batch/reference/job/configuring-repository.html)합니다. 
+- 제 경우에는 File I/O가 있는 배치 JOB에서 해당이슈가 발생하였습니다. 
 
 ---
 
@@ -94,9 +102,8 @@ CREATE SEQUENCE TB_SAMPLE_SEQ
 
 ## 7. 운영 환경 고려사항
 
-- **권한/테이블스페이스**: 오라클은 사용자(User)와 스키마가 1:1 대응합니다. 개발·운영 분리 시 테이블스페이스 할당량, 롤(Role), 프로파일(Profile) 정책을 DBA와 함께 정의해야 합니다.
+- **권한/테이블스페이스**: 오라클은 사용자(User)와 스키마가 1:1 대응이더라고요. 개발·운영 분리 시 테이블스페이스 할당량, 롤(Role), 프로파일(Profile) 정책을 DBA와 함께 정의해야 합니다.
 - **백업/로그**: Redo 로그 스위칭 간격이 너무 짧으면 성능이 떨어지므로, 배치 시간대에 맞춰 로그 파일 크기를 조정합니다. 아카이브 로그가 찰 경우 데이터베이스가 멈출 수 있으므로 모니터링 알람을 설정합니다.
-- **모니터링**: `AWR`, `ASH` 리포트를 활용해 CPU, I/O, 락 대기 지표를 주기적으로 확인하세요. PostgreSQL의 `pg_stat_activity`와는 접근 방식이 다릅니다.
 
 ---
 
@@ -108,6 +115,6 @@ CREATE SEQUENCE TB_SAMPLE_SEQ
 4. 락/트랜잭션 동작을 사전 검증하고 재시도 정책을 구현한다.
 5. 통계 수집, 힌트, TEMP/UNDO 용량 등 성능 요소를 튜닝한다.
 6. JPA/Spring Batch 설정과 JDBC 제약을 재검토한다.
-7. 운영 정책(권한, 백업, 모니터링)을 다시 설계한다.
+7. 운영 정책(권한, 백업, 모니터링 등등)을 다시 설계한다.
 
-새로운 DB로의 전환은 단순 쿼리 변환을 넘어 **생태계 전체를 새로 이해하는 작업**입니다. 위의 체크리스트가 오라클 전환을 준비하는 개발자들에게 시행착오를 줄이는 데 도움이 되길 바랍니다.
+위의 체크리스트가 오라클 전환을 준비하는 개발자들에게 시행착오를 줄이는 데 도움이 되길 바랍니다.
