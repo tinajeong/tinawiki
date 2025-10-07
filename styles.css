@@ -1,11 +1,11 @@
 :root {
-  color-scheme: light;
-  --bg: #f6f6f6;
-  --surface: #ffffff;
-  --text: #1f1f1f;
-  --muted: #6b6b6b;
-  --accent: #0f8d9d;
-  --border: rgba(17, 17, 17, 0.08);
+  color-scheme: dark;
+  --bg: #070707;
+  --surface: #121212;
+  --text: #f5f5f5;
+  --muted: #b5b5b5;
+  --accent: #d1d1d1;
+  --border: rgba(255, 255, 255, 0.14);
   font-size: 16px;
 }
 
@@ -21,6 +21,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
 }
 
 img {
@@ -45,7 +46,7 @@ a:focus {
 
 .site-header {
   border-bottom: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(7, 7, 7, 0.92);
   backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
@@ -139,7 +140,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: clamp(2rem, 4vw, 3rem);
-  box-shadow: 0 12px 32px rgba(15, 17, 21, 0.06);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .post-header {
@@ -234,17 +235,18 @@ h1 {
 }
 
 .post-body pre {
-  background: #f0f0f0;
+  background: #1f1f1f;
   padding: 1rem;
   border-radius: 12px;
   overflow-x: auto;
   font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .post-body code {
   font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono",
     Menlo, monospace;
-  background: rgba(15, 141, 157, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   padding: 0.1rem 0.35rem;
   border-radius: 6px;
 }
@@ -259,13 +261,13 @@ h1 {
 }
 
 .post-body .error {
-  color: #c0392b;
+  color: #ff6b6b;
   font-weight: 600;
 }
 
 .site-footer {
   border-top: 1px solid var(--border);
-  background: #ffffff;
+  background: #0b0b0b;
 }
 
 .site-footer .container {
@@ -365,18 +367,18 @@ h1 {
 
 .post-link:is(:hover, :focus-visible) {
   border-color: var(--border);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.04);
   transform: translateY(-1px);
 }
 
 .post-link:focus-visible {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(15, 141, 157, 0.12);
+  box-shadow: 0 0 0 2px rgba(155, 155, 155, 0.2);
 }
 
 .post-link.is-active {
   border-color: var(--accent);
-  background: rgba(15, 141, 157, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .post-link.is-active .post-link-title {
