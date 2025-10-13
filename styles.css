@@ -31,12 +31,23 @@ img {
 
 a {
   color: var(--accent);
-  text-decoration: none;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(209, 209, 209, 0.55);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.25em;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 
 a:hover,
-a:focus {
-  text-decoration: underline;
+a:focus-visible {
+  color: #ffffff;
+  text-decoration-color: currentColor;
+}
+
+a:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.35);
+  outline-offset: 2px;
 }
 
 .container {
