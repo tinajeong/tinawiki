@@ -68,12 +68,6 @@
 
     const html = marked.parse(markdown, { breaks: true });
     postContainer.innerHTML = html;
-
-    if (window.hljs) {
-      postContainer.querySelectorAll("pre code").forEach((block) => {
-        window.hljs.highlightElement(block);
-      });
-    }
   }
 
   function showError(message) {
