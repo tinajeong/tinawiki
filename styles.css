@@ -291,6 +291,10 @@ h1 {
 }
 
 @media (max-width: 640px) {
+  .container {
+    width: min(100%, 96vw);
+  }
+
   .site-header .container {
     flex-direction: column;
     align-items: flex-start;
@@ -303,6 +307,7 @@ h1 {
 
   .post-layout {
     grid-template-columns: 1fr;
+    gap: clamp(1rem, 4vw, 1.75rem);
   }
 
   .post-archive {
@@ -311,6 +316,7 @@ h1 {
 
   .post-viewer {
     border-radius: 16px;
+    padding: clamp(1.25rem, 6vw, 2rem);
   }
 }
 .post-list {
