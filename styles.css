@@ -6,6 +6,8 @@
   --muted: #b5b5b5;
   --accent: #d1d1d1;
   --border: rgba(255, 255, 255, 0.14);
+  --code-bg: #141414; /* Code block surface */
+  --code-border: rgba(255, 255, 255, 0.08); /* Code block outline */
   font-size: 16px;
 }
 
@@ -251,12 +253,12 @@ h1 {
 }
 
 .post-body pre {
-  background: #1f1f1f;
+  background: var(--code-bg);
   padding: 1rem;
   border-radius: 12px;
   overflow-x: auto;
   font-size: 0.95rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--code-border);
 }
 
 .post-body code {
@@ -270,6 +272,59 @@ h1 {
 .post-body pre code {
   background: none;
   padding: 0;
+}
+
+.post-body pre code.hljs {
+  color: #e6edf3;
+  line-height: 1.65;
+  display: block;
+  word-wrap: normal;
+}
+
+.post-body pre code.hljs .hljs-comment,
+.post-body pre code.hljs .hljs-quote {
+  color: #7a8698;
+}
+
+.post-body pre code.hljs .hljs-keyword,
+.post-body pre code.hljs .hljs-selector-tag,
+.post-body pre code.hljs .hljs-literal,
+.post-body pre code.hljs .hljs-name,
+.post-body pre code.hljs .hljs-strong,
+.post-body pre code.hljs .hljs-built_in,
+.post-body pre code.hljs .hljs-type {
+  color: #c792ea;
+  font-weight: 500;
+}
+
+.post-body pre code.hljs .hljs-title,
+.post-body pre code.hljs .hljs-section,
+.post-body pre code.hljs .hljs-attribute {
+  color: #82aaff;
+}
+
+.post-body pre code.hljs .hljs-number,
+.post-body pre code.hljs .hljs-meta,
+.post-body pre code.hljs .hljs-symbol,
+.post-body pre code.hljs .hljs-bullet {
+  color: #f78c6c;
+}
+
+.post-body pre code.hljs .hljs-string,
+.post-body pre code.hljs .hljs-doctag,
+.post-body pre code.hljs .hljs-addition {
+  color: #c3e88d;
+}
+
+.post-body pre code.hljs .hljs-variable,
+.post-body pre code.hljs .hljs-template-variable,
+.post-body pre code.hljs .hljs-tag,
+.post-body pre code.hljs .hljs-subst {
+  color: #f2f2f2;
+}
+
+.post-body pre code.hljs .hljs-deletion {
+  color: #ff5370;
 }
 
 .post-body .loading {
