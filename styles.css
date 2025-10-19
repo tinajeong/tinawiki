@@ -92,6 +92,11 @@ a:focus-visible {
   font-size: 0.95rem;
 }
 
+.site-nav a[aria-current="page"] {
+  color: #ffffff;
+  text-decoration-color: currentColor;
+}
+
 .hero {
   padding: 6rem 0 4rem;
 }
