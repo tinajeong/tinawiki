@@ -57,6 +57,11 @@ a:focus-visible {
   margin: 0 auto;
 }
 
+.about-hero .container,
+.about-content .container {
+  width: min(880px, 90vw);
+}
+
 .site-header {
   border-bottom: 1px solid var(--border);
   background: rgba(7, 7, 7, 0.92);
@@ -697,6 +702,28 @@ h1 {
   padding: 6rem 0 3rem;
 }
 
+.about-hero-title {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.about-name {
+  display: block;
+  font-weight: 700;
+}
+
+.about-role {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .about-contact-list {
   list-style: none;
   margin: 0 0 1.75rem;
@@ -745,6 +772,17 @@ h1 {
   padding-left: 1.1rem;
   display: grid;
   gap: 0.65rem;
+}
+
+.about-highlights li {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.about-highlights p {
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--muted);
 }
 
 .about-tagline {
@@ -863,6 +901,15 @@ h1 {
 @media (max-width: 768px) {
   .about-hero {
     padding-top: 4.5rem;
+  }
+
+  .about-hero-title {
+    font-size: clamp(1.85rem, 8vw, 2.4rem);
+  }
+
+  .about-role {
+    font-size: clamp(1rem, 4.8vw, 1.2rem);
+    letter-spacing: 0.02em;
   }
 
   .about-intro {
