@@ -22,7 +22,7 @@
       <nav class="site-nav" aria-label="주요 링크">
         <a href="/" aria-current="page">홈</a>
         <a href="about.html">소개</a>
-        <a href="#posts">글</a>
+        <a href="posts.html">글</a>
         <a href="mailto:migujeong@gmail.com">연락</a>
       </nav>
     </div>
@@ -103,8 +103,8 @@
             <section class="project" aria-labelledby="transaction-title">
               <h4 id="transaction-title">&lt;거래내역 생성 구조 개선 및 병렬 처리 아키텍처 설계&gt;</h4>
               <p>
-                기존 거래내역 생성은 단일 프로시저 기반으로 병목이 발생했습니다. 이를 “
-                <strong>병렬화 불가능한 구조적 한계</strong>”로 정의하고 Spring Batch 기반 병렬 파이프라인으로 재설계했습니다.
+                기존 거래내역 생성은 단일 프로시저 기반으로 병목이 발생했습니다. 이를
+                <strong>“병렬화 불가능한 구조적 한계”</strong>로 정의하고 Spring Batch 기반 병렬 파이프라인으로 재설계했습니다.
               </p>
               <p>
                 <code>Partitioner + Chunk</code> 구조를 도입해 생성–검증–저장을 분리하고, 키 단위 파티셔닝(merchant_id 기준)으로
@@ -121,8 +121,8 @@
             <section class="project" aria-labelledby="recon-title">
               <h4 id="recon-title">&lt;외부 데이터 검증(대사) 파이프라인 구축&gt;</h4>
               <p>
-                외부 PG 및 연동시스템과의 데이터 불일치가 실시간으로 감지되지 않았습니다. 이를 “
-                <strong>정합성 검증 부재로 인한 리스크</strong>”로 정의하고, 외부 데이터를 비교·검증하는 파이프라인을 설계했습니다.
+                외부 PG 및 연동시스템과의 데이터 불일치가 실시간으로 감지되지 않았습니다. 이를
+                <strong>“정합성 검증 부재로 인한 리스크”</strong>로 정의하고, 외부 데이터를 비교·검증하는 파이프라인을 설계했습니다.
               </p>
               <p>
                 NoOffset 쿼리와 Clustered Index를 적용해 속도를 높이고, 누락건 감지 시 Slack/TG 알림으로 자동 통보되도록
@@ -139,8 +139,8 @@
             <section class="project" aria-labelledby="recovery-title">
               <h4 id="recovery-title">&lt;지급/역환 트랜잭션 복구 로직 개선&gt;</h4>
               <p>
-                기존 지급·환불 로직은 중복 데이터 발생 시 전체 Job이 중단되었습니다. 이를 “
-                <strong>건 단위 복구 불가능 구조</strong>”로 정의하고, <code>SkipPolicy</code>와 <code>RetryPolicy</code>를 적용해
+                기존 지급·환불 로직은 중복 데이터 발생 시 전체 Job이 중단되었습니다. 이를
+                <strong>“건 단위 복구 불가능 구조”</strong>로 정의하고, <code>SkipPolicy</code>와 <code>RetryPolicy</code>를 적용해
                 <strong>건 단위 오류 복구 구조</strong>를 구현했습니다.
               </p>
               <p>
@@ -195,19 +195,19 @@
               </p>
             </section>
 
-            <section class="project" aria-labelledby="monitoring-title">
-              <h4 id="monitoring-title">&lt;모니터링 및 알림 시스템 구축&gt;</h4>
-              <p>
-                배치 오류 추적이 어려웠던 구조를 개선하기 위해 각 StepExecution 이벤트를 수집하여 Telegram 알림으로 통합하고,
-                정산별 Job 상태와 실패건수를 실시간 모니터링했습니다. Metabase를 도입해 검증 쿼리 70여 개를 시각화했습니다.
-              </p>
-              <p class="project-result">
-                → 장애 대응시간 <strong>수십분 → 1분</strong>, 데이터 검증 가시성 확보
-              </p>
-              <p class="project-tech">
-                <strong>[기술]</strong> Telegram Bot API, Metabase, Spring Batch Listener, JPA
-              </p>
-            </section>
+          <section class="project" aria-labelledby="monitoring-title">
+            <h4 id="monitoring-title">&lt;모니터링 및 알림 시스템 구축&gt;</h4>
+            <p>
+              배치 오류 추적이 어려웠던 구조를 개선하기 위해 각 StepExecution 이벤트를 수집하여 Telegram 알림으로 통합하고,
+              정산별 Job 상태와 실패건수를 실시간 모니터링했습니다. Metabase를 도입해 검증 쿼리 70여 개를 시각화했습니다.
+            </p>
+            <p class="project-result">
+              → 장애 대응시간 <strong>수십분 → 1분</strong>, 데이터 검증 가시성 확보
+            </p>
+            <p class="project-tech">
+              <strong>[기술]</strong> Telegram Bot API, Metabase, Spring Batch Listener, JPA
+            </p>
+          </section>
           </article>
 
           <article class="experience" aria-labelledby="danal-onepay-title">
@@ -218,8 +218,8 @@
               </div>
             </header>
             <p>
-              기관별 포맷(JSON/XML/CSV)이 다른 거래 검증 API를 통합 구조로 재구성했습니다. <strong>팩토리 + 전략 패턴</strong> 기반
-              포맷 변환 모듈을 설계하고, MSSQL 기반 로직을 Oracle + Java 구조로 이관했습니다.
+              기관별 포맷(JSON/XML/CSV)이 다른 거래 검증 API를 통합 구조로 재구성했습니다. <strong>팩토리 + 전략 패턴</strong>
+              기반 포맷 변환 모듈을 설계하고, MSSQL 기반 로직을 Oracle + Java 구조로 이관했습니다.
             </p>
             <p class="project-result">→ 코드 재사용성·확장성 향상, 포맷별 중복 코드 제거</p>
             <p class="project-tech">
@@ -302,36 +302,6 @@
         </section>
       </div>
     </section>
-
-    <section class="post" id="posts">
-      <div class="container post-layout">
-        <aside class="post-archive" aria-labelledby="archive-title">
-          <div class="archive-header">
-            <h2 id="archive-title">글 아카이브</h2>
-            <p class="archive-description">
-              카테고리별로 정리된 최신 글을 만나보세요.
-            </p>
-          </div>
-          <div id="post-list" class="post-list" role="list">
-            <p class="loading">글 정보를 불러오는 중입니다…</p>
-          </div>
-        </aside>
-        <article class="post-viewer">
-          <header class="post-header">
-            <p class="post-meta">
-              <span id="post-category" class="post-category">핸드메이드 일지</span>
-              <span class="separator" aria-hidden="true">·</span>
-              <time id="post-date" datetime="2025-01-02">2025년 1월 2일</time>
-            </p>
-            <h2 id="post-title">첫 포스트</h2>
-          </header>
-          <div class="post-body" id="post-content" aria-live="polite" data-manifest="posts/manifest.json"
-            data-default-slug="first-post">
-            <p class="loading">포스트를 불러오는 중입니다…</p>
-          </div>
-        </article>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -339,8 +309,6 @@
       <p>© 2025 Tina. All rights reserved..</p>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="scripts/app.js"></script>
 </body>
 
 </html>
