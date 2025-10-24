@@ -152,7 +152,7 @@ h1 {
 }
 
 .hero-summary {
-  max-width: 64ch;
+  max-width: 72ch;
   display: grid;
   gap: 1.5rem;
   font-size: 1.05rem;
