@@ -32,7 +32,10 @@
     <section class="about-hero" aria-labelledby="about-title">
       <div class="container">
         <p class="eyebrow">Tinawiki.com</p>
-        <h1 id="about-title">Tina Jeong | Backend Engineer</h1>
+        <h1 id="about-title" class="about-hero-title">
+          <span class="about-name">Tina Jeong</span>
+          <span class="about-role">Backend Engineer</span>
+        </h1>
         <ul class="about-contact-list">
           <li>
             <span aria-hidden="true">📧</span>
@@ -49,26 +52,30 @@
         </ul>
         <div class="about-intro">
           <p>
-            제품에 대한 이해와 비즈니스 임팩트를 고려한
-            <strong>‘소통 가능한 코드’를 중시하는 서버 개발자</strong>입니다.
-            27년간 운영된 정산시스템을 Spring Batch 기반으로 재구축하며,
-            대용량 데이터를 다루는 시스템의 <strong>정확성, 확장성, 가시성</strong>을 중심으로 개선해왔습니다.
+            결제 정산 도메인에서 <strong>배치/API를 설계·운영하는 백엔드 엔지니어</strong>입니다.
+            레거시 SQL Server 기반 Stored Procedure를 Spring Batch 구조로 이관하며,
+            배치 오케스트레이션과 데이터 품질 제어, 가시화 체계를 엔드투엔드로 구축해 왔습니다.
+          </p>
+          <p>
+            지표는 <strong>처리량과 정확도</strong>으로 정의하고, 비즈니스 KPI와 연동해 리팩토링 우선순위를 결정합니다.
+            배치 Job·Step 메트릭을 표준화해 장애 진단과 용량 계획을 수치 기반으로 실행합니다.
           </p>
           <ul class="about-highlights">
             <li>
-              <strong>대용량 데이터 처리 최적화</strong>: Partitioner 병렬 처리 아키텍처 설계로 월 3천만 건 규모 데이터를 안정적으로
-              집계
+              <strong>Batch Throughput 튜닝</strong>
+              <p>Partitioner 기반 병렬 파이프라인과 I/O 바운드 단계 분리로 월 3천만 건 데이터를 무중단 집계했습니다.</p>
             </li>
             <li>
-              <strong>멀티모듈 아키텍처 도입</strong>: 책임 분리와 구조화를 통해 빌드 효율 및 유지보수성 향상
+              <strong>모듈러 아키텍처 설계</strong>
+              <p>Core/Domain/Batch 멀티모듈로 책임을 정리하고, CI 파이프라인·정적 분석 규칙을 연동해 회귀 리스크를 최소화했습니다.</p>
             </li>
             <li>
-              <strong>테스트 자동화 및 운영 시각화</strong>: 검증 프로세스 자동화로 장애 대응 속도 단축, 데이터 흐름을 시각화하여 협업
-              효율 강화
+              <strong>Observability & QA 자동화</strong>
+              <p>검증 배치를 템플릿화하고 메트릭·로그·알림을 통합 대시보드로 연결하여 장애 대응 MTTR을 분 단위로 단축했습니다.</p>
             </li>
           </ul>
           <p class="about-tagline">
-            <strong>#4년차 서버 개발자 | #Batch 시스템 설계 및 최적화 | #테스트 자동화·운영 효율화 경험</strong>
+            <strong>#정산 파이프라인 리디자인 #Spring Batch Observability #데이터 품질 자동화</strong>
           </p>
         </div>
       </div>
