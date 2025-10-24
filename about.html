@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Tina Jeong | Tina Wiki</title>
+  <meta name="description" content="백엔드 개발자 Tina Jeong의 경력과 프로젝트를 소개합니다." />
+  <link rel="canonical" href="https://www.tinawiki.com/about" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="about-page">
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✎</span>
+        <span class="brand-text">tina's wiki</span>
+      </div>
+      <nav class="site-nav" aria-label="주요 링크">
+        <a href="/">홈</a>
+        <a href="/about.html" aria-current="page">소개</a>
+        <a href="/#posts">글</a>
+        <a href="mailto:migujeong@gmail.com">연락</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="about-hero" aria-labelledby="about-title">
+      <div class="container">
+        <p class="eyebrow">Tinawiki.com</p>
+        <h1 id="about-title">Tina Jeong | Backend Engineer</h1>
+        <ul class="about-contact-list">
+          <li>
+            <span aria-hidden="true">📧</span>
+            <a href="mailto:migujeong@gmail.com">migujeong@gmail.com</a>
+          </li>
+          <li>
+            <span aria-hidden="true">📞</span>
+            <a href="tel:+821075313775">010-7531-3775</a>
+          </li>
+          <li>
+            <span aria-hidden="true">🌐</span>
+            <a href="https://github.com/tinajeong">github.com/tinajeong</a>
+          </li>
+        </ul>
+        <div class="about-intro">
+          <p>
+            제품에 대한 이해와 비즈니스 임팩트를 고려한
+            <strong>‘소통 가능한 코드’를 중시하는 서버 개발자</strong>입니다.
+            27년간 운영된 정산시스템을 Spring Batch 기반으로 재구축하며,
+            대용량 데이터를 다루는 시스템의 <strong>정확성, 확장성, 가시성</strong>을 중심으로 개선해왔습니다.
+          </p>
+          <ul class="about-highlights">
+            <li>
+              <strong>대용량 데이터 처리 최적화</strong>: Partitioner 병렬 처리 아키텍처 설계로 월 3천만 건 규모 데이터를 안정적으로
+              집계
+            </li>
+            <li>
+              <strong>멀티모듈 아키텍처 도입</strong>: 책임 분리와 구조화를 통해 빌드 효율 및 유지보수성 향상
+            </li>
+            <li>
+              <strong>테스트 자동화 및 운영 시각화</strong>: 검증 프로세스 자동화로 장애 대응 속도 단축, 데이터 흐름을 시각화하여 협업
+              효율 강화
+            </li>
+          </ul>
+          <p class="about-tagline">
+            <strong>#4년차 서버 개발자 | #Batch 시스템 설계 및 최적화 | #테스트 자동화·운영 효율화 경험</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-content">
+      <div class="container">
+        <section class="resume-section" aria-labelledby="skills-title">
+          <h2 id="skills-title">⚙️ 핵심 기술</h2>
+          <p class="resume-summary">
+            <strong>Java 17 · Spring Boot 3 · Spring Batch · JPA(QueryDSL) · Oracle 19c · PostgreSQL(EPAS) · Jenkins · GitHub
+              Actions</strong>
+          </p>
+        </section>
+
+        <section class="resume-section" aria-labelledby="career-title">
+          <h2 id="career-title">💼 경력</h2>
+
+          <article class="experience" aria-labelledby="danal-smart-title">
+            <header class="experience-header">
+              <div>
+                <h3 id="danal-smart-title">(주)다날 | Smart Settlement팀 백엔드 개발자</h3>
+                <p class="experience-period">2023.06 ~ 현재</p>
+              </div>
+            </header>
+            <p>
+              27년간 SQL Server 기반으로 운영되던 정산시스템을 <strong>Spring Batch 기반 자동화 플랫폼</strong>으로 재구축했습니다.
+              결제 데이터의 집계, 검증, 지급, 환불까지 모든 정산 흐름을 데이터 중심 구조로 전환했습니다.
+            </p>
+
+            <section class="project" aria-labelledby="transaction-title">
+              <h4 id="transaction-title">&lt;거래내역 생성 구조 개선 및 병렬 처리 아키텍처 설계&gt;</h4>
+              <p>
+                기존 거래내역 생성은 단일 프로시저 기반으로 병목이 발생했습니다. 이를
+                <strong>“병렬화 불가능한 구조적 한계”</strong>로 정의하고 Spring Batch 기반 병렬 파이프라인으로 재설계했습니다.
+              </p>
+              <p>
+                <code>Partitioner + Chunk</code> 구조를 도입해 생성–검증–저장을 분리하고, 키 단위 파티셔닝(merchant_id 기준)으로
+                데이터 중복 없이 병렬 실행되도록 설계했습니다. 또한 실패 청크만 재처리할 수 있는 복구 로직을 추가했습니다.
+              </p>
+              <p class="project-result">
+                → <strong>처리속도 40% 향상</strong>, 복구시간 수분 → 수초 단축, 프로세스 추적 가능 구조 확보
+              </p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Spring Boot 3.2, Spring Batch, JPA(QueryDSL), Oracle 19c, PostgreSQL(EPAS)
+              </p>
+            </section>
+
+            <section class="project" aria-labelledby="recon-title">
+              <h4 id="recon-title">&lt;외부 데이터 검증(대사) 파이프라인 구축&gt;</h4>
+              <p>
+                외부 PG 및 연동시스템과의 데이터 불일치가 실시간으로 감지되지 않았습니다. 이를
+                <strong>“정합성 검증 부재로 인한 리스크”</strong>로 정의하고, 외부 데이터를 비교·검증하는 파이프라인을 설계했습니다.
+              </p>
+              <p>
+                NoOffset 쿼리와 Clustered Index를 적용해 속도를 높이고, 누락건 감지 시 Slack/TG 알림으로 자동 통보되도록 했습니다.
+                비교는 단순 파일대조가 아닌 Key 기반 매칭 알고리즘으로 구현했습니다.
+              </p>
+              <p class="project-result">
+                → 집계시간 <strong>170초 → 4초(97% 단축)</strong>, 실시간 검증·알림 체계 완성
+              </p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Spring Batch, QueryDSL, Oracle 19c, PostgreSQL(EPAS), Slack/TG API
+              </p>
+            </section>
+
+            <section class="project" aria-labelledby="recovery-title">
+              <h4 id="recovery-title">&lt;지급/역환 트랜잭션 복구 로직 개선&gt;</h4>
+              <p>
+                기존 지급·환불 로직은 중복 데이터 발생 시 전체 Job이 중단되었습니다. 이를
+                <strong>“건 단위 복구 불가능 구조”</strong>로 정의하고, <code>SkipPolicy</code>와 <code>RetryPolicy</code>를 적용해
+                <strong>건 단위 오류 복구 구조</strong>를 구현했습니다.
+              </p>
+              <p>
+                데이터 필수값 검증을 위한 <code>InvalidItemFilterProcessor</code>를 추가하고, 사업자 기준정보 매핑으로 누락·오류 데이터를
+                자동 보정했습니다.
+              </p>
+              <p class="project-result">→ 운영 중단 없는 무중단 지급 배치 구조 확보</p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Spring Batch, JPA, Custom SkipPolicy, Logging/Alarm System
+              </p>
+            </section>
+
+            <section class="project" aria-labelledby="closing-title">
+              <h4 id="closing-title">&lt;마감 집계 최적화 및 일관성 자동화&gt;</h4>
+              <p>
+                마감 집계는 대량 데이터를 단일 트랜잭션으로 처리하여 장애 시 전체 롤백되는 구조였습니다. 청크 크기와 커밋 간격을
+                최적화하고, 집계와 상태 업데이트를 분리해 부분 재처리가 가능하도록 했습니다.
+              </p>
+              <p class="project-result">
+                → 집계속도 30% 향상, 누락률 0%, 완전 자동화형 마감 프로세스 구축
+              </p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Spring Batch, Oracle 19c, JDBC Template
+              </p>
+            </section>
+
+            <section class="project" aria-labelledby="merchant-title">
+              <h4 id="merchant-title">&lt;가맹점 파일 제공 시스템 리팩토링&gt;</h4>
+              <p>
+                기존 SCP 수동 전송 방식을 REST API 기반 자동화 구조로 전환했습니다. 파일 생성–검증–전송–삭제를 일관된 파이프라인으로
+                구성하고, Caffeine Cache로 반복 요청 부하를 최소화했습니다.
+              </p>
+              <p class="project-result">
+                → 재전송 대응시간 <strong>3분 → 10초</strong>, 운영 효율 대폭 향상
+              </p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Spring Boot 3, REST API, Spring Batch, Caffeine Cache, Oracle
+              </p>
+            </section>
+
+            <section class="project" aria-labelledby="multimodule-title">
+              <h4 id="multimodule-title">&lt;테스트 환경 및 멀티모듈 아키텍처 도입&gt;</h4>
+              <p>
+                단일 모듈 구조에서 Core/Domain/Batch로 분리해 책임을 명확히 했습니다. 테스트 전용 H2·PostgreSQL 환경을 구성하고,
+                <code>EntityFixtureGenerator</code>로 복잡한 데이터를 자동 생성했습니다.
+              </p>
+              <p class="project-result">
+                → 빌드시간 <strong>25% 단축</strong>, 테스트 작성 공수 대폭 감소
+              </p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Spring Boot, Gradle Multi-module, H2, PostgreSQL, Spring Batch Test
+              </p>
+            </section>
+
+            <section class="project" aria-labelledby="monitoring-title">
+              <h4 id="monitoring-title">&lt;모니터링 및 알림 시스템 구축&gt;</h4>
+              <p>
+                배치 오류 추적이 어려웠던 구조를 개선하기 위해 각 StepExecution 이벤트를 수집하여 Telegram 알림으로 통합하고,
+                정산별 Job 상태와 실패건수를 실시간 모니터링했습니다. Metabase를 도입해 검증 쿼리 70여 개를 시각화했습니다.
+              </p>
+              <p class="project-result">
+                → 장애 대응시간 <strong>수십분 → 1분</strong>, 데이터 검증 가시성 확보
+              </p>
+              <p class="project-tech">
+                <strong>[기술]</strong> Telegram Bot API, Metabase, Spring Batch Listener, JPA
+              </p>
+            </section>
+          </article>
+
+          <article class="experience" aria-labelledby="danal-onepay-title">
+            <header class="experience-header">
+              <div>
+                <h3 id="danal-onepay-title">(주)다날 | One Payment 서비스 API 개발</h3>
+                <p class="experience-period">2023.07 ~ 2023.12</p>
+              </div>
+            </header>
+            <p>
+              기관별 포맷(JSON/XML/CSV)이 다른 거래 검증 API를 통합 구조로 재구성했습니다.
+              <strong>팩토리 + 전략 패턴</strong> 기반 포맷 변환 모듈을 설계하고, MSSQL 기반 로직을 Oracle + Java 구조로 이관했습니다.
+            </p>
+            <p class="project-result">
+              → 코드 재사용성·확장성 향상, 포맷별 중복 코드 제거
+            </p>
+            <p class="project-tech">
+              <strong>[기술]</strong> Spring Boot 2.7, Java 8, Oracle, Jenkins, JIRA, Confluence
+            </p>
+          </article>
+
+          <article class="experience" aria-labelledby="kakao-title">
+            <header class="experience-header">
+              <div>
+                <h3 id="kakao-title">(주)쿠콘 | 마이데이터연구부 백엔드 개발자</h3>
+                <p class="experience-period">2021.08 ~ 2022.10</p>
+              </div>
+            </header>
+            <p>
+              삼성카드 마이데이터 플러그인 웹서비스 런칭(MAU 5만). 은행·통신·보험·캐피탈 등 업권별 API를 개발하고,
+              데이터 무결성 대시보드와 AES-256 암호화 배치 프로세스를 구축했습니다.
+            </p>
+            <p class="project-result">
+              → 정합성 검증 자동화, QA 오류 40% 감소, 보안 수준 강화
+            </p>
+            <p class="project-tech">
+              <strong>[기술]</strong> Spring Boot 2.6, Java 11, Oracle, JUnit5, GitLab CI/CD
+            </p>
+          </article>
+        </section>
+
+        <section class="resume-section" aria-labelledby="awards-title">
+          <h2 id="awards-title">🏆 수상 및 활동</h2>
+
+          <article class="activity" aria-labelledby="angelhack-title">
+            <h3 id="angelhack-title">🥇 AngelHack Seoul 2024 우승 (1위, Best Use of AI/ML)</h3>
+            <p>
+              <strong>프로젝트명:</strong> <em>Slowme — 저속노화 식단 추천 서비스</em>
+            </p>
+            <p>
+              AI 기반 음식 이미지 분석 및 영양점수 산출, OpenAI·Clova Studio 멀티모달 API 연동, pgvector 기반 하이브리드 검색 설계
+            </p>
+          </article>
+
+          <article class="activity" aria-labelledby="writing-club-title">
+            <h3 id="writing-club-title">✍️ 사내 기술글쓰기 모임 ‘다독다독’ 운영</h3>
+            <p>매달 한 편씩 기술 글을 작성하고 동료 리뷰로 피드백 문화를 확산했습니다.</p>
+            <ul class="activity-list">
+              <li>「정산 배치 테스트 도입기」</li>
+              <li>「자바 개발자를 위한 동시성 살펴보기 (Java/Rust 편)」</li>
+              <li>「마크다운 도장깨기」</li>
+            </ul>
+          </article>
+
+          <article class="activity" aria-labelledby="programmers-title">
+            <h3 id="programmers-title">📘 프로그래머스 백엔드 엔지니어링 3기 (2022.10 ~ 2023.03)</h3>
+            <p>
+              Spring Triangle, ORM, AWS, Spring Security 실습.
+              팀 프로젝트 ‘다독다독’ BE: 계층형 댓글 API, 도서 검색 API (테스트 커버리지 90%)
+            </p>
+          </article>
+        </section>
+
+        <section class="resume-section" aria-labelledby="certification-title">
+          <h2 id="certification-title">📜 자격증</h2>
+          <ul class="resume-list">
+            <li>AWS Certified Cloud Practitioner (CLF-C02, 2025.03)</li>
+            <li>SQLD (2022.04)</li>
+          </ul>
+        </section>
+
+        <section class="resume-section" aria-labelledby="education-title">
+          <h2 id="education-title">🎓 학력</h2>
+          <p>
+            <strong>한동대학교 컴퓨터공학과 (2015.03 ~ 2020.02)</strong><br />
+            KCSE 2020 학회 논문 Accept — <em>초보 IoT 개발자를 위한 검색어 향상 연구</em>
+          </p>
+        </section>
+
+        <section class="resume-section" aria-labelledby="links-title">
+          <h2 id="links-title">🔗 링크</h2>
+          <ul class="resume-list">
+            <li>GitHub: <a href="https://github.com/tinajeong">github.com/tinajeong</a></li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Tina. All rights reserved..</p>
+    </div>
+  </footer>
+</body>
+
+</html>
