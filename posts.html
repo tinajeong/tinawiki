@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Posts | Tina Wiki</title>
+  <meta name="description" content="Tinawiki의 글 아카이브" />
+  <link rel="canonical" href="https://www.tinawiki.com/posts" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✎</span>
+        <span class="brand-text">tina's wiki</span>
+      </div>
+      <nav class="site-nav" aria-label="주요 링크">
+        <a href="/">홈</a>
+        <a href="about.html">소개</a>
+        <a href="posts.html" aria-current="page">글</a>
+        <a href="mailto:migujeong@gmail.com">연락</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="post" id="posts">
+      <div class="container post-layout">
+        <aside class="post-archive" aria-labelledby="archive-title">
+          <div class="archive-header">
+            <h2 id="archive-title">글 아카이브</h2>
+            <p class="archive-description">
+              카테고리별로 정리된 최신 글을 만나보세요.
+            </p>
+          </div>
+          <div id="post-list" class="post-list" role="list">
+            <p class="loading">글 정보를 불러오는 중입니다…</p>
+          </div>
+        </aside>
+        <article class="post-viewer">
+          <header class="post-header">
+            <p class="post-meta">
+              <span id="post-category" class="post-category">핸드메이드 일지</span>
+              <span class="separator" aria-hidden="true">·</span>
+              <time id="post-date" datetime="2025-01-02">2025년 1월 2일</time>
+            </p>
+            <h2 id="post-title">첫 포스트</h2>
+          </header>
+          <div class="post-body" id="post-content" aria-live="polite" data-manifest="posts/manifest.json"
+            data-default-slug="first-post">
+            <p class="loading">포스트를 불러오는 중입니다…</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Tina. All rights reserved..</p>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="scripts/app.js"></script>
+</body>
+
+</html>
