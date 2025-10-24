@@ -687,3 +687,190 @@ h1 {
 .post-link.is-active .post-link-title {
   color: var(--accent);
 }
+
+/* === About page layout === */
+.about-page main {
+  padding-bottom: 6rem;
+}
+
+.about-hero {
+  padding: 6rem 0 3rem;
+}
+
+.about-contact-list {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.about-contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-contact-list span {
+  font-size: 1.1rem;
+}
+
+.about-contact-list a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.about-contact-list a:hover,
+.about-contact-list a:focus-visible {
+  text-decoration: underline;
+}
+
+.about-intro {
+  max-width: 72ch;
+  display: grid;
+  gap: 1.5rem;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.about-intro strong {
+  color: var(--text);
+}
+
+.about-highlights {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.about-tagline {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.about-content {
+  padding: 2rem 0 0;
+}
+
+.resume-section {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.resume-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.resume-section h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 1.9rem);
+}
+
+.resume-summary {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.experience {
+  display: grid;
+  gap: 1.25rem;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.experience + .experience {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.experience-header h3 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+  color: var(--text);
+}
+
+.experience-period {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.project {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.project h4 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.project p {
+  margin: 0;
+}
+
+.project code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.project-result {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.project-tech {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.activity {
+  display: grid;
+  gap: 0.75rem;
+  color: var(--muted);
+}
+
+.activity h3 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+  color: var(--text);
+}
+
+.activity-list,
+.resume-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding-top: 4.5rem;
+  }
+
+  .about-intro {
+    font-size: 1rem;
+  }
+
+  .experience + .experience {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+}
