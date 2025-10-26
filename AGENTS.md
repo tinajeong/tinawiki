@@ -25,3 +25,52 @@ These instructions apply to the entire repository.
 - When tests or build steps are not applicable, explicitly state that in the testing section of commit/PR summaries.
 - Keep commit messages meaningful (present tense, short summary). Group related changes together.
 
+## Content intelligence & editing principles
+These guidelines apply when the agent edits text content such as `about.html`, `index.html`, or Markdown posts.
+
+### 1. Audience-aware writing
+- Write for **both technical and non-technical readers.**  
+  Technical terms are acceptable, but every paragraph must make it clear *what problem was solved and how*.
+- When using jargon, provide contextual grounding.  
+  Example: “Observability” → “an integrated monitoring system combining logs, alerts, and metrics.”
+
+### 2. Think in STAR structure
+When rewriting or generating new text, follow this logical flow:
+- **S (Situation):** What situation or problem existed?  
+- **T (Task):** What goal was defined?  
+- **A (Action):** What actions were taken (methods, tools, or designs)?  
+- **R (Result):** What measurable impact or improvement followed?
+
+Avoid vague statements; emphasize transformation and concrete results.
+
+### 3. Enforce specificity
+- Avoid abstract verbs like “visualized,” “automated,” or “optimized” without details.  
+  Always specify **what** was improved and **how**.  
+  Example:  
+  ❌ “Improved data visibility.”  
+  ✅ “Created Metabase dashboards to visualize transaction error rates and throughput.”
+
+### 4. Tone & style
+- Maintain a **technical yet explanatory** tone—precise, confident, and minimal.  
+- Favor short, active sentences: *“Built,” “Redesigned,” “Automated.”*  
+- Limit adjectives like “innovative” or “efficient”; replace them with evidence or metrics.  
+- Use `<br>` line breaks or short paragraphs to improve rhythm and readability.
+
+### 5. Example transformation
+> Original:  
+> “Visualized batch scheduling and data consistency.”  
+>
+> After applying these principles:  
+> “Automated batch scheduling with Jenkins and GitHub Actions, and visualized job throughput and error rates through dashboards.”
+
+### 6. Validation checklist
+Before committing text changes, confirm:
+- [ ] Technical accuracy is preserved.  
+- [ ] The problem–action–result flow is clear.  
+- [ ] A non-engineer could understand the value.  
+- [ ] The content fits the site’s calm, typographic aesthetic.
+
+---
+
+Following these principles ensures the agent enhances not only structural and stylistic quality,  
+but also **content clarity, narrative coherence, and persuasive impact.**
