@@ -48,7 +48,10 @@
         </ul>
         <div class="about-intro">
           <p>
-            PG사에서 정산시스템의 <strong>배치/API를 설계·운영하는 백엔드 엔지니어</strong>입니다.
+            제품의 본질을 이해하고 비즈니스 임팩트를 고려한 '소통 가능한 코드'를 지향하는 서버 개발자입니다.
+
+            안정적이고 확장 가능한 백엔드 시스템 구축에 열정을 가지고 있으며, 특히 대용량 데이터 처리와 배치 시스템 최적화에 강점이 있습니다.
+
             최근에는 27년된 레거시 SQL Server Stored Procedure를 Spring Batch 구조로 리빌딩했습니다.<br><br>
             리빌딩한 정산시스템은 Jenkins와 GitHub Actions로 배치 스케줄링을 자동화하고, 각 Job·Step의 처리량·오류율·재시도 건수·소요시간 등의 메트릭을 수집합니다.<br>
             수집된 메트릭은 Telegram으로 실시간 알람을 전송하여 운영 이슈를 빠르게 인지할 수 있도록 했습니다.<br>
@@ -93,7 +96,7 @@
             <header class="experience-header">
               <div>
                 <h3 id="danal-smart-title">(주)다날 | 플랫폼개발팀 백엔드 개발자</h3>
-                <p class="experience-period">2023.06 ~ 현재</p>
+                <p class="experience-period">2024.01 ~ 현재</p>
               </div>
             </header>
             <p>
@@ -112,7 +115,7 @@
                 데이터 중복 없이 병렬 실행되도록 설계했습니다. 또한 실패 청크만 재처리할 수 있는 복구 로직을 추가했습니다.
               </p>
               <p class="project-result">
-                → 수백만 데이터 기준<strong>처리속도 50% 이상 향상</strong>, 복구시간 수분 → 수초 단축, 프로세스 추적 가능 구조 확보
+                → 수백만 데이터 기준<strong>처리속도 50% 이상 향상</strong>, 복구시간 수분 → 수초 단축, 프로세스 추적 가능 구조 확보 (수치개선)
               </p>
               <p class="project-tech">
                 <strong>[기술]</strong> Spring Boot 3.2, Spring Batch, JPA(QueryDSL), Oracle 19c, PostgreSQL(EPAS)
@@ -122,11 +125,11 @@
             <section class="project" aria-labelledby="recon-title">
               <h4 id="recon-title">&lt;외부 데이터 검증(대사) 파이프라인 구축&gt;</h4>
               <p>
-                외부 PG 및 연동시스템과의 데이터 불일치가 실시간으로 감지되지 않았습니다. 이를
+                카드사, 통신사등 외부시스템(원천사)과의 데이터 불일치가 실시간으로 감지되지 않았습니다. 이를
                 <strong>“정합성 검증 부재로 인한 리스크”</strong>로 정의하고, 외부 데이터를 비교·검증하는 파이프라인을 설계했습니다.
               </p>
               <p>
-                NoOffset 쿼리와 Clustered Index를 적용해 속도를 높이고, 누락건 감지 시 Slack/TG 알림으로 자동 통보되도록 했습니다.
+                NoOffset 쿼리와 Clustered Index를 적용해 속도를 높이고, 누락건 감지 시 Telegram알림으로 자동 통보되도록 했습니다.
                 비교는 단순 파일대조가 아닌 Key 기반 매칭 알고리즘으로 구현했습니다.
               </p>
               <p class="project-result">
@@ -138,11 +141,11 @@
             </section>
 
             <section class="project" aria-labelledby="recovery-title">
-              <h4 id="recovery-title">&lt;지급/역환 트랜잭션 복구 로직 개선&gt;</h4>
+              <h4 id="recovery-title">&lt;지급 데이터 보정로직 구현&gt;</h4>
               <p>
                 기존 지급·환불 로직은 정상 거래건과 1대1 매칭되지 않아 중복 데이터 발생 시 전체 Job이 중단되었습니다. 이를
                 <strong>“건 단위 복구 불가능 구조”</strong>로 정의하고, <code>SkipPolicy</code>와 <code>RetryPolicy</code>를 적용해
-                <strong>건 단위 오류 복구 구조</strong>를 구현했습니다.
+                <strong>건 단위 오류 복구 구조</strong>를 구현했습니다. (애매하다)
               </p>
               <p>
                 데이터 필수값 검증을 위한 <code>InvalidItemFilterProcessor</code>를 추가하고, 누락·오류 데이터를
@@ -200,7 +203,9 @@
               <h4 id="monitoring-title">&lt;모니터링 및 알림 시스템 구축&gt;</h4>
               <p>
                 배치 오류 추적이 어려웠던 구조를 개선하기 위해 각 StepExecution 이벤트를 수집하여 Telegram 알림으로 통합하고,
-                정산별 Job 상태와 실패건수를 실시간 모니터링했습니다. Metabase를 도입해 검증 쿼리 70여 개를 시각화했습니다.
+                정산별 Job 상태와 실패건수를 실시간 모니터링했습니다. 이를 통해 현재까지 700여건이 넘는 실패를 파악하고 복구작업을 수행할 수 있었습니다.
+                복구작업의 자동화
+                Metabase를 도입해 검증 쿼리 70여 개를 시각화했습니다.
               </p>
               <p class="project-result">
                 → 장애 대응시간 <strong>수십분 → 1분</strong>, 데이터 검증 가시성 확보
@@ -400,7 +405,8 @@
               <li>GitHub Actions 기반 CI/CD 파이프라인 구축</li>
             </ul>
             <p>
-              <a href="https://angelhack.com/blog/hackseoul-2024-forging-the-future-with-coupang-and-zkpass/">엔젤핵 페이지</a>
+              <a href="https://angelhack.com/blog/hackseoul-2024-forging-the-future-with-coupang-and-zkpass/">엔젤핵
+                페이지</a>
             </p>
           </article>
 
