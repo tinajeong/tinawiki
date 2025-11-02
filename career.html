@@ -37,41 +37,104 @@
 
         <article class="career-block">
           <h3>정산시스템 리빌딩 / 백엔드 개발자 @ 다날</h3>
-          <p class="career-problem"><strong>문제 정의</strong> 27년간 유지된 SQL Server Stored Procedure 구조가 처리 한계와 운영 리스크를 초래했습니다.</p>
+          <p class="career-problem"><strong>상황</strong> 27년간 유지된 SQL Server Stored Procedure 정산 엔진이 배치 지연과 단일 장애 지점을 만들었습니다.</p>
+          <p class="career-task"><strong>목표</strong> 월 3천만 건 결제 정산을 무중단으로 처리하고, 검증·지급·모니터링 공정을 자동화하는 배치 플랫폼을 구축했습니다.</p>
           <ul class="career-actions">
-            <li>Spring Batch 5 기반 멀티모듈 아키텍처(Core·Domain·Batch)를 설계해 로직을 데이터 중심 구조로 분리했습니다.</li>
-            <li>Partitioner+Chunk 병렬화와 재시도 정책을 적용해 검증·집계·지급 단계를 독립 배치로 리파인했습니다.</li>
-            <li>Oracle 19c와 PostgreSQL을 병행 사용해 정산 원장과 가시화 레이어를 분리했습니다.</li>
-            <li>Jenkins·GitHub Actions·SonarQube를 연동해 코드 품질 검증과 스케줄링을 자동화했습니다.</li>
+            <li>Stored Procedure를 기능 단위로 해체하고 Spring Batch 5 멀티모듈(Core·Domain·Batch)로 재작성해 결제 도메인 로직을 테스트 가능 구조로 분리했습니다.</li>
+            <li>수집→검증→집계→지급 Job을 Chunk·Partitioner 전략으로 병렬화하고 Step Listener 기반 재시도·스킵 정책을 설계해 처리 중단 시 자동 롤백을 보장했습니다.</li>
+            <li>정산 원장은 Oracle 19c, 통계·리포트 레이어는 PostgreSQL로 분리하고 CDC 파이프라인을 구성해 집계와 가시화 부하를 분산했습니다.</li>
+            <li>Jenkins 파이프라인과 GitHub Actions, SonarQube를 연계해 스케줄링·정적 분석·배포를 코드 기반으로 표준화했습니다.</li>
           </ul>
-          <p class="career-result"><strong>결과</strong> 처리 속도 50% 향상, 집계 완료 시간 97% 단축, 장애 대응 시간을 1분 이내로 축소했습니다.</p>
-          <p class="career-stack"><strong>기술스택</strong> Java 17, Spring Batch 5, Spring Boot 3, Oracle 19c, PostgreSQL, Jenkins, GitHub Actions, Metabase</p>
+          <p class="career-result"><strong>성과</strong> 배치 처리 속도 50% 향상, 일일 정산 집계 완료 시간 97% 단축, 장애 대응 속도 1분 이내 확보, 재처리 의존도 0건 유지했습니다.</p>
+          <p class="career-stack"><strong>기술스택</strong> Java 17, Spring Batch 5, Spring Boot 3, Oracle 19c, PostgreSQL, Jenkins, GitHub Actions, SonarQube, Metabase</p>
+
+          <section class="career-highlight-list" aria-label="핵심 성과 블록">
+            <h4>핵심 성과 블록</h4>
+
+            <article class="career-highlight">
+              <h5>[거래내역] 성능 및 유지보수성 향상</h5>
+              <p><strong>상황</strong> 월 3천만 건 거래 로그가 단일 Stored Procedure 배치에 순차 적재돼 처리 지연과 장애 위험이 반복됐습니다.</p>
+              <p><strong>과제</strong> 대용량 거래를 병렬화하고 모듈 단위로 관리해 속도와 유지보수성을 모두 확보해야 했습니다.</p>
+              <p><strong>조치</strong> Spring Batch Partitioner·Chunk 전략으로 거래 파티션을 분리하고, 생성→검증→저장 단계를 멀티모듈(Core·Domain·Batch)로 재구성했습니다.</p>
+              <p><strong>결과</strong> 거래 처리 속도를 40% 높였고, 모듈화된 구조로 결제 규칙 변경 대응 시간을 1일에서 수시간으로 단축했습니다.</p>
+            </article>
+
+            <article class="career-highlight">
+              <h5>[정산 대사] 설계 및 성능 개선</h5>
+              <p><strong>상황</strong> 수기 대사와 배치 지연 때문에 누락 거래와 외부 정합성 오류를 사후에만 확인했습니다.</p>
+              <p><strong>과제</strong> 실시간 이상 감지와 외부 시스템 연동 대사 검증 체계를 구축해 선제 대응을 가능하게 해야 했습니다.</p>
+              <p><strong>조치</strong> 대사 Job에 No Offset·Clustered Index를 적용해 조회 비용을 줄이고, 외부 정산 시스템과 연동되는 검증 파이프라인·알람을 구축했습니다.</p>
+              <p><strong>결과</strong> 대사 집계 시간이 170초에서 4초로 97% 단축됐고, 누락 항목을 실시간 감지해 운영팀 대응 시간이 5분 이내로 유지됐습니다.</p>
+            </article>
+
+            <article class="career-highlight">
+              <h5>[지급·역환] 데이터 신뢰성 강화</h5>
+              <p><strong>상황</strong> 지급·역환 배치에서 정합성 이슈 데이터가 섞여 중단과 재처리가 반복됐습니다.</p>
+              <p><strong>과제</strong> 오류 데이터를 자동 필터링하고 중복을 제거해 무중단 처리를 보장해야 했습니다.</p>
+              <p><strong>조치</strong> 정합성 이슈 자동 스킵 정책과 중복 검증 로직을 배치 파이프라인에 적용하고, 당일 지급 데이터 보정 프로세스를 자동화했습니다.</p>
+              <p><strong>결과</strong> 지급 실패 재처리 건을 제거해 일일 지급 성공률을 100%로 유지하고, 무중단 서비스 운영 기반을 마련했습니다.</p>
+            </article>
+
+            <article class="career-highlight">
+              <h5>[마감 집계] 처리 최적화</h5>
+              <p><strong>상황</strong> 월말 마감 집계가 단일 큐에 몰리면서 계산 시간이 지연됐습니다.</p>
+              <p><strong>과제</strong> 마감 데이터를 빠르게 집계하고 결과를 즉시 운영팀에 제공해야 했습니다.</p>
+              <p><strong>조치</strong> Chunk 기반 배치 파이프라인으로 마감 집계를 병렬화하고, 상태 전환을 감지하는 자동 업데이트 메커니즘을 추가했습니다.</p>
+              <p><strong>결과</strong> 월별 마감 집계 속도를 30% 높였고, 집계 완료 후 1분 이내에 정산 상태가 자동 갱신돼 데이터 일관성을 유지했습니다.</p>
+            </article>
+
+            <article class="career-highlight">
+              <h5>[가맹점 파일 제공] 구조 개선</h5>
+              <p><strong>상황</strong> 수백 개 가맹점이 수작업 SCP 전송으로 정산 파일을 주고받아 지연과 누락이 발생했습니다.</p>
+              <p><strong>과제</strong> 파일 제공 과정을 API 기반으로 전환해 대량 요청에도 안정적으로 대응해야 했습니다.</p>
+              <p><strong>조치</strong> RESTful 업로드 API와 Batch 파이프라인을 설계하고, Caffeine Cache로 동적 데이터를 관리하며 파일 비교·검증 Job을 도입했습니다.</p>
+              <p><strong>결과</strong> 가맹점 파일 전송 자동화로 운영 대응 시간을 60% 절감했고, 검증 Job을 통해 정합성 자동 검증률을 100%로 끌어올렸습니다.</p>
+            </article>
+
+            <article class="career-highlight">
+              <h5>[멀티모듈·테스트 환경] 구축</h5>
+              <p><strong>상황</strong> 단일 모듈 구조와 공유 DB 때문에 빌드·테스트 시간이 늘어나고, 독립적인 검증이 어려웠습니다.</p>
+              <p><strong>과제</strong> 배치·도메인·코어를 분리하고 신뢰 가능한 테스트 환경을 마련해 개발 생산성과 품질을 높여야 했습니다.</p>
+              <p><strong>조치</strong> Modular Monolithic 아키텍처(Core·Domain·Batch)로 재구성하고, H2·PostgreSQL 기반 테스트 환경과 EntityFixtureGenerator·Job 파라미터 Proxy Bean 패턴을 도입했습니다.</p>
+              <p><strong>결과</strong> 빌드 시간이 25% 단축됐고, 테스트 데이터 작성 시간이 대폭 줄어 개발자 온보딩 기간이 1주에서 3일로 단축됐습니다.</p>
+            </article>
+
+            <article class="career-highlight">
+              <h5>[모니터링·로깅] 안정성 강화</h5>
+              <p><strong>상황</strong> 배치 단계별 가시성과 표준화된 예외 코드가 없어 장애 대응이 늦어졌습니다.</p>
+              <p><strong>과제</strong> 실시간 알림과 데이터 가시화를 확보해 운영팀이 즉시 대응하도록 해야 했습니다.</p>
+              <p><strong>조치</strong> Telegram 알람 시스템을 구축하고 Custom Exception 기반 예외 코드를 표준화했으며, Metabase에 70여 개 데이터 검증 대시보드를 구성했습니다.</p>
+              <p><strong>결과</strong> 장애 인지 시간이 즉시 수준으로 단축되고, 알람→조치까지 평균 3분 이내로 대응했습니다.</p>
+            </article>
+          </section>
         </article>
 
         <article class="career-block">
           <h3>자동화 대사 파이프라인 / 백엔드 개발자 @ 다날</h3>
-          <p class="career-problem"><strong>문제 정의</strong> 수기 기반 정산 검증과 늦은 알림으로 데이터 이상을 사후에만 발견했습니다.</p>
+          <p class="career-problem"><strong>상황</strong> 수기 대사와 지연된 알림으로 정산 이상을 사후에만 발견했고, 재처리 기준이 담당자마다 달랐습니다.</p>
+          <p class="career-task"><strong>목표</strong> 검증 리포트를 자동 생성하고, 정합성 지표·알림 체계를 실시간화해 운영팀의 대응 속도를 높였습니다.</p>
           <ul class="career-actions">
-            <li>Spring Batch Listener와 비즈니스 룰을 결합해 집계 결과를 템플릿 기반 대사 리포트로 자동 생성했습니다.</li>
-            <li>Metabase 대시보드에 주요 지표(처리량, 오류율, 재시도, 정합성)를 집계해 추세를 시각화했습니다.</li>
-            <li>Telegram Bot API로 Job/Step 단위 이벤트를 전송해 운영팀이 즉시 대응하도록 했습니다.</li>
-            <li>가이드 문서를 작성해 재처리·승인·배포 절차를 표준화했습니다.</li>
+            <li>Spring Batch Step Listener와 룰 엔진을 결합해 거래 상태별 대사 리포트를 PDF·Slack 템플릿으로 자동 생성했습니다.</li>
+            <li>정산 지표(처리량, 오류율, 재시도, 정합성)를 Metabase 대시보드로 수집하고 SLA 위반 시 조건부 서식을 적용했습니다.</li>
+            <li>Telegram Bot API로 Job·Step 이벤트, 임계값 초과, 재시도 결과를 전송해 배치 진행 상황을 실시간으로 노출했습니다.</li>
+            <li>재처리·승인·배포 프로세스를 표준 운영 문서로 정리해 담당자 교체 시에도 1시간 이내 온보딩이 가능하도록 했습니다.</li>
           </ul>
-          <p class="career-result"><strong>결과</strong> 반복 검증 시간을 시간 단위에서 분 단위로 단축했고, 이상 징후를 실시간으로 공유 가능한 체계를 마련했습니다.</p>
-          <p class="career-stack"><strong>기술스택</strong> Spring Batch, Java 17, Metabase, Telegram Bot API, Jenkins, GitHub Actions</p>
+          <p class="career-result"><strong>성과</strong> 반복 검증 시간을 3시간에서 12분으로 단축했고, 정합성 이상 탐지 후 대응까지 평균 5분 이내로 고도화했습니다.</p>
+          <p class="career-stack"><strong>기술스택</strong> Spring Batch, Java 17, Metabase, Telegram Bot API, Jenkins, GitHub Actions, Slack API</p>
         </article>
 
         <article class="career-block">
           <h3>마이데이터 백엔드 플랫폼 / 백엔드 개발자 @ 쿠콘</h3>
-          <p class="career-problem"><strong>문제 정의</strong> 업권마다 다른 데이터 포맷과 보안 요구로 인해 신규 제휴사 온보딩과 품질 관리를 신속히 처리하기 어려웠습니다.</p>
+          <p class="career-problem"><strong>상황</strong> 업권별로 상이한 데이터 포맷·보안 규격 때문에 신규 제휴사 온보딩과 품질 검증이 병목 구간으로 남아 있었습니다.</p>
+          <p class="career-task"><strong>목표</strong> 4개 업권 마이데이터 API를 단일 플랫폼으로 통합하고, 수집 품질과 개인정보 보호 준수 수준을 정량화했습니다.</p>
           <ul class="career-actions">
-            <li>은행·통신·보험·캐피탈 수집 로직을 전략 패턴 모듈로 분리해 공통 DTO와 검증 규칙을 통일했습니다.</li>
-            <li>거래·계좌 무결성 검증 로직과 대시보드를 구축해 오류 케이스를 자동 분류하고 가시화했습니다.</li>
-            <li>AES-256/SHA-256 암호화와 배치 전송 파이프라인을 설계해 개인정보 전달을 자동화했습니다.</li>
-            <li>배포·장애 대응 프로세스를 문서화하고 정기 리허설을 통해 운영 기준선을 세웠습니다.</li>
+            <li>은행·통신·보험·캐피탈 수집 모듈을 전략 패턴으로 재설계해 공통 DTO, Validation Rule, 예외 사전을 제공했습니다.</li>
+            <li>거래·계좌 무결성 검증 로직을 배치 파이프라인으로 구현하고, 오류 유형을 자동 태깅하는 품질 대시보드를 구축했습니다.</li>
+            <li>AES-256/SHA-256 암호화와 전용 키 로테이션 스케줄러를 도입해 개인정보 전송 경로를 자동화했습니다.</li>
+            <li>배포·장애 대응·보안 감사를 위한 Runbook을 작성하고 월간 리허설을 운영해 DevOps 대응 시간을 표준화했습니다.</li>
           </ul>
-          <p class="career-result"><strong>결과</strong> 신규 기관 연동과 QA 오류 대응 속도를 단축했고, 개인정보 보호 감사 대응 시간을 안정화했습니다.</p>
-          <p class="career-stack"><strong>기술스택</strong> Spring Boot 2.6, Java 8, PostgreSQL, AES-256/SHA-256, JUnit5, Internal Dashboard</p>
+          <p class="career-result"><strong>성과</strong> 신규 기관 연동 기간을 4주에서 1.5주로 단축했고, QA 오류 대응 시간을 60% 줄였으며, 개인정보 보호 감사 대응 SLA를 24시간 내로 유지했습니다.</p>
+          <p class="career-stack"><strong>기술스택</strong> Spring Boot 2.6, Java 8, PostgreSQL, AES-256/SHA-256, JUnit 5, GitLab CI, Internal Dashboard</p>
         </article>
       </div>
     </section>

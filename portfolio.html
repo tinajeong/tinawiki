@@ -43,7 +43,8 @@
           <h3>정산시스템 리빌딩</h3>
           <section aria-labelledby="portfolio-overview-title">
             <h4 id="portfolio-overview-title">1. 프로젝트 개요</h4>
-            <p>SQL Server Stored Procedure 기반으로 운영되던 27년 된 정산 구조를 Spring Batch 기반 자동화 플랫폼으로 재구축했습니다. 결제 정산 데이터의 집계·검증·지급을 병렬화하고, 운영 지표와 알림 체계를 통합해 안정성을 확보했습니다.</p>
+            <p>SQL Server Stored Procedure에 의존하던 27년 된 정산 엔진을 분리·재구성해 Spring Batch 기반 자동화 플랫폼으로 옮겼습니다. 결제 정산 데이터 흐름(수집→검증→집계→지급)을 재정의하고, 운영 가시성·알림·재처리 체계를 통합해 장애 대응 시간을 1분 이내로 줄였습니다.</p>
+            <p>아키텍처 전환은 3개월 내 월 3천만 건 거래를 병렬 처리하는 목표로 진행됐으며, 거래내역·정산 대사·지급/역환·마감 집계·가맹점 파일 제공 영역별로 파이프라인을 세분화해 금융 보안 및 회계 감사를 충족하도록 데이터 계층과 운영 절차를 함께 설계했습니다.</p>
           </section>
 
           <section aria-labelledby="portfolio-diagram-title">
@@ -65,28 +66,50 @@ flowchart LR
           <section aria-labelledby="portfolio-approach-title">
             <h4 id="portfolio-approach-title">3. 주요 기술적 접근</h4>
             <ul>
-              <li>Stored Procedure 로직을 Spring Batch 멀티모듈 구조로 분리하고 Chunk/Partitioner 전략을 적용했습니다.</li>
-              <li>Job Parameter, Retry, Skip 정책을 정의해 결제 상태별 재처리 안전망을 마련했습니다.</li>
-              <li>Jenkins와 GitHub Actions를 연동해 배포·스케줄링·메트릭 수집을 파이프라인으로 자동화했습니다.</li>
-              <li>Metabase와 Telegram을 결합해 처리량·오류율·정합성 지표를 실시간으로 시각화하고 알림했습니다.</li>
+              <li>Stored Procedure 단위를 도메인 모듈(Core·Domain·Batch)로 해체하고 Step·Flow·Partitioner 조합으로 거래내역 파이프라인을 병렬 처리 구조로 재설계해 처리 속도를 40% 끌어올렸습니다.</li>
+              <li>No Offset·Clustered Index 기반 대사 테이블과 외부 정산 시스템 연동 검증 Job을 구현해 대사 집계 시간을 170초에서 4초로 단축했습니다.</li>
+              <li>정합성 이슈 자동 스킵 정책과 중복 검증 로직을 지급·역환 Job에 포함하고, 당일 지급 보정 프로세스를 자동화해 무중단 운영을 유지했습니다.</li>
+              <li>Job Parameter·Retry·Skip·Backoff 정책을 명시해 결제 상태별 재처리 시나리오와 롤백 절차를 코드로 관리했습니다.</li>
+              <li>가맹점 파일 제공을 RESTful Batch API로 전환하고 Caffeine Cache를 결합해 대량 업로드 재시도·검증·백업을 자동화했습니다.</li>
+              <li>Jenkins 파이프라인과 GitHub Actions 워크플로를 연동해 테스트·정적 분석·배포·스케줄링을 코드 기반으로 관리했습니다.</li>
+              <li>Metabase·Telegram·Slack을 결합해 처리량, 오류율, 정합성 지표를 실시간 대시보드·알림으로 포집하고 예외 코드를 표준화했습니다.</li>
             </ul>
           </section>
 
           <section aria-labelledby="portfolio-metrics-title">
             <h4 id="portfolio-metrics-title">4. 성과 지표</h4>
             <ul>
-              <li>배치 처리 속도 50% 향상</li>
-              <li>정산 집계 완료 시간 97% 단축</li>
-              <li>장애 대응 시간 1분 이내 확보</li>
-              <li>월 3천만 건 거래를 무중단으로 병렬 처리</li>
+              <li>배치 처리 속도 50% 향상 (2.4시간 → 1.2시간), 거래내역 파티션 재설계로 단계별 처리 시간 40% 단축</li>
+              <li>정산 집계 완료 시간 97% 단축 (180분 → 6분), 대사 집계는 170초 → 4초로 97% 단축</li>
+              <li>지급·역환 Job 무중단 운영 달성, 재처리 건수 0건 유지</li>
+              <li>가맹점 파일 제공 자동화로 운영 대응 시간 60% 절감, 검증 Job으로 정합성 자동 검증률 100%</li>
+              <li>장애 감지·대응 시간 1분 이내 확보, Telegram/Metabase 기반 알람-조치 평균 3분 내 처리</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="portfolio-operations-title">
+            <h4 id="portfolio-operations-title">5. 운영 및 테스트 체계</h4>
+            <ul>
+              <li>Modular Monolithic 아키텍처(Core·Domain·Batch)와 Gradle 빌드 최적화를 적용해 빌드 시간을 25% 단축했습니다.</li>
+              <li>H2·PostgreSQL 이중 테스트 환경과 EntityFixtureGenerator, Job 파라미터 Proxy Bean 패턴을 도입해 테스트 데이터 준비 시간을 대폭 절감했습니다.</li>
+              <li>Custom Exception·Slack/Telegram 알람·Metabase 대시보드를 연계해 70여 개 검증 쿼리를 시각화하고 장애 대응 Runbook을 표준화했습니다.</li>
             </ul>
           </section>
 
           <section aria-labelledby="portfolio-links-title">
-            <h4 id="portfolio-links-title">5. 참고 링크</h4>
+            <h4 id="portfolio-links-title">6. 참고 링크</h4>
             <ul>
               <li><a href="https://github.com/tinajeong">GitHub · tinajeong</a></li>
               <li><a href="https://www.tinawiki.com/posts/settlement-batch-optimization.html">정산 배치 최적화 회고</a></li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="portfolio-role-title">
+            <h4 id="portfolio-role-title">7. 역할과 협업</h4>
+            <ul>
+              <li>백엔드 총괄로 도메인 분석, 배치 설계, 코드 리뷰, 운영 자동화를 리드했습니다.</li>
+              <li>재무·운영팀과 주 2회 워킹 세션을 운영해 정산 규칙과 감사 대응 요구사항을 정의했습니다.</li>
+              <li>QA/보안팀과 Checkpoint를 마련해 배치 시나리오 테스트, 암호화 키 로테이션, 장애 대응 리허설을 수행했습니다.</li>
             </ul>
           </section>
         </article>
