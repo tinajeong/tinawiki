@@ -5,15 +5,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About Tina Jeong | Tina Wiki</title>
-  <meta name="description" content="백엔드 개발자 Tina Jeong의 경력과 프로젝트를 소개합니다." />
+  <meta name="description" content="백엔드 개발자 Tina Jeong의 소개와 이력서를 정리한 페이지입니다." />
   <link rel="canonical" href="https://www.tinawiki.com/about" />
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
   <link rel="stylesheet" href="styles.css" />
-  <script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
-    mermaid.initialize({ startOnLoad: true, theme: "neutral" });
-  </script>
 </head>
 
 <body class="about-page">
@@ -25,8 +21,10 @@
       </div>
       <nav class="site-nav" aria-label="주요 링크">
         <a href="/">홈</a>
-        <a href="/about.html" aria-current="page">소개</a>
-        <a href="/posts.html">글</a>
+        <a href="about.html" aria-current="page">소개</a>
+        <a href="career.html">경력</a>
+        <a href="portfolio.html">포트폴리오</a>
+        <a href="posts.html">글</a>
         <a href="mailto:migujeong@gmail.com">연락</a>
       </nav>
     </div>
@@ -128,109 +126,6 @@
             <li>Blog · <a href="https://www.tinawiki.com/posts/settlement-batch-optimization.html">정산 배치 최적화 아티클</a></li>
           </ul>
         </section>
-      </div>
-    </section>
-
-    <section class="career-master" aria-labelledby="career-master-title">
-      <div class="container">
-        <h2 id="career-master-title">📄 경력기술서 마스터 블록</h2>
-
-        <article class="career-block">
-          <h3>정산시스템 리빌딩 / 백엔드 개발자 @ 다날</h3>
-          <p class="career-problem"><strong>문제 정의</strong> 27년간 유지된 SQL Server Stored Procedure 구조가 처리 한계와 운영 리스크를 초래했습니다.</p>
-          <ul class="career-actions">
-            <li>Spring Batch 5 기반 멀티모듈 아키텍처(Core·Domain·Batch)를 설계해 로직을 데이터 중심 구조로 분리했습니다.</li>
-            <li>Partitioner+Chunk 병렬화와 재시도 정책을 적용해 검증·집계·지급 단계를 독립 배치로 리파인했습니다.</li>
-            <li>Oracle 19c와 PostgreSQL을 병행 사용해 정산 원장과 가시화 레이어를 분리했습니다.</li>
-            <li>Jenkins·GitHub Actions·SonarQube를 연동해 코드 품질 검증과 스케줄링을 자동화했습니다.</li>
-          </ul>
-          <p class="career-result"><strong>결과</strong> 처리 속도 50% 향상, 집계 완료 시간 97% 단축, 장애 대응 시간을 1분 이내로 축소했습니다.</p>
-          <p class="career-stack"><strong>기술스택</strong> Java 17, Spring Batch 5, Spring Boot 3, Oracle 19c, PostgreSQL, Jenkins, GitHub Actions, Metabase</p>
-        </article>
-
-        <article class="career-block">
-          <h3>자동화 대사 파이프라인 / 백엔드 개발자 @ 다날</h3>
-          <p class="career-problem"><strong>문제 정의</strong> 수기 기반 정산 검증과 늦은 알림으로 데이터 이상을 사후에만 발견했습니다.</p>
-          <ul class="career-actions">
-            <li>Spring Batch Listener와 비즈니스 룰을 결합해 집계 결과를 템플릿 기반 대사 리포트로 자동 생성했습니다.</li>
-            <li>Metabase 대시보드에 주요 지표(처리량, 오류율, 재시도, 정합성)를 집계해 추세를 시각화했습니다.</li>
-            <li>Telegram Bot API로 Job/Step 단위 이벤트를 전송해 운영팀이 즉시 대응하도록 했습니다.</li>
-            <li>가이드 문서를 작성해 재처리·승인·배포 절차를 표준화했습니다.</li>
-          </ul>
-          <p class="career-result"><strong>결과</strong> 반복 검증 시간을 시간 단위에서 분 단위로 단축했고, 이상 징후를 실시간으로 공유 가능한 체계를 마련했습니다.</p>
-          <p class="career-stack"><strong>기술스택</strong> Spring Batch, Java 17, Metabase, Telegram Bot API, Jenkins, GitHub Actions</p>
-        </article>
-
-        <article class="career-block">
-          <h3>마이데이터 백엔드 플랫폼 / 백엔드 개발자 @ 쿠콘</h3>
-          <p class="career-problem"><strong>문제 정의</strong> 업권마다 다른 데이터 포맷과 보안 요구로 인해 신규 제휴사 온보딩과 품질 관리를 신속히 처리하기 어려웠습니다.</p>
-          <ul class="career-actions">
-            <li>은행·통신·보험·캐피탈 수집 로직을 전략 패턴 모듈로 분리해 공통 DTO와 검증 규칙을 통일했습니다.</li>
-            <li>거래·계좌 무결성 검증 로직과 대시보드를 구축해 오류 케이스를 자동 분류하고 가시화했습니다.</li>
-            <li>AES-256/SHA-256 암호화와 배치 전송 파이프라인을 설계해 개인정보 전달을 자동화했습니다.</li>
-            <li>배포·장애 대응 프로세스를 문서화하고 정기 리허설을 통해 운영 기준선을 세웠습니다.</li>
-          </ul>
-          <p class="career-result"><strong>결과</strong> 신규 기관 연동과 QA 오류 대응 속도를 단축했고, 개인정보 보호 감사 대응 시간을 안정화했습니다.</p>
-          <p class="career-stack"><strong>기술스택</strong> Spring Boot 2.6, Java 8, PostgreSQL, AES-256/SHA-256, JUnit5, Internal Dashboard</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="portfolio-section" aria-labelledby="portfolio-title">
-      <div class="container">
-        <h2 id="portfolio-title">🧭 포트폴리오</h2>
-
-        <article class="portfolio-item">
-          <h3>정산시스템 리빌딩</h3>
-          <section aria-labelledby="portfolio-overview-title">
-            <h4 id="portfolio-overview-title">1. 프로젝트 개요</h4>
-            <p>SQL Server Stored Procedure 기반으로 운영되던 27년 된 정산 구조를 Spring Batch 기반 자동화 플랫폼으로 재구축했습니다. 결제 정산 데이터의 집계·검증·지급을 병렬화하고, 운영 지표와 알림 체계를 통합해 안정성을 확보했습니다.</p>
-          </section>
-
-          <section aria-labelledby="portfolio-diagram-title">
-            <h4 id="portfolio-diagram-title">2. 아키텍처 다이어그램</h4>
-            <pre class="mermaid">
-flowchart LR
-  Partners[제휴사 정산 데이터] --> Scheduler[Jenkins &amp; GitHub Actions]
-  Scheduler --> Batch[Spring Batch Jobs]
-  Batch --> OracleDB[(Oracle 19c 정산 원장)]
-  Batch --> Postgres[(PostgreSQL 가시화 스토어)]
-  Postgres --> Reconcile[자동 대사 파이프라인]
-  Reconcile --> Alerts[Telegram 실시간 알림]
-  OracleDB --> Dashboard[Metabase 대시보드]
-  Postgres --> Dashboard
-            </pre>
-            <noscript>Mermaid 다이어그램을 보려면 브라우저에서 JavaScript를 활성화해 주세요.</noscript>
-          </section>
-
-          <section aria-labelledby="portfolio-approach-title">
-            <h4 id="portfolio-approach-title">3. 주요 기술적 접근</h4>
-            <ul>
-              <li>Stored Procedure 로직을 Spring Batch 멀티모듈 구조로 분리하고 Chunk/Partitioner 전략을 적용했습니다.</li>
-              <li>Job Parameter, Retry, Skip 정책을 정의해 결제 상태별 재처리 안전망을 마련했습니다.</li>
-              <li>Jenkins와 GitHub Actions를 연동해 배포·스케줄링·메트릭 수집을 파이프라인으로 자동화했습니다.</li>
-              <li>Metabase와 Telegram을 결합해 처리량·오류율·정합성 지표를 실시간으로 시각화하고 알림했습니다.</li>
-            </ul>
-          </section>
-
-          <section aria-labelledby="portfolio-metrics-title">
-            <h4 id="portfolio-metrics-title">4. 성과 지표</h4>
-            <ul>
-              <li>배치 처리 속도 50% 향상</li>
-              <li>정산 집계 완료 시간 97% 단축</li>
-              <li>장애 대응 시간 1분 이내 확보</li>
-              <li>월 3천만 건 거래를 무중단으로 병렬 처리</li>
-            </ul>
-          </section>
-
-          <section aria-labelledby="portfolio-links-title">
-            <h4 id="portfolio-links-title">5. 참고 링크</h4>
-            <ul>
-              <li><a href="https://github.com/tinajeong">GitHub · tinajeong</a></li>
-              <li><a href="https://www.tinawiki.com/posts/settlement-batch-optimization.html">정산 배치 최적화 회고</a></li>
-            </ul>
-          </section>
-        </article>
       </div>
     </section>
   </main>

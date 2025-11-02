@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio | Tina Wiki</title>
+  <meta name="description" content="Tina Jeong의 대표 프로젝트와 아키텍처 다이어그램을 소개합니다." />
+  <link rel="canonical" href="https://www.tinawiki.com/portfolio" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+  </script>
+</head>
+
+<body class="portfolio-page">
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✎</span>
+        <span class="brand-text">tina's wiki</span>
+      </div>
+      <nav class="site-nav" aria-label="주요 링크">
+        <a href="/">홈</a>
+        <a href="about.html">소개</a>
+        <a href="career.html">경력</a>
+        <a href="portfolio.html" aria-current="page">포트폴리오</a>
+        <a href="posts.html">글</a>
+        <a href="mailto:migujeong@gmail.com">연락</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="portfolio-section" aria-labelledby="portfolio-title">
+      <div class="container">
+        <h2 id="portfolio-title">🧭 포트폴리오</h2>
+
+        <article class="portfolio-item">
+          <h3>정산시스템 리빌딩</h3>
+          <section aria-labelledby="portfolio-overview-title">
+            <h4 id="portfolio-overview-title">1. 프로젝트 개요</h4>
+            <p>SQL Server Stored Procedure 기반으로 운영되던 27년 된 정산 구조를 Spring Batch 기반 자동화 플랫폼으로 재구축했습니다. 결제 정산 데이터의 집계·검증·지급을 병렬화하고, 운영 지표와 알림 체계를 통합해 안정성을 확보했습니다.</p>
+          </section>
+
+          <section aria-labelledby="portfolio-diagram-title">
+            <h4 id="portfolio-diagram-title">2. 아키텍처 다이어그램</h4>
+            <pre class="mermaid">
+flowchart LR
+  Partners[제휴사 정산 데이터] --> Scheduler[Jenkins &amp; GitHub Actions]
+  Scheduler --> Batch[Spring Batch Jobs]
+  Batch --> OracleDB[(Oracle 19c 정산 원장)]
+  Batch --> Postgres[(PostgreSQL 가시화 스토어)]
+  Postgres --> Reconcile[자동 대사 파이프라인]
+  Reconcile --> Alerts[Telegram 실시간 알림]
+  OracleDB --> Dashboard[Metabase 대시보드]
+  Postgres --> Dashboard
+            </pre>
+            <noscript>Mermaid 다이어그램을 보려면 브라우저에서 JavaScript를 활성화해 주세요.</noscript>
+          </section>
+
+          <section aria-labelledby="portfolio-approach-title">
+            <h4 id="portfolio-approach-title">3. 주요 기술적 접근</h4>
+            <ul>
+              <li>Stored Procedure 로직을 Spring Batch 멀티모듈 구조로 분리하고 Chunk/Partitioner 전략을 적용했습니다.</li>
+              <li>Job Parameter, Retry, Skip 정책을 정의해 결제 상태별 재처리 안전망을 마련했습니다.</li>
+              <li>Jenkins와 GitHub Actions를 연동해 배포·스케줄링·메트릭 수집을 파이프라인으로 자동화했습니다.</li>
+              <li>Metabase와 Telegram을 결합해 처리량·오류율·정합성 지표를 실시간으로 시각화하고 알림했습니다.</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="portfolio-metrics-title">
+            <h4 id="portfolio-metrics-title">4. 성과 지표</h4>
+            <ul>
+              <li>배치 처리 속도 50% 향상</li>
+              <li>정산 집계 완료 시간 97% 단축</li>
+              <li>장애 대응 시간 1분 이내 확보</li>
+              <li>월 3천만 건 거래를 무중단으로 병렬 처리</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="portfolio-links-title">
+            <h4 id="portfolio-links-title">5. 참고 링크</h4>
+            <ul>
+              <li><a href="https://github.com/tinajeong">GitHub · tinajeong</a></li>
+              <li><a href="https://www.tinawiki.com/posts/settlement-batch-optimization.html">정산 배치 최적화 회고</a></li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Tina. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+
+</html>
