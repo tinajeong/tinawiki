@@ -77,6 +77,7 @@
     }
 
     hydrateMermaid();
+    highlightCode();
   }
 
   function showError(message) {
@@ -163,6 +164,30 @@
       .catch((error) => {
         console.warn(error.message);
       });
+  }
+
+  function highlightCode() {
+    if (typeof hljs === "undefined") return;
+
+    const codeBlocks = postContainer.querySelectorAll("pre code");
+    codeBlocks.forEach((block) => {
+      if (block.classList.contains("language-mermaid")) return;
+
+      const languageClass = Array.from(block.classList).find((cls) =>
+        cls.startsWith("language-")
+      );
+
+      if (languageClass) {
+        const language = languageClass.replace("language-", "");
+        if (language && hljs.getLanguage(language)) {
+          hljs.highlightElement(block);
+          return;
+        }
+      }
+
+      block.classList.add("hljs");
+      hljs.highlightElement(block);
+    });
   }
 
   function onHashChange() {
