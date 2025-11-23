@@ -10,6 +10,12 @@
   --serif: "Iowan Old Style", "Noto Serif KR", "Times New Roman", serif;
   --sans: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.95rem;
+  --step-0: 1rem;
+  --step-1: 1.15rem;
+  --step-2: clamp(1.35rem, 2.6vw, 1.6rem);
+  --step-3: clamp(1.6rem, 3vw, 1.9rem);
+  --step-4: clamp(2.1rem, 3.6vw, 2.5rem);
   font-size: 16px;
 }
 
@@ -62,26 +68,28 @@ h3,
 h4 {
   font-family: var(--sans);
   margin: 0 0 0.75rem;
-  line-height: 1.25;
+  line-height: 1.28;
   letter-spacing: -0.02em;
+  font-weight: 700;
 }
 
 h1 {
-  font-size: clamp(2.4rem, 4vw, 3.1rem);
+  font-size: var(--step-4);
 }
 
 h2 {
-  font-size: clamp(1.65rem, 3vw, 2.2rem);
+  font-size: var(--step-3);
+  font-weight: 600;
 }
 
 h3 {
-  font-size: clamp(1.35rem, 2.4vw, 1.65rem);
+  font-size: var(--step-2);
+  font-weight: 600;
 }
 
 h4 {
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: var(--step-1);
+  letter-spacing: 0.02em;
   color: var(--muted);
 }
 
@@ -168,6 +176,14 @@ main {
   width: min(960px, 92vw);
 }
 
+.lede {
+  max-width: 34ch;
+  margin: 0 0 1.4rem;
+  font-family: var(--sans);
+  font-size: var(--step-1);
+  line-height: 1.6;
+}
+
 .eyebrow {
   font-family: var(--sans);
   font-size: 0.8rem;
@@ -179,7 +195,7 @@ main {
 
 .hero-summary {
   display: grid;
-  gap: 1.25rem;
+  gap: 1rem;
   max-width: 72ch;
   color: var(--muted);
   font-size: 1.02rem;
@@ -396,13 +412,46 @@ main {
 
 .post-list {
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.category-group {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.2rem 0 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.category-group:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.category-title {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
   margin: 0;
 }
 
-.post-list button,
-.post-list a {
+.category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.category-list-item {
+  list-style: none;
+}
+
+.post-link {
   font-family: var(--sans);
   font-size: 0.98rem;
   text-align: left;
@@ -412,9 +461,20 @@ main {
   color: var(--ink);
   border-bottom: 1px solid var(--border);
   cursor: pointer;
+  display: grid;
+  gap: 0.12rem;
 }
 
-.post-list .active {
+.post-link-title {
+  font-weight: 600;
+}
+
+.post-link-meta {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.post-list .is-active {
   color: var(--accent);
   border-color: var(--accent);
 }
