@@ -1,0 +1,47 @@
+name: Tinawiki CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # (선택) Node 기반 빌드/테스트가 있을 때만
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # (선택) 패키지 설치
+      # package.json 있을 때만
+      - name: Install dependencies
+        if: hashFiles('package.json') != ''
+        run: npm ci
+
+      # (선택) 정적 분석 / 린트
+      - name: Run lint
+        if: hashFiles('package.json') != ''
+        run: |
+          if npm run | grep -q "lint"; then
+            npm run lint
+          else
+            echo "No lint script, skipping."
+          fi
+
+      # (선택) 빌드 테스트
+      - name: Build (test only)
+        if: hashFiles('package.json') != ''
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script, skipping."
+          fi
