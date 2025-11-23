@@ -3,8 +3,9 @@
 These instructions apply to the entire repository.
 
 ## Project character
-- This site is a hand-crafted, static blog. Keep dependencies to plain HTML, CSS, and minimal vanilla JavaScript. Do **not** introduce front-end frameworks or build tooling without explicit direction.
-- Maintain the calm, type-driven aesthetic inspired by Apple Human Interface Guidelines and Toss Product Principles: plenty of whitespace, balanced typography, and clear hierarchy.
+- This site is a hand-crafted, static **blog**. Keep dependencies to plain HTML, CSS, and minimal vanilla JavaScript. Do **not** introduce front-end frameworks or build tooling without explicit direction.
+- Follow a print-inspired, typographic look (think Tufte CSS and quiet book margins): plenty of whitespace, slim rules, and balanced hierarchy with minimal chrome.
+- Career/portfolio material lives under `career/` only. The public-facing pages (`index.html`, `about.html`, `posts.html`, etc.) must not surface or link to that directory by default.
 - Favor progressive enhancement and graceful degradation so the site remains readable even if JavaScript is unavailable.
 
 ## Content structure
@@ -13,8 +14,8 @@ These instructions apply to the entire repository.
 - Avoid embedding heavy assets. Prefer lightweight SVG or optimized images when absolutely necessary.
 
 ## Styling
-- Primary styling lives in `styles.css`. Keep selectors simple, rely on CSS custom properties already defined, and document any new tokens with inline comments.
-- Ensure the layout remains responsive down to 320px wide viewports. Test typography and spacing adjustments for small screens.
+- Primary styling lives in `styles.css`. Keep selectors simple, rely on CSS custom properties, and document any new tokens with inline comments.
+- Optimize for long-form reading: comfortable line-height, restrained color palette on light backgrounds, and graceful scaling down to 320px wide viewports.
 
 ## Accessibility & performance
 - Use semantic HTML elements (`main`, `nav`, `article`, etc.) and ensure sufficient color contrast.
