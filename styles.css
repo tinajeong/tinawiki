@@ -544,15 +544,15 @@ main {
 }
 
 .post-body pre {
-  background: #0f0f12;
-  color: #f7f7f2;
-  border: 1px solid #1d1d21;
+  background: #f3f4f6;
+  color: #1f2329;
+  border: 1px solid #d9d9df;
   border-radius: 12px;
   padding: 1rem;
   overflow-x: auto;
   font-family: var(--mono);
   font-size: 0.95rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
 }
 
 .post-body pre code {
@@ -563,48 +563,49 @@ main {
 
 .post-body code {
   font-family: var(--mono);
-  background: #111;
-  color: #f7f7f2;
+  background: #eceff3;
+  color: #1f2329;
   padding: 0.15rem 0.35rem;
   border-radius: 6px;
+  border: 1px solid #d9d9df;
 }
 
 .hljs {
   display: block;
   background: transparent;
-  color: #f7f7f2;
+  color: #1f2329;
 }
 
 .hljs-comment,
 .hljs-quote {
-  color: #b1b1b1;
+  color: #5f6b7a;
 }
 
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-name,
 .hljs-attr {
-  color: #ffffff;
-  font-weight: 600;
+  color: #274678;
+  font-weight: 700;
 }
 
 .hljs-string,
 .hljs-number,
 .hljs-literal,
 .hljs-variable {
-  color: #e6e6e6;
+  color: #8b2c02;
 }
 
 .hljs-title,
 .hljs-section,
 .hljs-type,
 .hljs-built_in {
-  color: #f0f0f0;
-  font-weight: 600;
+  color: #205c3b;
+  font-weight: 700;
 }
 
 .hljs-meta {
-  color: #c7c7c7;
+  color: #6c3b8c;
   font-style: italic;
 }
 
