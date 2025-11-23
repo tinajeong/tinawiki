@@ -1,4 +1,4 @@
-# Hazelcast로 CQRS 패턴 도입하기
+# Hazelcast로 CQRS 패턴 도입하기 (1)
 
 ## CQRS의 아이디어
 
@@ -53,28 +53,39 @@ flowchart LR
 
 그러나 온프레미스 환경에서는 Kafka 같은 메시징 시스템 운영이 어려울 수 있다. 이때 Hazelcast가 현실적인 대안으로 떠오른다.
 
----
-
-# Hazelcast가 현실적인 이유
-
-온프레 기반 정산 시스템에서는 새로운 메시징 플랫폼 구축이 큰 리스크다. 하지만 Hazelcast는 별도의 메시징 시스템 없이도 CQRS의 핵심 구성 요소를 제공한다.
-
-Hazelcast는 인메모리 데이터 그리드로서 다음 기능을 제공한다:
-
-* **분산 Map(IMap)** → 쓰기/읽기 모델 분리
-* **Topic / ReliableTopic** → 이벤트 전파
-* **MessageListener / EntryListener** → 이벤트 기반 동기화
-* **MapStore** → RDBMS 영속화
-* **Near Cache** → 읽기 성능 극대화
-
-즉, Kafka 없이도 CQRS 구조를 온전히 구현할 수 있는 실전 친화적 선택지다.
 
 ---
 
-# Hazelcast 기반 CQRS 구조
+
+## Hazelcast가 유효한 이유
+
+온프레미스에서 Kafka·Redis 같은 메시징 플랫폼을 새로 구축하기 위해 여러방면으로 시도했으나 쉽지 않았다.
+운영 인력 부족, 보안 정책 제약, 인프라 비용 등 현실적인 문제가 크기 때문이다.
+
+Hazelcast는 별도의 메시징 인프라를 추가하지 않고도 다음 핵심 기능을 제공한다.
+
+* **분산 캐시/데이터 그리드(IMap)**
+  쓰기 모델과 읽기 모델을 각각 독립적으로 유지할 수 있다.
+* **Topic / ReliableTopic 기반 메시징**
+  이벤트를 분산 환경에서 안정적으로 브로드캐스팅한다.
+* **Listener 기반 비동기 동기화**
+  변경 이벤트를 자동으로 감지해 읽기 모델을 실시간 갱신한다.
+* **MapStore 영속화**
+  메모리 ↔ RDBMS 간 자동 동기화로 운영 부담을 낮춘다.
+* **Near Cache**
+  빈번한 조회를 로컬 메모리에서 처리해 응답 속도를 극대화한다.
+
+Hazelcast는  Kafka·Redis에서 얻기 원하는 핵심 기능이 다 마련되어 있다.
+“추가 인프라 없이 CQRS를 구현해야 한다”는 제약 조건이 있을 때 최적의 선택지라는 생각이 들었다.
+
+---
+
+## Hazelcast 기반 CQRS 구조
+
+Hazelcast로 CQRS의 핵심 흐름인 **(1) 쓰기 모델 → (2) 이벤트 발행 → (3) 읽기 모델 반영**을  구현한다.
 
 ```mermaid
-flowchart LR
+flowchart  TD
     ClientWeb -->|Command| CommandAPI[Command API]
     CommandAPI -->|TX| TX[Hazelcast Transaction]
     TX -->|put/update| WriteMap[(IMap - Write Model)]
@@ -87,81 +98,90 @@ flowchart LR
     ClientWeb -->|Query| QueryAPI
 ```
 
----
+핵심 구성 요소:
 
-# Hazelcast CQRS를 명확하게 정리
+1. **WriteMap**
+   WriteModel 전용 IMap. 트랜잭션 하에서 데이터의 일관성을 보장한다.
+2. **Topic/ReliableTopic**
+   쓰기 후 발생한 이벤트를 모든 노드에 전파하는 역할.
+3. **Listener**
+   이벤트를 받아 ReadModel을 업데이트한다.
+4. **ReadMap + Near Cache**
+   조회 특화 구조로 구성된 IMap. 거의 모든 조회가 로컬 메모리에서 처리된다.
 
-## 1. 이벤트 동기화 흐름
-
-쓰기 작업 → WriteModel 반영 → Topic으로 이벤트 발행 → Listener 수신 → ReadModel 업데이트
-
-이벤트는 최소한의 정보만 가진다:
-
-* aggregateId
-* 변경 타입
-* version
-* timestamp
-
-쓰기 요청은 빠르게 끝나고, 데이터 동기화는 비동기로 진행된다.
-
-## 2. 순서 보장은 어떻게 하나?
-
-Hazelcast Topic은 Kafka처럼 강력한 파티션 보장은 제공하지 않지만, 다음 전략으로 충분한 순서를 확보한다.
-
-* aggregateId 기반 라우팅
-* ReliableTopic 사용
-* ReadModel에 version 필드 두고 **낮은 버전 무시**
-
-## 3. 중복 이벤트 처리
-
-네트워크 지연·재시도 상황 대비:
-
-* ReadModel에 version 필드 포함
-* 이미 처리한 버전 이하는 무시 (멱등성 보장)
-
-## 4. 읽기 모델 설계
-
-읽기 모델은 조회 패턴 중심으로 설계한다.
-
-* 정규화 해제된 구조
-* 리스트/집계 중심 Materialized View
-* 단건 조회 최적화를 위한 인덱스 구성
-* Near Cache 활성화 → 로컬 메모리에서 즉시 조회
-
-## 5. 초기 동기화
-
-Hazelcast ReadModel 구축 절차:
-
-1. 배치로 전체 데이터 적재
-2. 이후 이벤트 기반 실시간 동기화
-3. 필요 시 스냅샷으로 빠른 복구
-
-## 6. 운영 시 모니터링 포인트
-
-* IMap entry 수 및 메모리 사용량
-* GC 동작 패턴
-* 네트워크 지연 / split-brain 여부
-* 이벤트 처리 지연(latency)
-* MapStore 쓰기 속도
+WriteModel과 ReadModel은 물리적으로 분리되므로, 쓰기 이벤트가 많아도 조회 성능이 저하되지 않는다.
 
 ---
 
-# 기대 효과
+## CQRS 구현 설계
 
-## 1) 읽기/쓰기 충돌 제거
+중요하게 고려할 사항을 설계해 보았다.
 
-읽기는 ReadModel, 쓰기는 WriteModel로 분리되므로 DB 락 경합이 사라진다.
+### 1. 이벤트 동기화 흐름
 
-## 2) 조회 성능 극대화
+1. Command 처리
+2. WriteModel 업데이트
+3. Hazelcast Topic으로 이벤트 발행
+4. Listener가 이벤트를 수신
+5. ReadModel 업데이트
 
-* Near Cache → 로컬 메모리 응답
-* 조인 없는 조회 모델 설계
+이벤트에는 조회에 필요한 최소한의 메타데이터만 포함한다.
 
-## 3) 운영 난이도 감소
+* `aggregateId`
+* `eventType`
+* `version`
+* `timestamp`
 
-Kafka/Redis 스트림 없이 CQRS 가능.
-온프레에서도 안정적으로 운영할 수 있다.
+동기화는 비동기로 진행한다.
 
-## 4) 아키텍처 명확성 증가
+---
 
-Command · Query가 분리되어 도메인 규칙이 선명해지고 유지보수성이 증가한다.
+## 2. 순서 보장 전략
+
+Hazelcast Topic은 Kafka만큼 강력한 파티션 모델을 갖지 않지만, 다음 전략으로 일관된 순서를 확보할 수 있다.
+
+* **aggregateId 기반 라우팅 또는 key 기반 파티셔닝**
+  동일 aggregate는 동일 파티션(리스트너)에서 처리.
+* **ReliableTopic 사용**
+  메시지 손실 및 재시도에 강하다.
+* **ReadModel에 version 필드 유지**
+  최신 버전보다 낮은 이벤트는 버림 → 순서 오류에도 일관성 유지.
+
+정렬을 맞춰놓지 않고도 정렬이 깨진 이벤트를 자동으로 걸러내는 구조이다.
+
+---
+
+## 3. 중복 이벤트 처리(멱등성 확보)
+
+네트워크 지연·리트라이·노드 재시작 등으로 동일 이벤트가 여러 번 들어올 수 있다.
+Hazelcast 기반 CQRS에서는 다음 방식으로 해결한다.
+
+* ReadModel의 각 entry에 **version 필드 저장**
+* 이벤트 처리 시
+
+  ```
+  if (event.version <= currentVersion) skip
+  ```
+* 최종적으로 최신 버전만 적용
+
+---
+
+다음 글에서는 Hazelcast 기반 CQRS를 PoC로 돌려보는 과정을 다룰것이다.
+
+<!-- 
+## 6. 운영 시 핵심 모니터링 포인트
+
+Hazelcast 기반 CQRS는 인메모리 구조이므로 다음 지표를 주기적으로 관찰해야 한다.
+
+* **IMap entry 수 / 메모리 사용량 변화**
+* **GC 패턴**
+  조회 빈도가 높은 ReadModel은 GC에 민감하다.
+* **네트워크 지연 및 멀티노드 간 데이터 전파 속도**
+* **split-brain 발생 여부**
+  CP Subsystem/Hot Restart 적용 여부 확인.
+* **MapStore 수행 시간(쓰기 지연)**
+  영속화 구간이 병목이 되지 않도록 체크.
+* **Topic → Listener 메시지 처리 지연(latency)**
+
+이 지표만 잘 관리하면 운영 안정성이 매우 높다.
+ -->
