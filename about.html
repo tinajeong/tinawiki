@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About Tina Jeong | Tina Wiki</title>
-  <meta name="description" content="백엔드 개발자 Tina Jeong의 소개와 이력서를 정리한 페이지입니다." />
+  <meta name="description" content="핸드메이드 감성으로 운영하는 Tina Jeong의 블로그 소개 페이지" />
   <link rel="canonical" href="https://www.tinawiki.com/about" />
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
@@ -22,8 +22,6 @@
       <nav class="site-nav" aria-label="주요 링크">
         <a href="/">홈</a>
         <a href="about.html" aria-current="page">소개</a>
-        <a href="career.html">경력</a>
-        <a href="portfolio.html">포트폴리오</a>
         <a href="posts.html">글</a>
         <a href="mailto:migujeong@gmail.com">연락</a>
       </nav>
@@ -36,7 +34,7 @@
         <p class="eyebrow">Tinawiki.com</p>
         <h1 id="about-title" class="about-hero-title">
           <span class="about-name">Tina Jeong</span>
-          <span class="about-role">Backend Engineer</span>
+          <span class="about-role">필기 좋아하는 백엔드 엔지니어</span>
         </h1>
         <ul class="about-contact-list">
           <li>
@@ -49,85 +47,44 @@
           </li>
         </ul>
         <div class="about-intro">
-          <p>코드는 생각을 구현할 수 있는 가장 명확한 언어라고 생각합니다.</p>
-          <p>동료가 읽기 쉬운 코드, 운영자가 신뢰할 수 있는 로직, 그리고 사용자가 안정적으로 경험할 수 있는 서비스를 만드는 일을 지향합니다.</p>
-          <p>빠르게 시도하고, 다양한 관점에서 검증하며, 제품의 본질을 고려한 개선을 꾸준히 이어가고 있습니다.</p>
+          <p>손으로 적는 메모처럼, 얇은 선과 적당한 여백을 남기는 블로그를 운영합니다. 읽기 흐름을 방해하는 장식을 줄이고, 필요한 정보만 차곡차곡 쌓습니다.</p>
+          <p>최근에는 정산 배치와 데이터 파이프라인을 다루며 얻은 문제 해결 과정, 설계 선택지, 운영 팁을 글로 정리합니다.</p>
+          <p>커리어·포트폴리오 자료는 별도의 <code>career/</code> 폴더에 모아두고, 이 공간은 글쓰기와 실험 기록에 집중합니다.</p>
         </div>
       </div>
     </section>
 
-    <section class="about-content resume-content">
-      <div class="container">
-        <section class="resume-section" aria-labelledby="skills-title">
-          <h2 id="skills-title">⚙️ 핵심 스킬</h2>
+    <section class="about-content">
+      <div class="about-notes container">
+        <h2>블로그 운영 원칙</h2>
+        <div class="resume-card">
+          <p>얇은 선, 느슨한 레이아웃, 읽기 중심의 타이포그래피를 지향합니다. 글마다 요약과 맥락을 함께 적어 훑어보기가 쉽도록 구성합니다.</p>
           <ul class="resume-list">
-            <li><strong>Backend</strong>: Java 17, Spring Boot 3, Spring Batch 5, JPA, QueryDSL</li>
-            <li><strong>Data</strong>: Oracle 19c, PostgreSQL, SQL Server, Redis, Metabase</li>
-            <li><strong>Ops &amp; Tooling</strong>: Jenkins, GitHub Actions, Spring Batch Admin, Telegram, Naverworks
-              API</li>
+            <li>기술 실험 기록은 코드보다 의사결정 근거를 먼저 서술합니다.</li>
+            <li>캡션과 각주를 짧게 넣어 흐름을 끊지 않고 추가 정보를 제공합니다.</li>
+            <li>모바일에서도 본문 길이를 70자 내외로 유지해 리듬을 맞춥니다.</li>
           </ul>
-        </section>
+        </div>
 
-        <section class="resume-section" aria-labelledby="experience-title">
-          <h2 id="experience-title">💼 경력</h2>
-
-          <article class="experience" aria-labelledby="danal-title">
-            <header class="experience-header">
-              <div>
-                <h3 id="danal-title">(주)다날 · 플랫폼개발팀 백엔드 개발자</h3>
-                <p class="experience-period">2024.01 ~ 현재</p>
-              </div>
-            </header>
-            <ul class="experience-highlights">
-              <li>SQL Server 정산 배치를 Spring Batch + Oracle/PostgreSQL 아키텍처로 리빌딩하여 처리 속도를 50% 향상시켰습니다.</li>
-              <li>Partitioner+Chunk 병렬화와 무정지 지급 배치로 월 3천만 건 결제를 중단 없이 집계했습니다.</li>
-              <li>자동 대사 파이프라인과 Telegram 알림으로 장애 대응 시간을 1분 이내로 단축했습니다.</li>
-              <li>Jenkins·GitHub Actions 파이프라인으로 스케줄링과 배포를 자동화해 운영 재처리 리스크를 최소화했습니다.</li>
-              <li>기관별 거래 검증 API를 전략 패턴 기반으로 재설계해 포맷별 중복 코드를 제거했습니다.</li>
-            </ul>
-          </article>
-
-          <article class="experience" aria-labelledby="kucon-title">
-            <header class="experience-header">
-              <div>
-                <h3 id="kucon-title">(주)쿠콘 · 마이데이터연구부 백엔드 개발자</h3>
-                <p class="experience-period">2021.08 ~ 2022.10</p>
-              </div>
-            </header>
-            <ul class="experience-highlights">
-              <li>마이데이터 수집 API를 업권별 전략 패턴으로 모듈화해 신규 기관 온보딩과 유지보수를 단순화했습니다.</li>
-              <li>AES-256/SHA-256 암호화와 배치 전송 자동화를 구축해 민감 데이터 전달 절차를 표준화했습니다.</li>
-              <li>무결성 대시보드를 제작해 QA 오류 지적 건수를 90% 이상 감소시켰습니다.</li>
-              <li>배포 절차와 장애 대응 플로우를 문서화해 운영팀 온보딩 시간을 단축했습니다.</li>
-            </ul>
-          </article>
-        </section>
-
-        <section class="resume-section" aria-labelledby="projects-title">
-          <h2 id="projects-title">🏆 프로젝트 &amp; 수상</h2>
+        <h2>기록 방식</h2>
+        <div class="resume-card">
+          <p>실험을 설계→검증→회고 순서로 정리합니다. 스크립트, 쿼리, 설정 값은 재사용할 수 있도록 작은 블록으로 쪼갭니다.</p>
           <ul class="resume-list">
-            <li><strong>AngelHack Seoul 2024 1위</strong> · 금융 회복 탄력성 교육 서비스 Moneygement 백엔드 구축</li>
-            <li><strong>Naver PotenDay 508</strong> · 저속 노화 습관 형성 서비스 SlowMe 백엔드 및 RAG 파이프라인 개발</li>
+            <li>배치/데이터 글: 처리 흐름 다이어그램과 실패 시나리오를 함께 정리합니다.</li>
+            <li>회고 글: 배운 점, 놓친 점, 다음 번에 달라질 점을 STAR 구조로 서술합니다.</li>
+            <li>읽기 흐름: 본문→요약→관련 글 링크 순서로 이어집니다.</li>
           </ul>
-        </section>
+        </div>
 
-        <section class="resume-section" aria-labelledby="education-title">
-          <h2 id="education-title">🎓 학력 &amp; 자격</h2>
-          <p><strong>한동대학교 컴퓨터공학과</strong> (2015.03 ~ 2020.02) · KCSE 2020 학회 논문 Accept</p>
+        <h2>요즘 쓰는 주제</h2>
+        <div class="resume-card">
+          <p>대용량 배치 설계, 데이터 정합성 검증, 모니터링 자동화에 대한 경험을 다룹니다. 필요 시 샘플 코드와 쿼리를 함께 제공합니다.</p>
           <ul class="resume-list">
-            <li>AWS Certified Cloud Practitioner (CLF-C02, 2025.03)</li>
-            <li>SQLD (2022.04)</li>
+            <li>정산 배치 병렬화와 재처리 전략 메모</li>
+            <li>데이터 파이프라인 무결성 검증 체크리스트</li>
+            <li>알림·대시보드로 운영 피로도를 줄이는 방법</li>
           </ul>
-        </section>
-
-        <section class="resume-section" aria-labelledby="links-title">
-          <h2 id="links-title">🔗 Link</h2>
-          <ul class="resume-list">
-            <li>GitHub · <a href="https://github.com/tinajeong">github.com/tinajeong</a></li>
-            <li>Blog · <a href="https://www.tinawiki.com/posts/settlement-batch-optimization.html">정산 배치 최적화 아티클</a>
-            </li>
-          </ul>
-        </section>
+        </div>
       </div>
     </section>
   </main>
