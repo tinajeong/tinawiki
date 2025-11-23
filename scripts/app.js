@@ -14,6 +14,7 @@
   let posts = [];
   let postMap = new Map();
   let currentSlug = null;
+  let mermaidLoader = null;
 
   function formatDate(dateString) {
     if (!dateString) return "";
@@ -68,6 +69,14 @@
 
     const html = marked.parse(markdown, { breaks: true });
     postContainer.innerHTML = html;
+
+    const heading = postContainer.querySelector("h1");
+    const currentTitle = titleEl?.textContent?.trim();
+    if (heading && heading.textContent.trim() === currentTitle) {
+      heading.remove();
+    }
+
+    hydrateMermaid();
   }
 
   function showError(message) {
@@ -103,6 +112,56 @@
       .then(renderMarkdown)
       .catch((error) => {
         showError(error.message);
+      });
+  }
+
+  function loadMermaid() {
+    if (window.mermaid) return Promise.resolve(window.mermaid);
+    if (!mermaidLoader) {
+      mermaidLoader = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src =
+          "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";
+        script.async = true;
+        script.onload = () => {
+          if (window.mermaid) {
+            window.mermaid.initialize({
+              startOnLoad: false,
+              securityLevel: "loose",
+              theme: "neutral",
+            });
+            resolve(window.mermaid);
+          } else {
+            reject(new Error("Mermaid 엔진이 로드되지 않았습니다."));
+          }
+        };
+        script.onerror = () =>
+          reject(new Error("Mermaid 스크립트를 불러오지 못했습니다."));
+        document.head.appendChild(script);
+      });
+    }
+    return mermaidLoader;
+  }
+
+  function hydrateMermaid() {
+    const codeBlocks = postContainer.querySelectorAll("pre code.language-mermaid");
+    if (!codeBlocks.length) return;
+
+    loadMermaid()
+      .then((mermaid) => {
+        const targets = [];
+        codeBlocks.forEach((code) => {
+          const pre = code.parentElement;
+          const wrapper = document.createElement("div");
+          wrapper.className = "mermaid-diagram";
+          wrapper.textContent = code.textContent;
+          pre.replaceWith(wrapper);
+          targets.push(wrapper);
+        });
+        mermaid.init(undefined, targets);
+      })
+      .catch((error) => {
+        console.warn(error.message);
       });
   }
 
