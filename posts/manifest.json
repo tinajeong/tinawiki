@@ -24,14 +24,6 @@
     "file": "posts/oracle-migration-checklist.md"
   },
   {
-    "slug": "cqrs-batch-blueprint",
-    "title": "이벤트 브로커 없이 CQRS를 배치 시스템에 적용하기",
-    "date": "2025-10-01",
-    "category": "백엔드 엔지니어링",
-    "description": "Outbox 기반 CQRS와 배치 증분 동기화를 결합한 설계, 구현 로드맵을 정리했습니다.",
-    "file": "posts/cqrs-batch-blueprint.md"
-  },
-  {
     "slug": "cqrs-1",
     "title": "CQRS 패턴 도입기",
     "date": "2025-11-19",
