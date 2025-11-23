@@ -7,7 +7,7 @@
   --accent: #6b4dff;
   --border: #e6e0d4;
   --shadow: 0 10px 40px rgba(17, 24, 39, 0.06);
-  --serif: "Iowan Old Style", "Noto Serif KR", "Times New Roman", serif;
+  --serif: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --sans: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
   --step--1: 0.95rem;
@@ -27,7 +27,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--sans);
   line-height: 1.75;
   letter-spacing: -0.01em;
   word-break: keep-all;
