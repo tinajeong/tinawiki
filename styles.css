@@ -178,7 +178,7 @@ main {
 }
 
 .lede {
-  max-width: 34ch;
+  max-width: 38ch;
   margin: 0 0 1.4rem;
   font-family: var(--sans);
   font-size: var(--step-1);
