@@ -1,12 +1,12 @@
 :root {
   color-scheme: light;
-  --bg: #fdfaf3;
+  --bg: #fdfdfc;
   --panel: #ffffff;
-  --ink: #0f172a;
-  --muted: #4b5563;
-  --accent: #6b4dff;
-  --border: #e6e0d4;
-  --shadow: 0 10px 40px rgba(17, 24, 39, 0.06);
+  --ink: #0b0b0b;
+  --muted: #454545;
+  --accent: #101010;
+  --border: #e5e5e5;
+  --shadow: 0 12px 42px rgba(0, 0, 0, 0.06);
   --serif: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --sans: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
@@ -42,7 +42,7 @@ img {
 a {
   color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(107, 77, 255, 0.35);
+  text-decoration-color: rgba(16, 16, 16, 0.35);
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.28em;
   transition: color 160ms ease, text-decoration-color 160ms ease;
@@ -50,12 +50,12 @@ a {
 
 a:hover,
 a:focus-visible {
-  color: #4b3bd8;
+  color: #000;
   text-decoration-color: currentColor;
 }
 
 a:focus-visible {
-  outline: 2px solid rgba(75, 59, 216, 0.35);
+  outline: 2px solid rgba(16, 16, 16, 0.3);
   outline-offset: 3px;
 }
 
@@ -117,7 +117,7 @@ blockquote {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(253, 250, 243, 0.92);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 }
@@ -269,7 +269,7 @@ main {
 
 .site-footer {
   border-top: 1px solid var(--border);
-  background: #fbf7ed;
+  background: #f6f6f6;
 }
 
 .site-footer .container {
@@ -525,7 +525,7 @@ main {
 
 .mermaid-diagram {
   margin: 1.5rem 0;
-  background: #f6f3eb;
+  background: #f5f5f5;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.25rem;
@@ -544,20 +544,68 @@ main {
 }
 
 .post-body pre {
-  background: #f6f0ff;
-  border: 1px solid var(--border);
+  background: #0f0f12;
+  color: #f7f7f2;
+  border: 1px solid #1d1d21;
   border-radius: 12px;
   padding: 1rem;
   overflow-x: auto;
   font-family: var(--mono);
   font-size: 0.95rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.post-body pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
 }
 
 .post-body code {
   font-family: var(--mono);
-  background: rgba(107, 77, 255, 0.08);
+  background: #111;
+  color: #f7f7f2;
   padding: 0.15rem 0.35rem;
   border-radius: 6px;
+}
+
+.hljs {
+  display: block;
+  background: transparent;
+  color: #f7f7f2;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #b1b1b1;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-name,
+.hljs-attr {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.hljs-string,
+.hljs-number,
+.hljs-literal,
+.hljs-variable {
+  color: #e6e6e6;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-type,
+.hljs-built_in {
+  color: #f0f0f0;
+  font-weight: 600;
+}
+
+.hljs-meta {
+  color: #c7c7c7;
+  font-style: italic;
 }
 
 /* === Career & portfolio (archived) === */
@@ -570,7 +618,7 @@ main {
 .career-summary {
   border-block: 1px solid var(--border);
   padding: 2.5rem 0;
-  background: linear-gradient(135deg, rgba(107, 77, 255, 0.06), rgba(255, 255, 255, 0));
+  background: linear-gradient(135deg, rgba(16, 16, 16, 0.05), rgba(255, 255, 255, 0));
 }
 
 .career-summary .container {
@@ -600,7 +648,7 @@ main {
 .career-stack {
   margin: 0;
   padding: 0.75rem 1rem;
-  background: #f7f3ff;
+  background: #f4f4f4;
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--muted);
@@ -616,7 +664,7 @@ main {
   padding: 1rem 1.1rem;
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #fbf8ff;
+  background: #f7f7f7;
 }
 
 .activity-list,
