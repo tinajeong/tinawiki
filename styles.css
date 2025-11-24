@@ -5,6 +5,7 @@
   --ink: #0b0b0b;
   --muted: #454545;
   --accent: #101010;
+  --title-accent: #1f345e;
   --border: #e5e5e5;
   --shadow: 0 12px 42px rgba(0, 0, 0, 0.06);
   --serif: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
@@ -490,6 +491,18 @@ main {
 
 .post-header {
   margin-bottom: 1.5rem;
+  padding-top: 0.4rem;
+}
+
+.post-header::before {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  background: var(--title-accent);
+  border-radius: 999px;
+  opacity: 0.18;
+  margin-bottom: 1rem;
 }
 
 .post-meta {
@@ -508,6 +521,13 @@ main {
 .post-category {
   color: var(--accent);
   font-weight: 700;
+}
+
+.post-title {
+  color: var(--title-accent);
+  font-size: clamp(1.95rem, 3.6vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 0;
 }
 
 .separator {
