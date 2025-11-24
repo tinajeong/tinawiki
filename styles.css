@@ -1,22 +1,35 @@
 :root {
   color-scheme: light;
-  --bg: #fdfdfc;
-  --panel: #ffffff;
-  --ink: #0b0b0b;
-  --muted: #454545;
-  --accent: #101010;
-  --title-accent: #1f345e;
-  --border: #e5e5e5;
-  --shadow: 0 12px 42px rgba(0, 0, 0, 0.06);
+
+  /* ---- Base ---------------------------------------------------- */
+  --bg: #f5f4f2;         /* 전체 배경: 차가운 흰색 대신 살짝 종이 느낌 */
+  --panel: #fcfcfb;      /* 카드/패널: 배경보다 아주 살짝 밝게 */
+  --ink: #111111;        /* 본문 텍스트: 완전 블랙보다 눈 덜 아픈 잉크 블랙 */
+  --muted: #6b6b6b;      /* 보조 텍스트, 메타 정보 */
+
+  /* ---- Accents ------------------------------------------------- */
+  --accent: #151515;         /* 링크, 아이콘 기본 색 (거의 블랙) */
+  --title-accent: #252a32;   /* 제목 색: 아주 살짝 푸른기 도는 차콜 */
+  --border: #e0ded7;         /* 구분선, 카드 보더 */
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.07);
+
+  /* ---- Optional subtilities ----------------------------------- */
+  --ink-soft: #8a8a8a;       /* 캡션, 날짜 등 더 약한 텍스트 */
+  --accent-soft: #f0eeea;    /* 호버 배경, 태그 pill 배경 등 */
+  --accent-strong: #000000;  /* 정말 강조해야 하는 포인트 (버튼 텍스트 등) */
+
+  /* ---- Typography --------------------------------------------- */
   --serif: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --sans: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+
   --step--1: 0.95rem;
   --step-0: 1rem;
   --step-1: 1.15rem;
   --step-2: clamp(1.35rem, 2.6vw, 1.6rem);
   --step-3: clamp(1.6rem, 3vw, 1.9rem);
   --step-4: clamp(2.1rem, 3.6vw, 2.5rem);
+
   font-size: 16px;
 }
 
