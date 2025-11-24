@@ -1,13 +1,11 @@
 {
 	"name": "tinawiki",
-	"version": "0.0.0",
-	"private": true,
+	"version": "1.0.0",
 	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"start": "wrangler dev"
+		"build": "echo \"Building static\" && cp -R src/* public/",
+		"deploy": "wrangler publish"
 	},
 	"devDependencies": {
-		"wrangler": "^4.50.0"
+		"@cloudflare/wrangler": "^3.0.0"
 	}
 }
