@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Zen Serif";
+  src: url("https://cdn.jsdelivr.net/gh/oddatelier/zen-serif@latest/ZenSerif-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
 
@@ -19,8 +27,8 @@
   --accent-strong: #000000;  /* 정말 강조해야 하는 포인트 (버튼 텍스트 등) */
 
   /* ---- Typography --------------------------------------------- */
-  --serif: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
-  --sans: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
+  --serif: "Zen Serif", "Pretendard", "Inter", system-ui, -apple-system, serif;
+  --sans: "Zen Serif", "Pretendard", "Inter", system-ui, -apple-system, serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
 
   --step--1: 0.95rem;
