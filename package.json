@@ -2,7 +2,7 @@
 	"name": "tinawiki",
 	"version": "1.0.0",
 	"scripts": {
-		"build": "echo \"Building static\" && cp -R src/* public/",
+		"build": "echo \"Building static\" && cp -R *",
 		"deploy": "wrangler publish"
 	},
 	"devDependencies": {
