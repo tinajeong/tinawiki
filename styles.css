@@ -455,10 +455,10 @@ main {
 
 .category-title {
   font-family: var(--sans);
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  /* color: var(--muted); */
   margin: 0;
 }
 
@@ -493,9 +493,14 @@ main {
 }
 
 .post-link-meta {
-  font-size: var(--step--1);
+  font-size: var(--step--1);    
   color: var(--muted);
 }
+
+.post-link-description{
+  font-size: var(--step--2);
+  color: var(--muted);
+} 
 
 .post-list .is-active {
   color: var(--accent);
