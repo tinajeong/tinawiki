@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <title>정찬미 · Backend Developer</title>
@@ -23,7 +24,7 @@
       --radius-md: 10px;
       --radius-pill: 999px;
       --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Spoqa Han Sans Neo",
-                   "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     }
 
     * {
@@ -60,6 +61,7 @@
       body {
         padding: 20px 12px 32px;
       }
+
       .page {
         display: flex;
         flex-direction: column;
@@ -76,7 +78,7 @@
       backdrop-filter: blur(22px);
     }
 
-    .card + .card {
+    .card+.card {
       margin-top: 18px;
     }
 
@@ -226,7 +228,7 @@
     }
 
     /* 경력 카드 */
-    .exp-item + .exp-item {
+    .exp-item+.exp-item {
       border-top: 1px solid rgba(51, 60, 84, 0.7);
       margin-top: 14px;
       padding-top: 14px;
@@ -332,7 +334,7 @@
       white-space: nowrap;
     }
 
-    .activity-item + .activity-item {
+    .activity-item+.activity-item {
       border-top: 1px solid rgba(51, 60, 84, 0.7);
       margin-top: 12px;
       padding-top: 12px;
@@ -431,13 +433,14 @@
         box-shadow: none;
       }
 
-      .exp-item + .exp-item,
-      .activity-item + .activity-item {
+      .exp-item+.exp-item,
+      .activity-item+.activity-item {
         border-color: #e5e7ed;
       }
     }
   </style>
 </head>
+
 <body>
   <main class="page">
     <!-- 헤더 -->
@@ -518,7 +521,7 @@
               · Spring Batch 멀티 데이터소스 테스트 환경 구축 및 재정비<br />
               · 도메인 엔티티 기반 자동 데이터 생성기(EntityFixtureGenerator) 구축으로 테스트 작성 생산성 극대화<br />
               · Dirty Context 대신 ExecutionContext를 무상태로 초기화하여<br />
-                &nbsp;&nbsp;Spring Batch 통합 테스트(약 300개) 실행 시간 10분 → 3분으로 단축
+              &nbsp;&nbsp;Spring Batch 통합 테스트(약 300개) 실행 시간 10분 → 3분으로 단축
             </li>
           </ul>
         </div>
@@ -561,8 +564,8 @@
 
         <div class="exp-project">
           <div class="exp-project-title">
-            삼성카드 마이데이터 플러그인 개발/운영
-            <span class="exp-project-badge">MAU 5만+</span>
+            삼성카드 마이데이터 플러그인 개발/운영(MAU 5만+)
+            <span class="exp-project-badge">2021.08 ~ 2022.10</span>
           </div>
           <p class="exp-project-sub">
             업권별(은행/통신/보험/캐피탈) 데이터 수집·검증 및 대시보드/로깅 기반 안정적 운영
@@ -662,4 +665,5 @@
     </section>
   </main>
 </body>
+
 </html>
