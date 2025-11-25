@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>전체 글 | Tina Wiki</title>
+  <meta name="description" content="Tinawiki의 모든 글을 카드형으로 살펴보기" />
+  <link rel="canonical" href="https://www.tinawiki.com/all-posts" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">✎</span>
+        <span class="brand-text">tina's wiki</span>
+      </a>
+      <nav class="site-nav" aria-label="주요 링크">
+        <a href="/">홈</a>
+        <a href="posts.html">글</a>
+        <a href="all-posts.html" aria-current="page">전체 글</a>
+        <a href="mailto:migujeong@gmail.com">연락</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="post-collection" aria-labelledby="collection-title">
+      <div class="container">
+        <header class="collection-header">
+          <p class="eyebrow">Archive</p>
+          <div class="collection-intro">
+            <h1 id="collection-title">전체 글 한눈에 보기</h1>
+            <p class="lede">카테고리와 날짜별로 정리된 글을 카드형으로 모았습니다. 궁금한 주제를 빠르게 살펴보고, 자세한 내용은 포스트 페이지에서 이어서 읽어보세요.</p>
+          </div>
+        </header>
+
+        <div id="post-grid" class="post-grid" role="list" data-manifest="posts/manifest.json">
+          <p class="loading">글 정보를 불러오는 중입니다…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Tina. All rights reserved..</p>
+    </div>
+  </footer>
+
+  <script src="scripts/all-posts.js"></script>
+</body>
+
+</html>
