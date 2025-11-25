@@ -563,6 +563,8 @@ main {
 .post-body {
   font-size: 1.04rem;
   color: var(--ink);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .post-body h1:first-of-type {
@@ -614,6 +616,30 @@ main {
   padding: 0.15rem 0.35rem;
   border-radius: 6px;
   border: 1px solid #d9d9df;
+}
+
+.post-body table {
+  width: 100%;
+  margin: 1.4rem 0;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.post-body th,
+.post-body td {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.post-body tr:last-child td,
+.post-body tr:last-child th {
+  border-bottom: none;
 }
 
 .hljs {
