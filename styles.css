@@ -190,6 +190,10 @@ main {
   padding: 3.5rem 0 4rem;
 }
 
+.post-grid .loading {
+  color: var(--muted);
+}
+
 .hero {
   padding: 3.5rem 0 2.5rem;
   border-bottom: 1px solid var(--border);
@@ -400,6 +404,107 @@ main {
 
 .resume-card p {
   margin: 0 0 0.5rem;
+}
+
+/* === Post collection (grid) === */
+
+.post-collection {
+  padding: 2.5rem 0 4rem;
+}
+
+.collection-header {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.collection-intro {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 70ch;
+}
+
+.post-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.post-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.post-card-category {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.post-card-date {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.post-card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--title-accent);
+}
+
+.post-card-description {
+  margin: 0;
+  color: var(--muted);
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #f7f6f4;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.post-card-link:hover,
+.post-card-link:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* === Posts === */
