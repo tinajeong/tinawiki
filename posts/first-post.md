@@ -1,4 +1,4 @@
-![나의 핸드메이드 웹](http://semacoral.org/media/pages/features/minguhong-my-handmade-web/9c58b79e2d-1717310366/safari-screenshot-2024-06-02-15.24.48.png)
+![나의 핸드메이드 웹](/assets/images/handmadeweb.png)
 
 안녕하세요, 서버 개발자 티나입니다.
 
