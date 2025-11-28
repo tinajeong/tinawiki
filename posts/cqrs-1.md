@@ -84,18 +84,43 @@ Hazelcast는  Kafka·Redis에서 얻기 원하는 핵심 기능이 다 마련되
 
 Hazelcast로 CQRS의 핵심 흐름인 **(1) 쓰기 모델 → (2) 이벤트 발행 → (3) 읽기 모델 반영**을  구현한다.
 
-```mermaid
-flowchart  TD
-    ClientWeb -->|Command| CommandAPI[Command API]
-    CommandAPI -->|TX| TX[Hazelcast Transaction]
-    TX -->|put/update| WriteMap[(IMap - Write Model)]
-    WriteMap -->|MapStore persist| PrimaryDB[(Primary DB)]
-    WriteMap -->|publish| Topic((ITopic / ReliableTopic))
 
-    Topic -->|deliver| Listener[MessageListener]
-    Listener -->|update| ReadMap[(IMap - Read Model)]
-    ReadMap -->|Near Cache| QueryAPI[Query API]
-    ClientWeb -->|Query| QueryAPI
+- 쓰기 (Write): 사용자가 데이터를 입력하면 '쓰기 전용 저장소(Map A)'에 저장한다.
+- 알림 (Notify): "데이터가 바뀌었다!"고 Hazelcast가 자체적으로 방송(Topic)한다.
+- 동기화 (Sync): 방송을 들은 '읽기 전용 저장소(Map B)'가 자기 데이터를 최신으로 업데이트한다.
+
+```mermaid
+flowchart LR
+    classDef client fill:#f3f3f3,stroke:#999,color:#000
+    classDef write fill:#e4f1ff,stroke:#4a90e2,color:#000
+    classDef sync fill:#fff0d9,stroke:#e67e22,color:#000
+    classDef read fill:#e5ffe5,stroke:#2ecc71,color:#000
+
+    %% Client
+    Client[Client]:::client
+
+    %% Write
+    subgraph W["Write Side"]
+        CmdAPI[Command API]:::write
+        WriteModel[(Write Model - IMap)]:::write
+    end
+
+    %% Sync
+    EventBus((Topic)):::sync
+
+    %% Read
+    subgraph R["Read Side"]
+        ReadModel[(Read Model - IMap)]:::read
+        QryAPI[Query API]:::read
+    end
+
+    %% Flows
+    Client -->|Command| CmdAPI
+    CmdAPI --> WriteModel
+    WriteModel -->|publish| EventBus
+    EventBus -->|update| ReadModel
+    Client -->|Query| QryAPI
+    ReadModel --> QryAPI
 ```
 
 핵심 구성 요소:
@@ -167,21 +192,3 @@ Hazelcast 기반 CQRS에서는 다음 방식으로 해결한다.
 ---
 
 다음 글에서는 Hazelcast 기반 CQRS를 PoC로 돌려보는 과정을 다룰것이다.
-
-<!-- 
-## 6. 운영 시 핵심 모니터링 포인트
-
-Hazelcast 기반 CQRS는 인메모리 구조이므로 다음 지표를 주기적으로 관찰해야 한다.
-
-* **IMap entry 수 / 메모리 사용량 변화**
-* **GC 패턴**
-  조회 빈도가 높은 ReadModel은 GC에 민감하다.
-* **네트워크 지연 및 멀티노드 간 데이터 전파 속도**
-* **split-brain 발생 여부**
-  CP Subsystem/Hot Restart 적용 여부 확인.
-* **MapStore 수행 시간(쓰기 지연)**
-  영속화 구간이 병목이 되지 않도록 체크.
-* **Topic → Listener 메시지 처리 지연(latency)**
-
-이 지표만 잘 관리하면 운영 안정성이 매우 높다.
- -->
