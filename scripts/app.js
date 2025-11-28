@@ -6,6 +6,9 @@
   const titleEl = document.getElementById("post-title");
   const dateEl = document.getElementById("post-date");
   const categoryEl = document.getElementById("post-category");
+  const archive = document.querySelector(".post-archive");
+  const archiveToggle = document.getElementById("archive-toggle");
+  const mobileMedia = window.matchMedia("(max-width: 960px)");
 
   const manifestPath =
     postContainer.dataset.manifest || "posts/manifest.json";
@@ -260,14 +263,7 @@
           meta.className = "post-link-meta";
           meta.textContent = formatDate(post.date);
 
-          const description = document.createElement("span");
-          description.className = "post-link-description";
-          description.textContent = post.description || "";
-
           button.append(title, meta);
-          if (post.description) {
-            button.appendChild(description);
-          }
           button.addEventListener("click", () => loadPost(post.slug));
 
           item.appendChild(button);
@@ -309,4 +305,27 @@
     });
 
   window.addEventListener("hashchange", onHashChange);
+
+  function setArchiveExpanded(expanded) {
+    if (!archive) return;
+    archive.classList.toggle("is-collapsed", !expanded);
+    if (archiveToggle) {
+      archiveToggle.setAttribute("aria-expanded", expanded);
+      archiveToggle.textContent = expanded ? "목록 닫기" : "목록 열기";
+    }
+  }
+
+  function handleBreakpoint(event) {
+    setArchiveExpanded(!event.matches);
+  }
+
+  if (archiveToggle) {
+    archiveToggle.addEventListener("click", () => {
+      const isExpanded = archiveToggle.getAttribute("aria-expanded") === "true";
+      setArchiveExpanded(!isExpanded);
+    });
+
+    setArchiveExpanded(!mobileMedia.matches);
+    mobileMedia.addEventListener("change", handleBreakpoint);
+  }
 })();
