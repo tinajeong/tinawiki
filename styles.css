@@ -930,11 +930,6 @@ main {
     gap: 1.4rem;
   }
 
-  .post-archive {
-    position: static;
-    padding: 1.1rem;
-  }
-
   .post-viewer {
     padding: 1.2rem 1.3rem;
     border-radius: 16px;
