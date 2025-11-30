@@ -18,22 +18,23 @@
 
 	function createCard(post) {
 		const article = document.createElement('article');
-		article.className = 'post-card';
-		article.setAttribute('role', 'listitem');
+                article.className = 'post-card';
+                article.setAttribute('role', 'listitem');
 
-		const cardLink = document.createElement('a');
-		cardLink.className = 'post-card-link';
-		cardLink.href = `posts.html#${post.slug}`;
+                const cardLink = document.createElement('a');
+                cardLink.className = 'post-card-link';
+                cardLink.href = `posts.html#${post.slug}`;
 		cardLink.setAttribute('aria-label', `${post.title} 상세 보기`);
 
                 const header = document.createElement('header');
                 header.className = 'post-card-header';
 
                 if (post.pinned) {
+                        article.classList.add('is-pinned');
                         const pin = document.createElement('span');
                         pin.className = 'post-card-pin';
-                        pin.setAttribute('aria-label', '상단 고정 글');
-                        pin.textContent = '📌 고정 게시글';
+                        pin.setAttribute('aria-label', 'Pinned post');
+                        pin.textContent = '📌';
                         header.appendChild(pin);
                 }
 
