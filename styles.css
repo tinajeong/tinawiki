@@ -805,45 +805,6 @@ main {
   border-bottom: none;
 }
 
-.hljs {
-  display: block;
-  background: transparent;
-  color: #1f2329;
-}
-
-.hljs-comment,
-.hljs-quote {
-  color: #5f6b7a;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-name,
-.hljs-attr {
-  color: #274678;
-  font-weight: 700;
-}
-
-.hljs-string,
-.hljs-number,
-.hljs-literal,
-.hljs-variable {
-  color: #8b2c02;
-}
-
-.hljs-title,
-.hljs-section,
-.hljs-type,
-.hljs-built_in {
-  color: #205c3b;
-  font-weight: 700;
-}
-
-.hljs-meta {
-  color: #6c3b8c;
-  font-style: italic;
-}
-
 /* === Career & portfolio (archived) === */
 
 .career-page main,
