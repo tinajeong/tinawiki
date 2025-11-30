@@ -24,6 +24,7 @@
   /* ---- Optional subtilities ----------------------------------- */
   --ink-soft: #8a8a8a;       /* 캡션, 날짜 등 더 약한 텍스트 */
   --accent-soft: #f0eeea;    /* 호버 배경, 태그 pill 배경 등 */
+  --pinned-bg: #f9f3e5;      /* 고정된 포스트 배경 */
   --accent-strong: #000000;  /* 정말 강조해야 하는 포인트 (버튼 텍스트 등) */
 
   /* ---- Typography --------------------------------------------- */
@@ -444,12 +445,6 @@ main {
   font-size: var(--step--1);
 }
 
-.post-card.is-pinned {
-  background: linear-gradient(150deg, #fff9f2 0%, #fffefb 40%, #ffffff 100%);
-  border-color: var(--accent);
-  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.08);
-}
-
 .post-card-link {
   display: grid;
   gap: 0.6rem;
@@ -459,18 +454,17 @@ main {
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 14px;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
 }
 
 .post-card:hover .post-card-link,
 .post-card:focus-within .post-card-link {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
 }
 
 .post-card.is-pinned .post-card-link {
-  border-color: var(--accent);
+  background: var(--pinned-bg);
 }
 
 .post-card-media {
