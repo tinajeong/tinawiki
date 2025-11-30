@@ -31,11 +31,6 @@
 
                 if (post.pinned) {
                         article.classList.add('is-pinned');
-                        const pin = document.createElement('span');
-                        pin.className = 'post-card-pin';
-                        pin.setAttribute('aria-label', 'Pinned post');
-                        pin.textContent = '📌';
-                        header.appendChild(pin);
                 }
 
                 const category = document.createElement('span');
