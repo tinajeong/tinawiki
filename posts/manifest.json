@@ -1,10 +1,10 @@
 [
   {
     "slug": "first-post",
-    "title": "첫 포스트",
+    "title": "핸드메이드 블로그를 시작하며",
     "date": "2025-08-01",
     "category": "핸드메이드 일지",
-    "description": "핸드메이드로 블로그 시작하기",
+    "description": "정적 웹 사이트로 블로그를 만드는 과정을 기록합니다.",
     "file": "posts/first-post.md"
   },
   {
