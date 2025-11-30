@@ -758,10 +758,8 @@ main {
 .post-body code {
   font-family: var(--mono);
   background: #eceff3;
-  color: #1f2329;
   padding: 0.15rem 0.35rem;
   border-radius: 6px;
-  border: 1px solid #d9d9df;
 }
 
 @media (max-width: 960px) {
