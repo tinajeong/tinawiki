@@ -18,24 +18,29 @@
 
 	function createCard(post) {
 		const article = document.createElement('article');
-                article.className = 'post-card';
-                article.setAttribute('role', 'listitem');
+		article.className = 'post-card';
+		article.setAttribute('role', 'listitem');
 
-                const cardLink = document.createElement('a');
-                cardLink.className = 'post-card-link';
-                cardLink.href = `posts.html#${post.slug}`;
+		const cardLink = document.createElement('a');
+		cardLink.className = 'post-card-link';
+		cardLink.href = `posts.html#${post.slug}`;
 		cardLink.setAttribute('aria-label', `${post.title} 상세 보기`);
 
-                const header = document.createElement('header');
-                header.className = 'post-card-header';
+		const header = document.createElement('header');
+		header.className = 'post-card-header';
 
-                if (post.pinned) {
-                        article.classList.add('is-pinned');
-                }
+		if (post.pinned) {
+			article.classList.add('is-pinned');
+			const pin = document.createElement('span');
+			pin.className = 'post-card-pin';
+			pin.setAttribute('aria-label', 'Pinned post');
+			pin.textContent = '📌';
+			header.appendChild(pin);
+		}
 
-                const category = document.createElement('span');
-                category.className = 'post-card-category';
-                category.textContent = post.category || '기타';
+		const category = document.createElement('span');
+		category.className = 'post-card-category';
+		category.textContent = post.category || '기타';
 
 		const date = document.createElement('time');
 		date.className = 'post-card-date';
@@ -57,12 +62,6 @@
 		const footer = document.createElement('div');
 		footer.className = 'post-card-footer';
 
-		const action = document.createElement('span');
-		action.className = 'post-card-cta';
-		action.textContent = '→';
-
-		footer.appendChild(action);
-
 		cardLink.append(header, title, description, footer);
 		article.appendChild(cardLink);
 		return article;
@@ -74,12 +73,12 @@
 			return;
 		}
 
-                const sorted = posts.slice().sort((a, b) => {
-                        if (a.pinned && !b.pinned) return -1;
-                        if (!a.pinned && b.pinned) return 1;
-                        if (!a.date && !b.date) return a.title.localeCompare(b.title, 'ko');
-                        if (!a.date) return 1;
-                        if (!b.date) return -1;
+		const sorted = posts.slice().sort((a, b) => {
+			if (a.pinned && !b.pinned) return -1;
+			if (!a.pinned && b.pinned) return 1;
+			if (!a.date && !b.date) return a.title.localeCompare(b.title, 'ko');
+			if (!a.date) return 1;
+			if (!b.date) return -1;
 			if (a.date === b.date) return a.title.localeCompare(b.title, 'ko');
 			return a.date > b.date ? -1 : 1;
 		});

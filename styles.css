@@ -535,18 +535,6 @@ main {
   justify-content: flex-end;
 }
 
-.post-card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.55rem 0.85rem;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: #f7f6f4;
-  color: var(--accent);
-  font-weight: 600;
-}
-
 /* === Posts === */
 
 .post {
