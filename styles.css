@@ -459,7 +459,7 @@ main {
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 14px;
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .post-card:hover .post-card-link,
