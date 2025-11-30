@@ -488,6 +488,18 @@ main {
   font-size: 0.95rem;
 }
 
+.post-card-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: #fff4e6;
+  color: var(--title-accent);
+  font-weight: 700;
+  border: 1px solid var(--border);
+}
+
 .post-card-category {
   display: inline-flex;
   align-items: center;
