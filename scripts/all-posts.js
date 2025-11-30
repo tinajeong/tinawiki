@@ -33,7 +33,7 @@
                         const pin = document.createElement('span');
                         pin.className = 'post-card-pin';
                         pin.setAttribute('aria-label', '상단 고정 글');
-                        pin.textContent = '📌 상단 고정';
+                        pin.textContent = '📌 고정 게시글';
                         header.appendChild(pin);
                 }
 
