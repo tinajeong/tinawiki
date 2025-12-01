@@ -58,19 +58,13 @@
   }
 
   function renderMarkdown(markdown) {
-    if (typeof marked === "undefined") {
+    if (typeof window.simpleMarkdown !== "function") {
       postContainer.innerHTML =
         "<p class=\"error\">Markdown 엔진을 불러오지 못했습니다.</p>";
       return;
     }
 
-    marked.setOptions({
-      breaks: true,
-      mangle: false,
-      headerIds: false,
-    });
-
-    const html = marked.parse(markdown, { breaks: true });
+    const html = window.simpleMarkdown(markdown);
     postContainer.innerHTML = html;
 
     const heading = postContainer.querySelector("h1");
