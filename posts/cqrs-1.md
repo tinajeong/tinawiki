@@ -27,6 +27,8 @@ DB의 역할은 크게 데이터를 쓰고 읽는 행위로 이루어진다.
 
 ## CQRS 패턴 
 
+<img src="/assets/images/cqrs.png" width="400" alt="cqrs Logo" style="display:block;margin:10px;" />
+
 **CQRS(Command Query Responsibility Segregation) 패턴**은 쓰기와 읽기 작업을 명확히 분리하여 각각의 관심사에 집중할 수 있도록 한다. 특히 대용량 데이터 처리와 실시간 응답성이 요구되는 현대 어플리케이션 환경에서 더욱 필요성이 높아지고 있다.
 
 CQRS는 일반적으로 다음 방식으로 구현된다:
@@ -58,6 +60,8 @@ flowchart LR
 
 
 ## Hazelcast가 유효한 이유
+
+<img src="/assets/images/hazelcast.png" width="400" alt="Hazelcast Logo" style="display:block;margin:10px;" />
 
 온프레미스에서 Kafka·Redis 같은 메시징 플랫폼을 새로 구축하기 위해 여러방면으로 시도했으나 쉽지 않았다.
 운영 인력 부족, 보안 정책 제약, 인프라 비용 등 현실적인 문제가 크기 때문이다.
