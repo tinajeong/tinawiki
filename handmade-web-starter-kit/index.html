@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Handmade Web Starter Kit</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js" defer></script>
+  <script src="./starter.js" type="module"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell">
+      <p class="eyebrow">Handmade Web Starter Kit</p>
+      <h1 class="site-title">심플한 블로그 시동 패키지</h1>
+      <p class="lede">프린트 감성과 타이포그래피 중심 레이아웃으로 시작하는 최소한의 블로그 템플릿입니다. Markdown-it을 바로 가져와 글을 렌더링할 수 있습니다.</p>
+    </div>
+  </header>
+
+  <main class="shell" aria-label="starter preview">
+    <section class="panel">
+      <header class="panel__header">
+        <p class="eyebrow">구성</p>
+        <h2>기본 레이아웃</h2>
+        <p class="muted">헤더, 본문, 보조 패널만으로 구성된 단일 칼럼 레이아웃입니다. HTML 만으로도 읽을 수 있고, JS는 Markdown 렌더링만 담당합니다.</p>
+      </header>
+      <div class="panel__body">
+        <ul class="key-points">
+          <li><strong>타입 스케일</strong>: 루트 폰트 사이즈와 간단한 모듈러 스케일.</li>
+          <li><strong>색상 토큰</strong>: 배경, 텍스트, 액센트만 정의해 유지보수 단순화.</li>
+          <li><strong>구문 강조 없음</strong>: 필요 시 확장할 수 있도록 최소한만 제공합니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header class="panel__header">
+        <p class="eyebrow">Markdown 샘플</p>
+        <h2>렌더링 예시</h2>
+        <p class="muted">JS를 끈 상태에서는 아래 Markdown을 그대로 보여주고, 켜두면 즉시 HTML로 변환합니다.</p>
+      </header>
+      <article class="post">
+        <pre class="markdown-source" data-markdown-source>
+# Markdown으로 작성하는 첫 글
+
+- 마크다운-it CDN을 바로 불러옵니다.
+- 스크립트는 `data-markdown-source` 블록을 찾아 HTML로 변환합니다.
+- CSS는 읽기 경험을 해치지 않는 기본 토큰만 제공합니다.
+
+[코드를 참고해 바로 확장해 보세요.](./starter.js)
+        </pre>
+        <div class="post-body" data-markdown-target aria-live="polite"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <p class="muted">필요한 섹션을 추가하거나 색상 토큰을 교체해 바로 프로젝트에 적용하세요.</p>
+    </div>
+  </footer>
+</body>
+</html>
