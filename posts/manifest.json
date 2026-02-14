@@ -39,13 +39,5 @@
     "category": "핀테크",
     "description": "VAN과 PG의 역할을 구분하고, PG사가 온라인 결제에서 수익을 창출하는 흐름을 정리합니다.",
     "file": "posts/pg-revenue-model.md"
-  },
-  {
-    "slug": "cqrs-1",
-    "title": "Hazelcast로 CQRS 패턴 도입하기 (1)",
-    "date": "2025-11-19",
-    "category": "백엔드 엔지니어링",
-    "description": "대용량 배치에서의 안정적인 데이터 관리를 고민해보았습니다..",
-    "file": "posts/cqrs-1.md"
   }
 ]
