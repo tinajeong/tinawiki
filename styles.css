@@ -215,6 +215,10 @@ main {
   padding: 3.5rem 0 4rem;
 }
 
+.home-page main {
+  padding: 2.25rem 0 3rem;
+}
+
 .post-grid .loading {
   color: var(--muted);
 }
@@ -222,6 +226,10 @@ main {
 .hero {
   padding: 3.5rem 0 2.5rem;
   border-bottom: 1px solid var(--border);
+}
+
+.home-page .hero {
+  padding: 2.4rem 0 1.25rem;
 }
 
 .hero .container {
@@ -263,10 +271,20 @@ main {
   padding: 2.5rem 0 0;
 }
 
+.home-page .profile {
+  padding: 1.35rem 0 0;
+}
+
 .profile > .container {
   width: min(960px, 92vw);
   display: grid;
   gap: 2.5rem;
+}
+
+.home-flow {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
 }
 
 .profile-section {
@@ -278,6 +296,18 @@ main {
 
 .profile-section:first-of-type {
   border-top: none;
+}
+
+.home-flow .profile-section {
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.home-flow .profile-section:first-of-type {
+  border-top: 1px solid var(--border);
 }
 
 .section-title {
@@ -308,6 +338,39 @@ main {
 .link-list a:focus-visible {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+.compact-link-list {
+  gap: 0.35rem;
+}
+
+.compact-link-list a {
+  display: block;
+  padding: 0.2rem 0;
+}
+
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.quick-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.72rem;
+  background: var(--surface-muted);
+  font-size: 0.94rem;
+}
+
+.quick-link:hover,
+.quick-link:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .note-panel {
@@ -449,10 +512,71 @@ main {
   max-width: 70ch;
 }
 
+.collection-toolbar {
+  position: sticky;
+  top: 5rem;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(240px, 1.6fr) minmax(160px, 1fr) auto auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--header-bg);
+  backdrop-filter: blur(8px);
+}
+
+.toolbar-search input,
+.toolbar-filter select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  padding: 0.58rem 0.75rem;
+}
+
+.toolbar-search input::placeholder {
+  color: var(--ink-soft);
+}
+
+.toolbar-view {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.view-toggle {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--muted);
+  padding: 0.45rem 0.72rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.view-toggle.is-active,
+.view-toggle:hover,
+.view-toggle:focus-visible {
+  color: var(--ink);
+  border-color: var(--accent);
+  background: var(--active-soft);
+}
+
+.result-count {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 .post-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   list-style: none;
   padding: 0;
   margin: 0;
@@ -461,7 +585,7 @@ main {
 .post-card {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 14px;
   box-shadow: var(--shadow);
   height: 100%;
   overflow: hidden;
@@ -470,13 +594,13 @@ main {
 
 .post-card-link {
   display: grid;
-  gap: 0.6rem;
-  padding: 1.35rem 1.6rem;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem;
   height: 100%;
   color: inherit;
   text-decoration: none;
   border: 1px solid transparent;
-  border-radius: 14px;
+  border-radius: 10px;
   transition: transform 200ms ease-out, box-shadow 200ms ease-out;
 }
 
@@ -488,6 +612,10 @@ main {
 
 .post-card.is-pinned .post-card-link {
   background: var(--pinned-bg);
+}
+
+.post-card-pin {
+  font-size: 0.85rem;
 }
 
 .post-card-media {
@@ -537,19 +665,49 @@ main {
 
 .post-card-title {
   margin: 0;
-  font-size: var(--step-1);
+  font-size: 1.05rem;
+  line-height: 1.4;
   color: var(--title-accent);
 }
 
 .post-card-description {
   margin: 0;
-  font-size: var(--step--1);
+  font-size: 0.92rem;
+  line-height: 1.5;
   color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .post-card-footer {
   display: flex;
   justify-content: flex-end;
+}
+
+.post-grid[data-view="compact"] {
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+.post-grid[data-view="compact"] .post-card {
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.post-grid[data-view="compact"] .post-card-link {
+  gap: 0.25rem;
+  padding: 0.72rem 0.9rem;
+}
+
+.post-grid[data-view="compact"] .post-card-title {
+  font-size: 1rem;
+}
+
+.post-grid[data-view="compact"] .post-card-description,
+.post-grid[data-view="compact"] .post-card-footer {
+  display: none;
 }
 
 /* === Posts === */
@@ -900,6 +1058,22 @@ main {
   margin: 1rem 0;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.error {
+  margin: 0;
+  color: #8b3d2e;
+}
+
 @media (max-width: 900px) {
   .site-header .container {
     flex-direction: column;
@@ -917,6 +1091,10 @@ main {
     padding: 2.75rem 0 2rem;
   }
 
+  .home-page .hero {
+    padding: 2rem 0 1.1rem;
+  }
+
   .hero .container {
     width: min(960px, 94vw);
   }
@@ -929,8 +1107,31 @@ main {
     gap: 1.75rem;
   }
 
+  .home-page .profile {
+    padding-top: 1rem;
+  }
+
+  .home-flow {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .home-flow .profile-section {
+    padding: 1.15rem 1.2rem;
+  }
+
   .profile-section {
     padding: 1.25rem 0;
+  }
+
+  .collection-toolbar {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar-view,
+  .result-count {
+    grid-column: 1 / -1;
   }
 
   .post-layout {
@@ -954,8 +1155,16 @@ main {
     padding-top: 2.5rem;
   }
 
+  .home-page main {
+    padding-top: 1.8rem;
+  }
+
   .hero {
     padding-top: 2.5rem;
+  }
+
+  .home-page .hero {
+    padding-top: 1.55rem;
   }
 
   .site-header .container {
@@ -964,6 +1173,15 @@ main {
 
   .site-nav {
     width: 100%;
+  }
+
+  .collection-toolbar {
+    grid-template-columns: 1fr;
+    padding: 0.58rem;
+  }
+
+  .post-grid {
+    grid-template-columns: 1fr;
   }
 
   .about-contact-list {

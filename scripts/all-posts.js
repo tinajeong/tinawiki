@@ -3,7 +3,18 @@
 	if (!grid) return;
 
 	const manifestPath = grid.dataset.manifest || 'posts/manifest.json';
-	const defaultThumbnail = 'assets/images/default-post-thumbnail.svg';
+	const searchInput = document.getElementById('post-search');
+	const categoryFilter = document.getElementById('post-category-filter');
+	const viewButtons = Array.from(document.querySelectorAll('.view-toggle'));
+	const resultCount = document.getElementById('post-result-count');
+	const viewStorageKey = 'tinawiki-post-grid-view';
+
+	let allPosts = [];
+	const state = {
+		search: '',
+		category: '',
+		view: 'card',
+	};
 
 	function formatDate(dateString) {
 		if (!dateString) return '';
@@ -14,6 +25,22 @@
 			month: 'short',
 			day: 'numeric',
 		}).format(date);
+	}
+
+	function normalize(value) {
+		return String(value || '').toLocaleLowerCase('ko-KR').trim();
+	}
+
+	function sortPosts(posts) {
+		return posts.slice().sort((a, b) => {
+			if (a.pinned && !b.pinned) return -1;
+			if (!a.pinned && b.pinned) return 1;
+			if (!a.date && !b.date) return a.title.localeCompare(b.title, 'ko');
+			if (!a.date) return 1;
+			if (!b.date) return -1;
+			if (a.date === b.date) return a.title.localeCompare(b.title, 'ko');
+			return a.date > b.date ? -1 : 1;
+		});
 	}
 
 	function createCard(post) {
@@ -44,10 +71,8 @@
 
 		const date = document.createElement('time');
 		date.className = 'post-card-date';
-		if (post.date) {
-			date.setAttribute('datetime', post.date);
-		}
-		date.textContent = formatDate(post.date);
+		if (post.date) date.setAttribute('datetime', post.date);
+		date.textContent = formatDate(post.date) || '날짜 미기입';
 
 		header.append(category, date);
 
@@ -67,24 +92,115 @@
 		return article;
 	}
 
-	function render(posts) {
+	function updateCategoryFilter(posts) {
+		if (!categoryFilter) return;
+		const categories = Array.from(
+			new Set(posts.map((post) => post.category).filter((category) => Boolean(category)))
+		).sort((a, b) => a.localeCompare(b, 'ko'));
+
+		const previousValue = state.category;
+		categoryFilter.innerHTML = '<option value="">전체 카테고리</option>';
+
+		categories.forEach((category) => {
+			const option = document.createElement('option');
+			option.value = category;
+			option.textContent = category;
+			categoryFilter.appendChild(option);
+		});
+
+		if (previousValue && categories.includes(previousValue)) {
+			categoryFilter.value = previousValue;
+			return;
+		}
+
+		categoryFilter.value = '';
+		state.category = '';
+	}
+
+	function updateResultCount(visible, total) {
+		if (!resultCount) return;
+		if (!total) {
+			resultCount.textContent = '표시할 글이 없습니다.';
+			return;
+		}
+		resultCount.textContent = visible === total ? `총 ${total}개 글` : `${visible}개 / 총 ${total}개`;
+	}
+
+	function applyView(view) {
+		const nextView = view === 'compact' ? 'compact' : 'card';
+		state.view = nextView;
+		grid.dataset.view = nextView;
+
+		viewButtons.forEach((button) => {
+			const isActive = button.dataset.view === nextView;
+			button.classList.toggle('is-active', isActive);
+			button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+		});
+
+		try {
+			localStorage.setItem(viewStorageKey, nextView);
+		} catch (error) {
+			// localStorage가 차단된 환경에서는 상태 저장을 생략한다.
+		}
+	}
+
+	function getFilteredPosts() {
+		const query = normalize(state.search);
+		return allPosts.filter((post) => {
+			const matchesCategory = !state.category || post.category === state.category;
+			if (!matchesCategory) return false;
+			if (!query) return true;
+
+			const searchTarget = normalize([post.title, post.description, post.category, post.slug].join(' '));
+			return searchTarget.includes(query);
+		});
+	}
+
+	function renderList(posts) {
 		if (!posts.length) {
 			grid.innerHTML = '<p class="error">등록된 글이 없습니다.</p>';
 			return;
 		}
 
-		const sorted = posts.slice().sort((a, b) => {
-			if (a.pinned && !b.pinned) return -1;
-			if (!a.pinned && b.pinned) return 1;
-			if (!a.date && !b.date) return a.title.localeCompare(b.title, 'ko');
-			if (!a.date) return 1;
-			if (!b.date) return -1;
-			if (a.date === b.date) return a.title.localeCompare(b.title, 'ko');
-			return a.date > b.date ? -1 : 1;
-		});
-
 		grid.innerHTML = '';
-		sorted.forEach((post) => grid.appendChild(createCard(post)));
+		const fragment = document.createDocumentFragment();
+		sortPosts(posts).forEach((post) => fragment.appendChild(createCard(post)));
+		grid.appendChild(fragment);
+	}
+
+	function render() {
+		const filteredPosts = getFilteredPosts();
+		renderList(filteredPosts);
+		updateResultCount(filteredPosts.length, allPosts.length);
+	}
+
+	function bindEvents() {
+		if (searchInput) {
+			searchInput.addEventListener('input', (event) => {
+				state.search = event.target.value || '';
+				render();
+			});
+		}
+
+		if (categoryFilter) {
+			categoryFilter.addEventListener('change', (event) => {
+				state.category = event.target.value || '';
+				render();
+			});
+		}
+
+		viewButtons.forEach((button) => {
+			button.addEventListener('click', () => applyView(button.dataset.view));
+		});
+	}
+
+	function restoreView() {
+		try {
+			const savedView = localStorage.getItem(viewStorageKey);
+			applyView(savedView === 'compact' ? 'compact' : 'card');
+		} catch (error) {
+			applyView('card');
+		}
 	}
 
 	fetch(manifestPath)
@@ -95,10 +211,15 @@
 			return response.json();
 		})
 		.then((manifest) => {
-			const posts = Array.isArray(manifest) ? manifest : [];
-			render(posts);
+			allPosts = Array.isArray(manifest) ? manifest : [];
+			updateCategoryFilter(allPosts);
+			restoreView();
+			bindEvents();
+			render();
 		})
 		.catch((error) => {
 			grid.innerHTML = `<p class="error">${error.message}</p>`;
+			updateResultCount(0, 0);
+			restoreView();
 		});
 })();

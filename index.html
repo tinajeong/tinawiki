@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="home-page">
   <header class="site-header">
     <div class="container">
       <a class="brand" href="/" aria-current="page">
@@ -34,19 +34,19 @@
         <p class="eyebrow">Tinawiki.com</p>
         <h1 id="home-title">글쓰는 개발자 티나의실험실 ✷</h1>
         <p class="lede">
-          이것저것 시도해보며 오래 가는 블로그를 목표로 합니다.
+          오래 가는 개발 기록을 씁니다.
         </p>
       </div>
     </section>
 
     <section class="profile">
-      <div class="container">
+      <div class="container home-flow">
         <section class="profile-section" aria-labelledby="updates-title">
           <h2 id="updates-title" class="section-title">Start here!</h2>
           <p class="section-content">
-            실험 기록을 차곡차곡 정리하고 있어요. 아래 글부터 읽어 보세요.
+            처음이라면 아래 글부터 읽어보세요.
           </p>
-          <ul class="link-list">
+          <ul class="link-list compact-link-list">
             <li>
               <a href="posts.html#cqrs-1">온프레미스 환경에서 Hazelcast로 CQRS 구현하기 (1)</a>
             </li>
@@ -62,21 +62,22 @@
         <section class="profile-section" aria-labelledby="guide-title">
           <h2 id="guide-title" class="section-title">🧭 </h2>
           <p class="section-content">
-            더 많은 글과 협업 문의는 아래 링크를 참고하세요.
+            더 많은 글과 업데이트는 아래 링크에서 확인할 수 있어요.
           </p>
-          <ul class="link-list">
-            <li><a href="all-posts.html">전체 글 목록 보기</a></li>
-            <li><a href="mailto:migujeong@gmail.com">협업이나 인터뷰 문의 메일 보내기</a></li>
-          </ul>
+          <nav class="quick-links" aria-label="빠른 이동">
+            <a class="quick-link" href="all-posts.html">전체 글 보기</a>
+            <a class="quick-link" href="mailto:migujeong@gmail.com">문의하기</a>
+          </nav>
         </section>
       </div>
     </section>
+  </main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© 2025 Tina. All rights reserved.</p>
-      </div>
-    </footer>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Tina. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 
 </html>

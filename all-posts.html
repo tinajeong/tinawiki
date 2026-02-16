@@ -36,6 +36,23 @@
           <div class="collection-intro">
             <h2 id="collection-title">전체 글 한눈에 보기</h2>
           </div>
+          <div class="collection-toolbar" role="search" aria-label="글 필터">
+            <label class="toolbar-search" for="post-search">
+              <span class="visually-hidden">글 검색</span>
+              <input id="post-search" type="search" placeholder="제목, 설명, 카테고리 검색" autocomplete="off" />
+            </label>
+            <label class="toolbar-filter" for="post-category-filter">
+              <span class="visually-hidden">카테고리 선택</span>
+              <select id="post-category-filter">
+                <option value="">전체 카테고리</option>
+              </select>
+            </label>
+            <div class="toolbar-view" role="group" aria-label="보기 모드">
+              <button type="button" class="view-toggle is-active" data-view="card">카드</button>
+              <button type="button" class="view-toggle" data-view="compact">압축</button>
+            </div>
+            <p id="post-result-count" class="result-count" aria-live="polite"></p>
+          </div>
         </header>
 
         <div id="post-grid" class="post-grid" role="list" data-manifest="posts/manifest.json">
@@ -47,7 +64,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>© 2025 Tina. All rights reserved..</p>
+      <p>© 2025 Tina. All rights reserved.</p>
     </div>
   </footer>
 
