@@ -1,14 +1,18 @@
 (function () {
+  document.documentElement.classList.add("js");
+
   const postContainer = document.getElementById("post-content");
   if (!postContainer) return;
 
-  const listContainer = document.getElementById("post-list");
+  const postViewer = document.getElementById("post-viewer");
+  const postLayout = document.querySelector(".post-layout");
+  const postSidebar = document.getElementById("post-sidebar");
   const titleEl = document.getElementById("post-title");
   const dateEl = document.getElementById("post-date");
   const categoryEl = document.getElementById("post-category");
-  const archive = document.querySelector(".post-archive");
-  const archiveToggle = document.getElementById("archive-toggle");
-  const mobileMedia = window.matchMedia("(max-width: 960px)");
+  const tocContainer = document.getElementById("post-toc");
+  const nextStepContainer = document.getElementById("next-step-cards");
+  const progressBar = document.getElementById("reading-progress-bar");
 
   const manifestPath =
     postContainer.dataset.manifest || "posts/manifest.json";
@@ -18,6 +22,10 @@
   let postMap = new Map();
   let currentSlug = null;
   let mermaidLoader = null;
+  let tocHeadings = [];
+  let tocButtons = [];
+  let requestToken = 0;
+  let scrollSyncScheduled = false;
 
   function formatDate(dateString) {
     if (!dateString) return "";
@@ -30,15 +38,114 @@
     }).format(date);
   }
 
-  function setActiveLink(slug) {
-    if (!listContainer) return;
-    listContainer
-      .querySelectorAll(".post-link")
-      .forEach((button) => {
-        const isActive = button.dataset.slug === slug;
-        button.classList.toggle("is-active", isActive);
-        button.setAttribute("aria-current", isActive ? "true" : "false");
+  function normalizePostType(post) {
+    return post?.type === "insight" ? "insight" : "technical";
+  }
+
+  function getPostMetric(post) {
+    return post.readTime || "";
+  }
+
+  function getPostCta(post) {
+    return "Read more";
+  }
+
+  function getTagLabel(post) {
+    if (Array.isArray(post.tags) && post.tags.length) {
+      return post.tags.slice(0, 2).join(" · ");
+    }
+    return post.category || "기타";
+  }
+
+  function compareDateDesc(a, b) {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    if (a.date === b.date) return 0;
+    return a.date > b.date ? -1 : 1;
+  }
+
+  function getSuggestedPosts(currentPost, limit) {
+    return posts
+      .filter((post) => post.slug !== currentPost.slug)
+      .map((post) => {
+        let score = 0;
+        if (post.category && post.category === currentPost.category) score += 4;
+        if (normalizePostType(post) === normalizePostType(currentPost)) score += 2;
+        if (post.pinned) score += 1;
+        return { post, score };
+      })
+      .sort((a, b) => {
+        if (a.score !== b.score) return b.score - a.score;
+        const dateOrder = compareDateDesc(a.post, b.post);
+        if (dateOrder !== 0) return dateOrder;
+        return a.post.title.localeCompare(b.post.title, "ko");
+      })
+      .slice(0, limit)
+      .map((entry) => entry.post);
+  }
+
+  function navigateToPost(slug) {
+    loadPost(slug, { updateHash: true, scrollToTop: true });
+  }
+
+  function renderNextSteps(currentPost) {
+    if (!nextStepContainer) return;
+    const nextCandidates = getSuggestedPosts(currentPost, 6);
+
+    if (!nextCandidates.length) {
+      nextStepContainer.innerHTML =
+        "<p class=\"sidebar-empty\">다음에 읽을 글을 준비 중입니다.</p>";
+      return;
+    }
+
+    nextStepContainer.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+
+    nextCandidates.forEach((post) => {
+      const card = document.createElement("article");
+      card.className = "next-step-card";
+      card.setAttribute("role", "listitem");
+
+      const link = document.createElement("a");
+      link.className = "next-step-link";
+      link.href = `#${post.slug}`;
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        navigateToPost(post.slug);
       });
+
+      const tag = document.createElement("p");
+      tag.className = "next-step-tag";
+      tag.textContent = getTagLabel(post);
+
+      const title = document.createElement("h4");
+      title.className = "next-step-title";
+      title.textContent = post.title;
+
+      const summary = document.createElement("p");
+      summary.className = "next-step-summary";
+      summary.textContent =
+        post.description || "핵심 포인트를 간결하게 정리한 글입니다.";
+
+      const cta = document.createElement("span");
+      cta.className = "next-step-cta";
+      cta.textContent = getPostCta(post);
+
+      const metric = getPostMetric(post);
+      if (metric) {
+        const meta = document.createElement("p");
+        meta.className = "next-step-meta";
+        meta.textContent = metric;
+        link.append(tag, title, summary, meta, cta);
+      } else {
+        link.append(tag, title, summary, cta);
+      }
+      card.appendChild(link);
+      fragment.appendChild(card);
+    });
+
+    nextStepContainer.appendChild(fragment);
   }
 
   function updateMeta(post) {
@@ -57,7 +164,114 @@
     }
   }
 
-  function renderMarkdown(markdown) {
+  function slugifyHeading(text) {
+    return String(text || "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\u3131-\u318e\uac00-\ud7a3\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  function buildToc() {
+    if (!tocContainer) return;
+
+    const headings = Array.from(postContainer.querySelectorAll("h2, h3"));
+    tocHeadings = headings.map((heading, index) => {
+      if (!heading.id) {
+        const slug = slugifyHeading(heading.textContent) || "section";
+        heading.id = `${slug}-${index + 1}`;
+      }
+      return heading;
+    });
+
+    tocButtons = [];
+
+    if (!tocHeadings.length) {
+      tocContainer.innerHTML =
+        "<p class=\"sidebar-empty\">짧은 글이라 목차를 생략했습니다.</p>";
+      return;
+    }
+
+    const list = document.createElement("ol");
+    list.className = "toc-list";
+
+    tocHeadings.forEach((heading) => {
+      const item = document.createElement("li");
+      item.className = "toc-item";
+      if (heading.tagName === "H3") {
+        item.classList.add("depth-3");
+      }
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "toc-link";
+      button.dataset.target = heading.id;
+      button.textContent = heading.textContent.trim();
+      button.addEventListener("click", () => {
+        heading.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      item.appendChild(button);
+      list.appendChild(item);
+      tocButtons.push(button);
+    });
+
+    tocContainer.innerHTML = "";
+    tocContainer.appendChild(list);
+  }
+
+  function updateActiveTocLink() {
+    if (!tocHeadings.length || !tocButtons.length) return;
+
+    const anchorOffset = 150;
+    let activeId = tocHeadings[0].id;
+
+    tocHeadings.forEach((heading) => {
+      if (heading.getBoundingClientRect().top - anchorOffset <= 0) {
+        activeId = heading.id;
+      }
+    });
+
+    tocButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.target === activeId);
+    });
+  }
+
+  function updateSidebarVisibility() {
+    if (!postLayout || !postSidebar) return;
+    const showSidebar = tocHeadings.length >= 2;
+    postLayout.classList.toggle("is-sidebar-visible", showSidebar);
+    postSidebar.hidden = !showSidebar;
+  }
+
+  function getAbsoluteTop(element) {
+    const rect = element.getBoundingClientRect();
+    return window.scrollY + rect.top;
+  }
+
+  function updateReadingProgress() {
+    if (!progressBar || !postViewer) return;
+
+    const start = getAbsoluteTop(postViewer) - 120;
+    const end = getAbsoluteTop(postViewer) + postViewer.offsetHeight - window.innerHeight * 0.65;
+    const ratio = end <= start ? 1 : (window.scrollY - start) / (end - start);
+    const bounded = Math.min(1, Math.max(0, ratio));
+    progressBar.style.transform = `scaleX(${bounded})`;
+  }
+
+  function syncScrollIndicators() {
+    if (scrollSyncScheduled) return;
+    scrollSyncScheduled = true;
+    window.requestAnimationFrame(() => {
+      scrollSyncScheduled = false;
+      updateActiveTocLink();
+      updateReadingProgress();
+    });
+  }
+
+  function renderMarkdown(markdown, post) {
     if (typeof marked === "undefined") {
       postContainer.innerHTML =
         "<p class=\"error\">Markdown 엔진을 불러오지 못했습니다.</p>";
@@ -81,13 +295,20 @@
 
     hydrateMermaid();
     highlightCode();
+    buildToc();
+    renderNextSteps(post);
+    updateSidebarVisibility();
+    syncScrollIndicators();
   }
 
   function showError(message) {
     postContainer.innerHTML = `<p class="error">${message}</p>`;
   }
 
-  function loadPost(slug, { updateHash = true } = {}) {
+  function loadPost(
+    slug,
+    { updateHash = true, scrollToTop = true } = {}
+  ) {
     const post = postMap.get(slug);
     if (!post) {
       showError("선택한 글을 찾을 수 없습니다.");
@@ -103,8 +324,13 @@
     }
 
     updateMeta(post);
-    setActiveLink(slug);
     postContainer.innerHTML = "<p class=\"loading\">포스트를 불러오는 중입니다…</p>";
+    if (scrollToTop && postViewer) {
+      const top = Math.max(0, getAbsoluteTop(postViewer) - 96);
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+
+    const currentToken = ++requestToken;
 
     fetch(post.file)
       .then((response) => {
@@ -113,8 +339,12 @@
         }
         return response.text();
       })
-      .then(renderMarkdown)
+      .then((markdown) => {
+        if (currentToken !== requestToken) return;
+        renderMarkdown(markdown, post);
+      })
       .catch((error) => {
+        if (currentToken !== requestToken) return;
         showError(error.message);
       });
   }
@@ -196,96 +426,19 @@
   function onHashChange() {
     const slug = window.location.hash.replace(/^#/, "");
     if (slug && slug !== currentSlug && postMap.has(slug)) {
-      loadPost(slug, { updateHash: false });
+      loadPost(slug, { updateHash: false, scrollToTop: true });
     }
-  }
-
-  function renderPostList() {
-    if (!listContainer) return;
-
-    if (!posts.length) {
-      listContainer.innerHTML =
-        "<p class=\"error\">아직 등록된 글이 없습니다.</p>";
-      return;
-    }
-
-    listContainer.innerHTML = "";
-
-    const categoryOrder = [];
-    const grouped = posts.reduce((acc, post) => {
-      const key = post.category || "기타";
-      if (!acc[key]) {
-        acc[key] = [];
-        categoryOrder.push(key);
-      }
-      acc[key].push(post);
-      return acc;
-    }, {});
-
-    categoryOrder.forEach((category, index) => {
-      const section = document.createElement("section");
-      section.className = "category-group";
-      const categoryId = `category-${index + 1}`;
-      section.setAttribute("role", "group");
-      section.setAttribute("aria-labelledby", categoryId);
-
-      const heading = document.createElement("h3");
-      heading.className = "category-title";
-      heading.id = categoryId;
-      heading.textContent = category;
-
-      const list = document.createElement("ul");
-      list.className = "category-list";
-      list.setAttribute("role", "list");
-
-      grouped[category]
-        .slice()
-        .sort((a, b) => {
-          if (!a.date && !b.date) return a.title.localeCompare(b.title, "ko");
-          if (!a.date) return 1;
-          if (!b.date) return -1;
-          if (a.date === b.date) return a.title.localeCompare(b.title, "ko");
-          return a.date > b.date ? -1 : 1;
-        })
-        .forEach((post) => {
-          const item = document.createElement("li");
-          item.className = "category-list-item";
-
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "post-link";
-          button.dataset.slug = post.slug;
-          const title = document.createElement("span");
-          title.className = "post-link-title";
-          title.textContent = post.title;
-
-          const meta = document.createElement("span");
-          meta.className = "post-link-meta";
-          meta.textContent = formatDate(post.date);
-
-          button.append(title, meta);
-          button.addEventListener("click", () => loadPost(post.slug));
-
-          item.appendChild(button);
-          list.appendChild(item);
-        });
-
-      section.appendChild(heading);
-      section.appendChild(list);
-      listContainer.appendChild(section);
-    });
   }
 
   function hydrate(manifest) {
     posts = Array.isArray(manifest) ? manifest : [];
     postMap = new Map(posts.map((post) => [post.slug, post]));
-    renderPostList();
 
     const initialSlug =
       window.location.hash.replace(/^#/, "") || defaultSlug || posts[0]?.slug;
 
     if (initialSlug) {
-      loadPost(initialSlug, { updateHash: false });
+      loadPost(initialSlug, { updateHash: false, scrollToTop: false });
     }
   }
 
@@ -298,34 +451,16 @@
     })
     .then(hydrate)
     .catch((error) => {
-      if (listContainer) {
-        listContainer.innerHTML = `<p class="error">${error.message}</p>`;
+      if (tocContainer) {
+        tocContainer.innerHTML = `<p class="error">${error.message}</p>`;
+      }
+      if (nextStepContainer) {
+        nextStepContainer.innerHTML = `<p class="error">${error.message}</p>`;
       }
       showError(error.message);
     });
 
   window.addEventListener("hashchange", onHashChange);
-
-  function setArchiveExpanded(expanded) {
-    if (!archive) return;
-    archive.classList.toggle("is-collapsed", !expanded);
-    if (archiveToggle) {
-      archiveToggle.setAttribute("aria-expanded", expanded);
-      archiveToggle.textContent = expanded ? "목록 닫기" : "목록 열기";
-    }
-  }
-
-  function handleBreakpoint(event) {
-    setArchiveExpanded(!event.matches);
-  }
-
-  if (archiveToggle) {
-    archiveToggle.addEventListener("click", () => {
-      const isExpanded = archiveToggle.getAttribute("aria-expanded") === "true";
-      setArchiveExpanded(!isExpanded);
-    });
-
-    setArchiveExpanded(!mobileMedia.matches);
-    mobileMedia.addEventListener("change", handleBreakpoint);
-  }
+  window.addEventListener("scroll", syncScrollIndicators, { passive: true });
+  window.addEventListener("resize", syncScrollIndicators);
 })();

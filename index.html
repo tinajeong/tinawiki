@@ -2,16 +2,15 @@
 <html lang="ko">
 
 <head>
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-PN55BNFV');</script>
-  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZQFDS3DQ6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-TZQFDS3DQ6');
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tina Wiki</title>
@@ -23,10 +22,6 @@
 </head>
 
 <body class="home-page">
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PN55BNFV" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
   <header class="site-header">
     <div class="container">
       <a class="brand" href="/" aria-current="page">
@@ -59,9 +54,6 @@
           <h2 id="updates-title" class="section-title">Start here!</h2>
           <ul class="link-list compact-link-list">
             <li>
-              <a href="posts.html#cqrs-1">온프레미스 환경에서 Hazelcast로 CQRS 구현하기 (1)</a>
-            </li>
-            <li>
               <a href="posts.html#settlement-batch-optimization">정산팀이 Spring Batch 성능 최적화를 하는 방법</a>
             </li>
             <li>
@@ -86,7 +78,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>© 2025 Tina. All rights reserved.</p>
+      <p>© 2025 Tina</p>
     </div>
   </footer>
 </body>

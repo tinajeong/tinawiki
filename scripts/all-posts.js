@@ -27,6 +27,21 @@
 		}).format(date);
 	}
 
+	function getCardMetric(post) {
+		return post.readTime || '';
+	}
+
+	function getCardCta(post) {
+		return 'Read more';
+	}
+
+	function getCardTag(post) {
+		if (Array.isArray(post.tags) && post.tags.length) {
+			return post.tags.slice(0, 2).join(' · ');
+		}
+		return post.category || '기타';
+	}
+
 	function normalize(value) {
 		return String(value || '').toLocaleLowerCase('ko-KR').trim();
 	}
@@ -67,7 +82,7 @@
 
 		const category = document.createElement('span');
 		category.className = 'post-card-category';
-		category.textContent = post.category || '기타';
+		category.textContent = getCardTag(post);
 
 		const date = document.createElement('time');
 		date.className = 'post-card-date';
@@ -86,6 +101,19 @@
 
 		const footer = document.createElement('div');
 		footer.className = 'post-card-footer';
+		const metricText = getCardMetric(post);
+		const cta = document.createElement('span');
+		cta.className = 'post-card-cta';
+		cta.textContent = getCardCta(post);
+
+		if (metricText) {
+			const metric = document.createElement('span');
+			metric.className = 'post-card-metric';
+			metric.textContent = metricText;
+			footer.append(metric, cta);
+		} else {
+			footer.append(cta);
+		}
 
 		cardLink.append(header, title, description, footer);
 		article.appendChild(cardLink);
@@ -151,7 +179,14 @@
 			if (!matchesCategory) return false;
 			if (!query) return true;
 
-			const searchTarget = normalize([post.title, post.description, post.category, post.slug].join(' '));
+			const searchTarget = normalize([
+				post.title,
+				post.description,
+				post.category,
+				post.slug,
+				post.type,
+				Array.isArray(post.tags) ? post.tags.join(' ') : '',
+			].join(' '));
 			return searchTarget.includes(query);
 		});
 	}
