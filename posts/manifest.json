@@ -57,5 +57,16 @@
     "readTime": "2 min read",
     "description": "PG사가 수익을 창출하는 흐름을 정리합니다.",
     "file": "posts/pg-revenue-model.md"
+  },
+  {
+    "slug": "rest-api-1",
+    "title": "REST API란? - (1)",
+    "date": "2025-04-15",
+    "category": "백엔드 엔지니어링",
+    "type": "technical",
+    "tags": ["REST API", "Design", "Backend"],
+    "readTime": "5 min read",
+    "description": "REST API 설계에 대한 고찰을 정리합니다.",
+    "file": "posts/rest-api-1.md"
   }
 ]

@@ -143,11 +143,19 @@ ol {
 }
 
 blockquote {
-  margin: 1rem 0 0.75rem;
+  margin: 1rem 0.5rem;
   padding: 0.5rem 1.25rem;
   border-left: 3px solid var(--accent);
   color: var(--muted);
   font-style: italic;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 .container {
@@ -893,7 +901,7 @@ main {
 
 .post-title {
   color: var(--title-accent);
-  font-size: clamp(1.95rem, 3.6vw, 2.6rem);
+  font-size: clamp(1.75rem, 3.1vw, 2.3rem);
   letter-spacing: -0.03em;
   margin: 0;
 }
@@ -1179,7 +1187,7 @@ main {
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
   color: var(--muted);
-  margin: 1rem 0;
+  margin: 0.5rem 0.5rem 0.5rem 0;
 }
 
 .visually-hidden {
@@ -1319,7 +1327,7 @@ main {
   }
 
   .post-title {
-    font-size: clamp(1.7rem, 5.5vw, 2.2rem);
+    font-size: clamp(1.5rem, 4.8vw, 1.85rem);
   }
 
   .post-body {
