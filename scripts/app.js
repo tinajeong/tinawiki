@@ -13,6 +13,9 @@
   const tocContainer = document.getElementById("post-toc");
   const nextStepContainer = document.getElementById("next-step-cards");
   const progressBar = document.getElementById("reading-progress-bar");
+  const commentsSection = document.getElementById("post-comments-section");
+  const commentsContainer = document.getElementById("post-comments");
+  const commentsLink = document.getElementById("post-comments-link");
 
   const manifestPath =
     postContainer.dataset.manifest || "posts/manifest.json";
@@ -27,6 +30,18 @@
   let requestToken = 0;
   let scrollSyncScheduled = false;
 
+  const commentsConfig = {
+    enabled: commentsSection?.dataset.commentsEnabled !== "false",
+    repo: commentsSection?.dataset.giscusRepo || "",
+    repoId: commentsSection?.dataset.giscusRepoId || "",
+    category: commentsSection?.dataset.giscusCategory || "General",
+    categoryId: commentsSection?.dataset.giscusCategoryId || "",
+    mapping: commentsSection?.dataset.giscusMapping || "specific",
+    lang: commentsSection?.dataset.giscusLang || "ko",
+    theme: commentsSection?.dataset.giscusTheme || "light",
+    discussionsUrl: commentsSection?.dataset.giscusDiscussionsUrl || "",
+  };
+
   function formatDate(dateString) {
     if (!dateString) return "";
     const date = new Date(`${dateString}T00:00:00`);
@@ -36,6 +51,102 @@
       month: "long",
       day: "numeric",
     }).format(date);
+  }
+
+  function getDiscussionsUrl() {
+    if (commentsConfig.discussionsUrl) {
+      return commentsConfig.discussionsUrl;
+    }
+    if (commentsConfig.repo) {
+      return `https://github.com/${commentsConfig.repo}/discussions`;
+    }
+    return "";
+  }
+
+  function hasGiscusConfig() {
+    return Boolean(
+      commentsConfig.repo &&
+        commentsConfig.repoId &&
+        commentsConfig.category &&
+        commentsConfig.categoryId
+    );
+  }
+
+  function setCommentsState(message, className = "loading") {
+    if (!commentsContainer) return;
+
+    commentsContainer.innerHTML = "";
+    if (!message) return;
+
+    const paragraph = document.createElement("p");
+    paragraph.className = className;
+    paragraph.textContent = message;
+    commentsContainer.appendChild(paragraph);
+  }
+
+  function hydrateCommentsLink() {
+    const discussionsUrl = getDiscussionsUrl();
+    if (!commentsLink) return;
+    if (discussionsUrl) {
+      commentsLink.href = discussionsUrl;
+      commentsLink.hidden = false;
+      return;
+    }
+    commentsLink.hidden = true;
+  }
+
+  function renderComments(post) {
+    if (!commentsSection || !commentsContainer) return;
+    if (!commentsConfig.enabled) {
+      commentsSection.hidden = true;
+      return;
+    }
+
+    commentsSection.hidden = false;
+    hydrateCommentsLink();
+
+    if (!hasGiscusConfig()) {
+      setCommentsState(
+        "댓글 기능 설정을 마치면 이 자리에서 바로 대화를 이어갈 수 있습니다.",
+        "sidebar-empty"
+      );
+      return;
+    }
+
+    setCommentsState("댓글을 불러오는 중입니다…");
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.setAttribute("data-repo", commentsConfig.repo);
+    script.setAttribute("data-repo-id", commentsConfig.repoId);
+    script.setAttribute("data-category", commentsConfig.category);
+    script.setAttribute("data-category-id", commentsConfig.categoryId);
+    script.setAttribute("data-mapping", commentsConfig.mapping);
+    script.setAttribute("data-term", `post:${post.slug}`);
+    script.setAttribute("data-strict", "1");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", commentsConfig.theme);
+    script.setAttribute("data-lang", commentsConfig.lang);
+    script.setAttribute("data-loading", "lazy");
+
+    script.addEventListener("load", () => {
+      const loading = commentsContainer.querySelector(".loading");
+      if (loading) {
+        loading.remove();
+      }
+    });
+    script.addEventListener("error", () => {
+      setCommentsState(
+        "댓글 위젯을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
+        "error"
+      );
+    });
+
+    commentsContainer.appendChild(script);
   }
 
   function normalizePostType(post) {
@@ -297,6 +408,7 @@
     highlightCode();
     buildToc();
     renderNextSteps(post);
+    renderComments(post);
     updateSidebarVisibility();
     syncScrollIndicators();
   }
@@ -325,6 +437,9 @@
 
     updateMeta(post);
     postContainer.innerHTML = "<p class=\"loading\">포스트를 불러오는 중입니다…</p>";
+    if (commentsConfig.enabled) {
+      setCommentsState("댓글 위젯을 준비하는 중입니다…");
+    }
     if (scrollToTop && postViewer) {
       const top = Math.max(0, getAbsoluteTop(postViewer) - 96);
       window.scrollTo({ top, behavior: "smooth" });
@@ -441,6 +556,8 @@
       loadPost(initialSlug, { updateHash: false, scrollToTop: false });
     }
   }
+
+  hydrateCommentsLink();
 
   fetch(manifestPath)
     .then((response) => {

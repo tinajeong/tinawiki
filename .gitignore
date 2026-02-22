@@ -165,3 +165,19 @@ dist
 .env*
 !.env.example
 .wrangler/
+
+# Public repo safety
+.DS_Store
+*.zip
+*.7z
+*.rar
+*.bak
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+id_rsa
+id_ed25519

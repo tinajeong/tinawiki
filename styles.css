@@ -965,6 +965,48 @@ main {
   border-radius: 6px;
 }
 
+.post-comments {
+  margin-top: clamp(1.7rem, 3.2vw, 2.4rem);
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 0.62rem;
+}
+
+.post-comments h3 {
+  margin: 0;
+  font-size: 1.14rem;
+}
+
+.post-comments-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.post-comments-embed {
+  min-height: 120px;
+}
+
+.post-comments-fallback,
+.post-comments-noscript {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.post-comments-fallback a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  color: inherit;
+}
+
+.post-comments-fallback a:hover,
+.post-comments-fallback a:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .post-recommend {
   margin-top: clamp(1.5rem, 3vw, 2.6rem);
 }
