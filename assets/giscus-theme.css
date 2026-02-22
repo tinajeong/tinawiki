@@ -1,0 +1,76 @@
+/* Minimal custom theme for giscus (GitHub Discussions iframe) */
+:root {
+  color-scheme: light;
+}
+
+main {
+  --color-canvas-default: #fbf8f0;
+  --color-canvas-subtle: #f1ece1;
+  --color-canvas-inset: #f1ece1;
+  --color-border-default: #ded7c9;
+  --color-border-muted: #ded7c9;
+  --color-border-subtle: #e8e2d4;
+  --color-fg-default: #2f3329;
+  --color-fg-muted: #6f7262;
+  --color-accent-fg: #4e6b45;
+  --color-accent-emphasis: #4e6b45;
+  --color-accent-subtle: #ece8dc;
+  --color-neutral-muted: rgba(111, 114, 98, 0.14);
+  --color-btn-bg: #f1ece1;
+  --color-btn-border: #ded7c9;
+  --color-btn-hover-bg: #ece8dc;
+  --color-btn-active-bg: #e7e2d4;
+  --color-btn-primary-text: #fbf8f0;
+  --color-btn-primary-bg: #4e6b45;
+  --color-btn-primary-border: #4e6b45;
+  --color-btn-primary-hover-bg: #3f5836;
+  --color-btn-primary-disabled-bg: #a9b79f;
+  --color-input-bg: #fbf8f0;
+  --color-input-border: #ded7c9;
+  --color-input-contrast-bg: #fbf8f0;
+  --color-shadow-small: none;
+  --color-shadow-medium: none;
+  --color-shadow-large: none;
+}
+
+main .gsc-main {
+  font-family: "Pretendard", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+main .gsc-reactions {
+  margin-bottom: 0.65rem;
+}
+
+main .gsc-comment-box,
+main .gsc-comment {
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+main .gsc-comment-box {
+  border: 1px solid var(--color-border-default);
+}
+
+main .gsc-comment-box-tabs {
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+main .gsc-comment-box-write {
+  border: 0;
+}
+
+main .gsc-comment-box-textarea {
+  min-height: 130px;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-canvas-default);
+}
+
+main .gsc-comment-box-bottom {
+  border-top: 1px solid var(--color-border-muted);
+  background: transparent;
+}
+
+main .gsc-comment-content {
+  background: transparent;
+}

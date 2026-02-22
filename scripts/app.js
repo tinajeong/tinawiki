@@ -13,9 +13,9 @@
   const tocContainer = document.getElementById("post-toc");
   const nextStepContainer = document.getElementById("next-step-cards");
   const progressBar = document.getElementById("reading-progress-bar");
+  const commentsDisclosure = document.getElementById("post-comments-disclosure");
   const commentsSection = document.getElementById("post-comments-section");
   const commentsContainer = document.getElementById("post-comments");
-  const commentsLink = document.getElementById("post-comments-link");
 
   const manifestPath =
     postContainer.dataset.manifest || "posts/manifest.json";
@@ -29,17 +29,36 @@
   let tocButtons = [];
   let requestToken = 0;
   let scrollSyncScheduled = false;
+  let renderedCommentsSlug = null;
+
+  function resolveCommentsTheme(rawTheme) {
+    const theme = rawTheme || "preferred_color_scheme";
+    if (/^https?:\/\//i.test(theme)) return theme;
+    if (/^(\/|\.\/|\.\.\/)/.test(theme)) {
+      try {
+        const base = window.location.origin && window.location.origin !== "null"
+          ? window.location.origin
+          : window.location.href;
+        return new URL(theme, base).toString();
+      } catch (error) {
+        return "preferred_color_scheme";
+      }
+    }
+    return theme;
+  }
 
   const commentsConfig = {
     enabled: commentsSection?.dataset.commentsEnabled !== "false",
     repo: commentsSection?.dataset.giscusRepo || "",
     repoId: commentsSection?.dataset.giscusRepoId || "",
-    category: commentsSection?.dataset.giscusCategory || "General",
+    category: commentsSection?.dataset.giscusCategory || "Announcements",
     categoryId: commentsSection?.dataset.giscusCategoryId || "",
     mapping: commentsSection?.dataset.giscusMapping || "specific",
     lang: commentsSection?.dataset.giscusLang || "ko",
-    theme: commentsSection?.dataset.giscusTheme || "light",
-    discussionsUrl: commentsSection?.dataset.giscusDiscussionsUrl || "",
+    theme: resolveCommentsTheme(
+      commentsSection?.dataset.giscusTheme || "/assets/giscus-theme.css"
+    ),
+    inputPosition: commentsSection?.dataset.giscusInputPosition || "bottom",
   };
 
   function formatDate(dateString) {
@@ -51,16 +70,6 @@
       month: "long",
       day: "numeric",
     }).format(date);
-  }
-
-  function getDiscussionsUrl() {
-    if (commentsConfig.discussionsUrl) {
-      return commentsConfig.discussionsUrl;
-    }
-    if (commentsConfig.repo) {
-      return `https://github.com/${commentsConfig.repo}/discussions`;
-    }
-    return "";
   }
 
   function hasGiscusConfig() {
@@ -84,32 +93,38 @@
     commentsContainer.appendChild(paragraph);
   }
 
-  function hydrateCommentsLink() {
-    const discussionsUrl = getDiscussionsUrl();
-    if (!commentsLink) return;
-    if (discussionsUrl) {
-      commentsLink.href = discussionsUrl;
-      commentsLink.hidden = false;
-      return;
-    }
-    commentsLink.hidden = true;
-  }
-
   function renderComments(post) {
     if (!commentsSection || !commentsContainer) return;
     if (!commentsConfig.enabled) {
+      if (commentsDisclosure) {
+        commentsDisclosure.hidden = true;
+      }
       commentsSection.hidden = true;
       return;
     }
 
+    if (commentsDisclosure) {
+      commentsDisclosure.hidden = false;
+    }
     commentsSection.hidden = false;
-    hydrateCommentsLink();
+    if (commentsDisclosure && !commentsDisclosure.open) {
+      setCommentsState("");
+      return;
+    }
 
     if (!hasGiscusConfig()) {
+      renderedCommentsSlug = null;
       setCommentsState(
         "댓글 기능 설정을 마치면 이 자리에서 바로 대화를 이어갈 수 있습니다.",
         "sidebar-empty"
       );
+      return;
+    }
+
+    if (
+      renderedCommentsSlug === post.slug &&
+      commentsContainer.querySelector(".giscus-frame")
+    ) {
       return;
     }
 
@@ -128,10 +143,11 @@
     script.setAttribute("data-strict", "1");
     script.setAttribute("data-reactions-enabled", "1");
     script.setAttribute("data-emit-metadata", "0");
-    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-input-position", commentsConfig.inputPosition);
     script.setAttribute("data-theme", commentsConfig.theme);
     script.setAttribute("data-lang", commentsConfig.lang);
     script.setAttribute("data-loading", "lazy");
+    renderedCommentsSlug = post.slug;
 
     script.addEventListener("load", () => {
       const loading = commentsContainer.querySelector(".loading");
@@ -140,6 +156,7 @@
       }
     });
     script.addEventListener("error", () => {
+      renderedCommentsSlug = null;
       setCommentsState(
         "댓글 위젯을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
         "error"
@@ -437,7 +454,8 @@
 
     updateMeta(post);
     postContainer.innerHTML = "<p class=\"loading\">포스트를 불러오는 중입니다…</p>";
-    if (commentsConfig.enabled) {
+    renderedCommentsSlug = null;
+    if (commentsConfig.enabled && (!commentsDisclosure || commentsDisclosure.open)) {
       setCommentsState("댓글 위젯을 준비하는 중입니다…");
     }
     if (scrollToTop && postViewer) {
@@ -557,8 +575,6 @@
     }
   }
 
-  hydrateCommentsLink();
-
   fetch(manifestPath)
     .then((response) => {
       if (!response.ok) {
@@ -576,6 +592,17 @@
       }
       showError(error.message);
     });
+
+  if (commentsDisclosure) {
+    commentsDisclosure.addEventListener("toggle", () => {
+      if (!commentsDisclosure.open) return;
+      if (!currentSlug) return;
+      const post = postMap.get(currentSlug);
+      if (post) {
+        renderComments(post);
+      }
+    });
+  }
 
   window.addEventListener("hashchange", onHashChange);
   window.addEventListener("scroll", syncScrollIndicators, { passive: true });

@@ -57,27 +57,6 @@
             data-default-slug="first-post">
             <p class="loading">포스트를 불러오는 중입니다…</p>
           </div>
-
-          <!-- giscus 설정값: https://giscus.app 에서 repo_id, category_id를 발급해 아래 값에 입력 -->
-          <section class="post-comments" id="post-comments-section" aria-labelledby="post-comments-title"
-            data-comments-enabled="true" data-giscus-repo="tinajeong/tinawiki" data-giscus-repo-id=""
-            data-giscus-category="General" data-giscus-category-id="" data-giscus-mapping="specific"
-            data-giscus-lang="ko" data-giscus-theme="light" data-giscus-discussions-url="https://github.com/tinajeong/tinawiki/discussions">
-            <h3 id="post-comments-title">댓글과 하트</h3>
-            <p class="post-comments-note">
-              GitHub Discussions 기반 댓글과 리액션입니다.
-            </p>
-            <div id="post-comments" class="post-comments-embed" aria-live="polite">
-              <p class="loading">댓글 위젯을 준비하는 중입니다…</p>
-            </div>
-            <p class="post-comments-fallback">
-              <a id="post-comments-link" href="https://github.com/tinajeong/tinawiki/discussions" target="_blank"
-                rel="noopener noreferrer">GitHub에서 댓글 보기</a>
-            </p>
-            <noscript>
-              <p class="post-comments-noscript">JavaScript를 켜면 댓글을 바로 읽고 작성할 수 있습니다.</p>
-            </noscript>
-          </section>
         </article>
 
         <aside class="post-sidebar" id="post-sidebar" aria-label="글 탐색">
@@ -89,6 +68,24 @@
           </section>
         </aside>
       </div>
+
+      <section class="container post-comments-container">
+        <details class="post-comments-disclosure" id="post-comments-disclosure">
+          <summary class="post-comments-summary" id="post-comments-toggle-label">댓글 보기</summary>
+          <section class="post-comments" id="post-comments-section" aria-labelledby="post-comments-toggle-label"
+            data-comments-enabled="true" data-giscus-repo="tinajeong/tinawiki" data-giscus-repo-id="R_kgDOP9Mmfg"
+            data-giscus-category="Announcements" data-giscus-category-id="DIC_kwDOP9Mmfs4C29mX"
+            data-giscus-mapping="specific" data-giscus-lang="ko" data-giscus-theme="/assets/giscus-theme.css"
+            data-giscus-input-position="bottom">
+            <div id="post-comments" class="post-comments-embed" aria-live="polite">
+              <p class="loading">댓글 위젯을 준비하는 중입니다…</p>
+            </div>
+            <noscript>
+              <p class="post-comments-noscript">JavaScript를 켜면 댓글을 바로 읽고 작성할 수 있습니다.</p>
+            </noscript>
+          </section>
+        </details>
+      </section>
 
       <section class="container post-recommend" aria-labelledby="next-steps-title">
         <div class="next-steps">
