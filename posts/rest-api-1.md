@@ -173,7 +173,7 @@ graph TD
 
 시스템의 복잡도를 낮추고, 보안이나 로드 밸런싱 같은 기능을 각 레이어에 추가하기 쉬워서 확장성이 높아집니다. 
 
-### 인터페이스 일관성 (Uniform Interface)
+### 5) 인터페이스 일관성 (Uniform Interface)
 
 지금까지는 서버 구조도 스러운 이야길 했습니다. 
 
@@ -237,7 +237,7 @@ Content-Type: application/json
 
 
 
-### HATEOAS (Hypermedia As The Engine Of Application State)
+### 6) HATEOAS (Hypermedia As The Engine Of Application State)
 
 > 응답 안에 관련 리소스나 `가능한 다음 행동의 링크`를 포함시킵니다. 
 

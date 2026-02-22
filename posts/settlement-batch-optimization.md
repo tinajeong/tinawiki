@@ -261,7 +261,7 @@ PostgreSQL DB 툴인 `pgAdmin`에서 시각화된 실행 계획을 볼수도 있
 감사합니다.
 
 
-## Reference
+## References
 
 - https://joojimin.tistory.com/76
 - https://jojoldu.tistory.com/528

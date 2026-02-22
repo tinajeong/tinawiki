@@ -60,7 +60,7 @@
 2. **VAN은 네트워크 인프라**로 승인 데이터를 안전하게 전달하고 전송 수수료로 수익을 얻습니다.
 3. **결제 생태계의 여러 참여자**(PG, VAN, 카드사, 인증사, 재판매사)는 모두 결제 처리와 정산 과정에서 수수료를 가져갑니다.
 
-### Refs.
+### References
 
 - [Naver Blog - Van사와 pg 차이점](https://m.blog.naver.com/jegyu2014/222039140340)
 - [[PG사 완전정복] PG사 선택 전 꼼꼼하게 따지세요 (1)](https://www.nextunicorn.kr/content/dbf8f60935b18468)

@@ -212,7 +212,7 @@ WHERE ST_DISTANCE_SPHERE(
     stores.position) < :distance
 ```
 
-## Ref.
+## References
 
 - https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=eqfq1&logNo=221457492352
 - https://blog.naver.com/tulipjihee/222651161773
