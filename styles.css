@@ -766,6 +766,10 @@ main {
   align-items: start;
 }
 
+.post-layout > * {
+  min-width: 0;
+}
+
 .js .post-layout.is-sidebar-visible {
   grid-template-columns: minmax(0, 1fr) minmax(220px, 0.3fr);
 }
@@ -858,6 +862,7 @@ main {
 }
 
 .post-viewer {
+  min-width: 0;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -911,10 +916,21 @@ main {
 }
 
 .post-body {
+  min-width: 0;
   font-size: 1.04rem;
   color: var(--ink);
   word-break: keep-all;
   overflow-wrap: anywhere;
+}
+
+.post-body svg,
+.post-body iframe,
+.post-body video {
+  max-width: 100%;
+}
+
+.post-body .mermaid-diagram svg {
+  height: auto;
 }
 
 .post-body h1:first-of-type {
@@ -937,6 +953,8 @@ main {
 }
 
 .post-body img {
+  max-width: 100%;
+  height: auto;
   border-radius: 12px;
   border: 1px solid var(--border);
 }
@@ -963,6 +981,7 @@ main {
   background: var(--surface-code-inline);
   padding: 0.15rem 0.35rem;
   border-radius: 6px;
+  overflow-wrap: anywhere;
 }
 
 .post-comments-container {
@@ -1143,6 +1162,7 @@ main {
   }
 
   .js .post-sidebar {
+    display: none;
     position: static;
     top: auto;
   }
