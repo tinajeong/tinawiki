@@ -181,3 +181,8 @@ dist
 *.der
 id_rsa
 id_ed25519
+
+# QA test suite (Playwright)
+qa/node_modules/
+qa/screenshots/
+qa/test-results/
